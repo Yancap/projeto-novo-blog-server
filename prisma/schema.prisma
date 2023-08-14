@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Continuar a modelagem de dados
+model Management {
+  id        String  @id @default(uuid())
+  name      String
+  email     String  @unique
+  password  String
+  hierarchy String  @default("author")
+  avatar    String  @default("")
+
+  articles Articles[]
+
+  @@map("management")
+}
+
+model Categories {
+  id        String  @id @default(uuid())
+  category  String  @unique
+
+  articles Articles[]
+
+  @@map("categories")
+}
+
+model Articles {
+  id            String    @id @default(uuid())
+  title         String
+  subtitle      String 
+  text          String
+  created_at    DateTime  @default(now())   
+  state         String    @default("active")
+
+  manager Management @relation(fields: [manager_id], references: [id])
+  manager_id    String 
+
+  category Categories @relation(fields: [category_id], references: [id])
+  category_id    String 
+
+  favoriteArticles FavoriteArticles[]
+  articleTags ArticleTags[]
+  comments Comments[]
+  credits Credits[]
+
+  @@map("articles")
+}
+
+model Credits {
+  id        String  @id @default(uuid())
+  name      String
+  link      String  
+
+
+  article Articles @relation(fields: [article_id], references: [id])
+  article_id    String 
+  
+  @@map("credits")
+}
+
+
+model Users {
+  id        String  @id @default(uuid())
+  name      String
+  email     String  @unique
+  avatar    String 
+
+  favoriteArticles FavoriteArticles[]
+  comments Comments[]
+
+  @@map("users")
+}
+
+model Comments {
+  id        String  @id @default(uuid())
+  text      String
+  created_at    DateTime  @default(now()) 
+
+  user Users @relation(fields: [user_id], references: [id])
+  user_id    String 
+
+  article Articles @relation(fields: [article_id], references: [id])
+  article_id    String 
+  
+  @@map("comments")
+}
+
+model FavoriteArticles {
+  id        String  @id @default(uuid())
+
+  user Users @relation(fields: [user_id], references: [id])
+  user_id    String 
+
+  article Articles @relation(fields: [article_id], references: [id])
+  article_id    String 
+
+  @@map("favorite_articles")
+}
+
+model Tags {
+  id        String  @id @default(uuid())
+  taga      String  @unique
+
+  articleTags ArticleTags[]
+
+  @@map("tags")
+}
+
+model ArticleTags {
+  id        String  @id @default(uuid())
+
+  tag Tags @relation(fields: [tag_id], references: [id])
+  tag_id    String 
+
+  article Articles @relation(fields: [article_id], references: [id])
+  article_id    String 
+
+  @@map("article_tags")
+}

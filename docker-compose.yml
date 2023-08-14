@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  api-blog-artech: 
+    image: bitnami/postgresql 
+    ports: 
+      - 5432:5432
+    environment: 
+      - POSTGRESQL_USERNAME=yan
+      - POSTGRESQL_PASSWORD=yan
+      - POSTGRESQL_DATABASE=artechdb
