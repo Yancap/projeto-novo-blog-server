@@ -17,12 +17,12 @@ Página de artigos de tecnologia
 - [] Deve ser possível pesquisar sobre artigos por meio de suas tags;
 - [x] Apenas Autores e Admin devem possuir acessos ao CMS;
 - [x] Autores devem poder criar artigos;
-- [] Autores devem poder editar apenas seus artigos;
+- [x] Autores devem poder editar apenas seus artigos;
 - [] Autores devem poder excluir comentários apenas de seus artigos;
 - [] Autores devem poder alterar o avatar;
 - [x] Deve se retornar um Token do Login
 - [x] Deve se possível se logar com um Token
-- [] Admin devem poder excluir outros artigos
+- [x] Admin devem poder excluir outros artigos
 - [x] Admin devem poder excluir outros autores
 
 ## RNs (Regras de negócio)
@@ -33,7 +33,7 @@ autenticação, condições, etc. Sempre deve estar associada a um Requisito Fun
 - [] O usuário não deve possuir acesso o CMS;
 - [] Apenas Autores e Admin devem possuir acessos ao CMS;
 - [] Apenas o ADMIN pode cadastrar Autores; /TODO/
-- [] Apenas o ADMIN pode excluir artigos de terceiros;
+- [x] Apenas o ADMIN pode excluir artigos de terceiros;
 
 
 ## RNFs (Requisitos não-funcionais)

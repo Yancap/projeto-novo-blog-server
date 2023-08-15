@@ -1,6 +1,6 @@
-import { ManagementRepository } from './../../repository/interfaces/interface-management-repository';
-import { ArticlesRepository } from './../../repository/interfaces/interface-articles-repository';
-import { CategoriesRepository } from './../../repository/interfaces/interface-categories-repository';
+import { ManagementRepository } from '../../repository/interfaces/interface-management-repository';
+import { ArticlesRepository } from '../../repository/interfaces/interface-articles-repository';
+import { CategoriesRepository } from '../../repository/interfaces/interface-categories-repository';
 
 interface ICreateArticleService{
     title: string;

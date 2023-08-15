@@ -1,4 +1,4 @@
-import { CategoriesRepository } from './../../repository/interfaces/interface-categories-repository';
+import { CategoriesRepository } from '../../repository/interfaces/interface-categories-repository';
 import { hash } from "bcryptjs"
 import { EmailAlreadyExistsError } from "../../utils/errors/email-already-exists-error";
 

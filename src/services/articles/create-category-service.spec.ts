@@ -1,7 +1,7 @@
-import { CategoriesRepository } from './../../repository/interfaces/interface-categories-repository';
+import { CategoriesRepository } from '../../repository/interfaces/interface-categories-repository';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { EmailAlreadyExistsError } from '../../utils/errors/email-already-exists-error';
-import { CreateCategoryService } from './create-category';
+import { CreateCategoryService } from './create-category-service';
 import { InMemoryCategories } from '../../repository/in-memory/in-memory-categories';
 
 let categoriesRepository: CategoriesRepository

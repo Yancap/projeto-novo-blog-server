@@ -3,8 +3,9 @@
 - [x] Fazer um serviço que apenas um ADMIN pode cadastrar um Autor, 
 gerando um token único para o ADMIN com assinatura de sua 'hierarchy'
 
-- [] Fazer os erros personalizados para os serviços de Articles
+- [x] Fazer os erros personalizados para os serviços de Articles
 
+- [] Adicionar a criação de Tags e Créditos ao Artigos e em seus serviços de criação
 
 
 

@@ -1,10 +1,10 @@
-import { InMemoryArticles } from './../../repository/in-memory/in-memory-articles';
-import { ArticlesRepository } from './../../repository/interfaces/interface-articles-repository';
-import { ManagementRepository } from './../../repository/interfaces/interface-management-repository';
-import { CategoriesRepository } from './../../repository/interfaces/interface-categories-repository';
+import { InMemoryArticles } from '../../repository/in-memory/in-memory-articles';
+import { ArticlesRepository } from '../../repository/interfaces/interface-articles-repository';
+import { ManagementRepository } from '../../repository/interfaces/interface-management-repository';
+import { CategoriesRepository } from '../../repository/interfaces/interface-categories-repository';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { InMemoryCategories } from '../../repository/in-memory/in-memory-categories';
-import { CreateArticleService } from './create-articles';
+import { CreateArticleService } from './create-articles-service';
 import { InMemoryManagement } from '../../repository/in-memory/in-memory-management';
 
 

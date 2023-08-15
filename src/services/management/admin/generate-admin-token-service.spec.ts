@@ -5,6 +5,7 @@ import { LoginTokenValidationService } from '../login-token-validation-service';
 import { LoginManagerService } from '../login-manager-service';
 import { InMemoryManagement } from '../../../repository/in-memory/in-memory-management';
 import { GenerateAdminTokenService } from './generate-admin-token-service';
+import { OnlyAdminError } from '../../../utils/errors/only-admin-error';
 
 
 let managementRepository: ManagementRepository
@@ -41,6 +42,6 @@ describe('Generation Admin Token Service', () => {
             hierarchy: "author"
         })
         
-        await expect(() => sut.handler({hierarchy})).rejects.toBeInstanceOf(Error)
+        await expect(() => sut.handler({hierarchy})).rejects.toBeInstanceOf(OnlyAdminError)
     })
 })
