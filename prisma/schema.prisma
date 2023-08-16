@@ -48,7 +48,7 @@ model Articles {
   category_id    String 
 
   favoriteArticles FavoriteArticles[]
-  articleTags ArticleTags[]
+  articleTags ArticlesTags[]
   comments Comments[]
   credits Credits[]
 
@@ -108,14 +108,14 @@ model FavoriteArticles {
 
 model Tags {
   id        String  @id @default(uuid())
-  taga      String  @unique
+  tag      String  @unique
 
-  articleTags ArticleTags[]
+  articleTags ArticlesTags[]
 
   @@map("tags")
 }
 
-model ArticleTags {
+model ArticlesTags {
   id        String  @id @default(uuid())
 
   tag Tags @relation(fields: [tag_id], references: [id])

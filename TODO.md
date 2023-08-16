@@ -5,9 +5,9 @@ gerando um token único para o ADMIN com assinatura de sua 'hierarchy'
 
 - [x] Fazer os erros personalizados para os serviços de Articles
 
-- [] Adicionar a criação de Tags e Créditos ao Artigos e em seus serviços de criação
+- [x] Adicionar a criação de Tags e Créditos ao Artigos e em seus serviços de criação
 
-
+- [] Fazer o login e registro de usuários
 
 - [] O Admin Token deve ser utilizado para as requisições exclusivas do Admin
  para que assim, nenhuma outra pessoa consigar realizar requisições a essa rota
