@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { InMemoryTags } from '../../repository/in-memory/in-memory-tags';
 import { CreateArticlesTagsService } from './create-articles-tags-services';
 import { InMemoryArticles } from '../../repository/in-memory/in-memory-articles';
-import { InMemoryArticleTags } from '../../repository/in-memory/in-memory-articles-tags-repository';
+import { InMemoryArticleTags } from '../../repository/in-memory/in-memory-articles-tags';
 import { ArticlesTags } from '@prisma/client';
 import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-error';
 

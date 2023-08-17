@@ -7,13 +7,13 @@ interface ICreateCategoryService{
 }
 
 export class CreateCategoryService {
-    constructor(private CategoriesRepository: CategoriesRepository) { }
+    constructor(private categoriesRepository: CategoriesRepository) { }
     async handler({category}: ICreateCategoryService){
-        const isCategoryExist = await this.CategoriesRepository.findCategory(category);
+        const isCategoryExist = await this.categoriesRepository.findCategory(category);
         if (isCategoryExist) {
             throw new Error()
         }
-        const categories = await this.CategoriesRepository.create({category})
+        const categories = await this.categoriesRepository.create({category})
         return categories
     }
 }

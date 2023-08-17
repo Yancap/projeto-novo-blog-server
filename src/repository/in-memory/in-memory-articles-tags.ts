@@ -1,4 +1,4 @@
-import { ArticlesTagsRepository } from './../interfaces/interface-articles-tags-repository';
+import { ArticlesTagsRepository } from '../interfaces/interface-articles-tags-repository';
 import { ArticlesTags, Prisma } from '@prisma/client';
 
 

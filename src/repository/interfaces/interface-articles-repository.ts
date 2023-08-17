@@ -10,5 +10,7 @@ export interface ArticlesRepository {
     delete(id: string): Promise<Articles[] | null>
     update(data: Prisma.ArticlesUncheckedCreateInput): Promise<Articles>
     findById(id: string): Promise<Articles | null>
+    findBySlug(slug: string): Promise<Articles | null>
+
     findByArticleIdAndManagerId({article_id, manager_id}: findByArticleIdAndManagerIdProps): Promise<Articles | null>
 }
