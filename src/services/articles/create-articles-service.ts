@@ -1,6 +1,7 @@
 import { ManagementRepository } from '../../repository/interfaces/interface-management-repository';
 import { ArticlesRepository } from '../../repository/interfaces/interface-articles-repository';
 import { CategoriesRepository } from '../../repository/interfaces/interface-categories-repository';
+import { ForbiddenOperationError } from '../../utils/errors/forbidden-operation-error';
 
 interface ICreateArticleService{
     title: string;
@@ -14,22 +15,23 @@ interface ICreateArticleService{
 
 export class CreateArticleService {
     constructor(
-        private ArticlesRepository: ArticlesRepository,
-        private CategoriesRepository: CategoriesRepository,
-        private ManagementRepository: ManagementRepository,
+        private articlesRepository: ArticlesRepository,
+        private categoriesRepository: CategoriesRepository,
+        private managementRepository: ManagementRepository,
     ) { }
     async handler({title, subtitle, text, management_id, category}: ICreateArticleService){
 
-        let articleCategory = await this.CategoriesRepository.findCategory(category)
+        let articleCategory = await this.categoriesRepository.findCategory(category)
         if (!articleCategory) {
-            articleCategory = await this.CategoriesRepository.create({category})
+            articleCategory = await this.categoriesRepository.create({category})
         }
 
-        const manager = await this.ManagementRepository.findById(management_id)
+        const manager = await this.managementRepository.findById(management_id)
         if (!manager) {
-            throw new Error()
+            throw new ForbiddenOperationError()
         }
-        const article = this.ArticlesRepository.create({
+
+        const article = this.articlesRepository.create({
             title, subtitle, text, 
             category_id: articleCategory.id,
             manager_id: manager.id

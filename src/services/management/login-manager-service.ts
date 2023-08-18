@@ -5,29 +5,41 @@ import { jwtConfig } from "../../config/jwt-config";
 import { InvalidCredentialsError } from "../../utils/errors/invalid-credentials-error";
 
 interface ILoginManagerService{
-    email: string;
-    password: string;
+    id?:string;
+    email?: string;
+    password?: string;
 }
 
 export class LoginManagerService {
     constructor(private managementRepository: ManagementRepository) { }
-    async handler({ email, password }: ILoginManagerService){
-        const manager = await this.managementRepository.findByEmail(email);
-        if (!manager) {
-            throw new InvalidCredentialsError()
-        }
-        
-        const isPasswordCorrect = await compare(password, manager.password)
-        if (!isPasswordCorrect) {
-            throw new InvalidCredentialsError()
-        }
-        const { secret, expiresIn } = jwtConfig
-        const token = sign({}, secret, {
-            subject: String(manager.id),
-            expiresIn
-        })
+    async handler({ email, password, id }: ILoginManagerService){
 
-        return { manager, token }
-        
+        if(id) {
+            const manager = await this.managementRepository.findById(id);
+            const { secret, expiresIn } = jwtConfig
+            const token = sign({}, secret, {
+                subject: String(id),
+                expiresIn
+            })
+            return { manager, token }
+        }
+        if(email && password){
+            const manager = await this.managementRepository.findByEmail(email);
+            if (!manager) {
+                throw new InvalidCredentialsError()
+            }
+            
+            const isPasswordCorrect = await compare(password, manager.password)
+            if (!isPasswordCorrect) {
+                throw new InvalidCredentialsError()
+            }
+            const { secret, expiresIn } = jwtConfig
+            const token = sign({}, secret, {
+                subject: String(manager.id),
+                expiresIn
+            })
+            return { manager, token }
+        }
+        throw new Error("No params")
     }
 }

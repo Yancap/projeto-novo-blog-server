@@ -1,5 +1,8 @@
 import { FastifyInstance } from "fastify";
+import { cmsRoutes } from "./cms";
 
 export async function routes(app: FastifyInstance){
-    //TODO: Cadastrar as rotas da aplicação
+    app.register(cmsRoutes, {
+        prefix: 'cms'
+    })
 }

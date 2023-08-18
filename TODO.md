@@ -10,9 +10,11 @@ gerando um token único para o ADMIN com assinatura de sua 'hierarchy'
 - [X] Fazer o login e registro de usuários
 // O Usuário se loga com o NextAuth do Google ou Github e seus dados serão persistidos no banco
 
-- [] O Autor deve poder excluir o artigo
-- [] O Autor deve poder comentários de seus  artigos
-- [] a criação das rotas e controllers para o CMS
+- [X] O Autor deve poder excluir o artigo
+- [X] O Autor deve poder excluir comentários de seus artigos
+- [x] a criação das rotas e controllers para o CMS
+
+- [] configurar um ambiente de desenvolvimento, usar o SQLite no prisma nesse ambiente para testes
 
 - [] O Admin Token deve ser utilizado para as requisições exclusivas do Admin
  para que assim, nenhuma outra pessoa consigar realizar requisições a essa rota

@@ -6,6 +6,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { InMemoryCategories } from '../../repository/in-memory/in-memory-categories';
 import { CreateArticleService } from './create-articles-service';
 import { InMemoryManagement } from '../../repository/in-memory/in-memory-management';
+import { ForbiddenOperationError } from '../../utils/errors/forbidden-operation-error';
 
 
 let categoriesRepository: CategoriesRepository
@@ -56,7 +57,7 @@ describe('Create Articles Service', () => {
             category: "mobile",
             management_id: ""
         }))
-        .rejects.toBeInstanceOf(Error)
+        .rejects.toBeInstanceOf(ForbiddenOperationError)
     })
     it('should be able to create a Articles without a Category Existent', async () => {
         
