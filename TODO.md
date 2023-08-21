@@ -16,5 +16,7 @@ gerando um token único para o ADMIN com assinatura de sua 'hierarchy'
 
 - [] configurar um ambiente de desenvolvimento, usar o SQLite no prisma nesse ambiente para testes
 
+- [] Substituir as autenticações de hierarquia dos Services, pela autenticação via token 
+
 - [] O Admin Token deve ser utilizado para as requisições exclusivas do Admin
  para que assim, nenhuma outra pessoa consigar realizar requisições a essa rota

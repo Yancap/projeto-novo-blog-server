@@ -3,7 +3,14 @@ import { ManagementRepository } from "../interfaces/interface-management-reposit
 
 
 export class InMemoryManagement implements ManagementRepository {
-    public items: Management[] = []
+    public items: Management[] = [{
+        id: "user-01",
+        avatar: "none",
+        name:"Yan Gabriel",
+        email: "yan@email.com",
+        password: "1234567",
+        hierarchy: "admin",
+    }]
 
     async register(data: Prisma.ManagementCreateInput) {
         const author = {
@@ -35,7 +42,11 @@ export class InMemoryManagement implements ManagementRepository {
     }
 
     async deleteById(id: string) {
+        const manager = this.items.find(author => author.id === id)
         this.items = this.items.filter(author => author.id !== id)
-        return this.items
+
+        if(!manager) return null
+        
+        return manager
     }
 }

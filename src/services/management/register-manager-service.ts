@@ -6,18 +6,19 @@ interface IRegisterManagerService{
     name: string;
     email: string;
     password: string;
+    hierarchy?: string;
 }
 
 export class RegisterManagerService {
     constructor(private managementRepository: ManagementRepository) { }
-    async handler({name, email, password}: IRegisterManagerService){
+    async handler({name, email, password, hierarchy}: IRegisterManagerService){
         const password_hash = await hash(password, 6)
 
         const managerWithSomeEmail = await this.managementRepository.findByEmail(email)
         if(managerWithSomeEmail){
             throw new EmailAlreadyExistsError()
         }
-        const manager = this.managementRepository.register({name, email, password: password_hash})
+        const manager = this.managementRepository.register({name, email, password: password_hash, hierarchy})
         return manager
         
     }

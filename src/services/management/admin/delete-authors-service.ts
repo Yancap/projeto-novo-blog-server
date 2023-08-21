@@ -20,8 +20,8 @@ export class DeleteAuthorsService {
             throw new Error()
         }
 
-        const isAuthorExist = authors.find(a => a.id === author_id)
-        if (isAuthorExist){ 
+        const isAuthorExist = authors.id === author_id
+        if (!isAuthorExist){ 
             return false
         }
         return true
