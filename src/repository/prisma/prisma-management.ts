@@ -1,6 +1,8 @@
 import { Prisma } from "@prisma/client"
 import { ManagementRepository } from "../interfaces/interface-management-repository"
 import { prisma } from "../../lib/prisma"
+import { AuthorDoesntExistError } from "../../utils/errors/admin/author-doesnt-exist-error"
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
 
 export class PrismaManagementRepository implements ManagementRepository {
     async findById(id: string){
@@ -22,11 +24,20 @@ export class PrismaManagementRepository implements ManagementRepository {
         return manager
     }
     async deleteById(id: string){
-        const manager = await prisma.management.delete({ 
-            where:{
-                id
+        try {
+            const manager = await prisma.management.delete({ 
+                where:{
+                    id
+                }
+            })   
+            return manager
+        } catch (error){
+            if(error instanceof PrismaClientKnownRequestError){
+              throw new AuthorDoesntExistError()  
             }
-        })
-        return manager
+            throw new Error()
+        }
+        
+        
     }
 }

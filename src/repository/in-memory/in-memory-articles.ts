@@ -1,6 +1,7 @@
 import { ArticlesRepository, findByArticleIdAndManagerIdProps } from '../interfaces/interface-articles-repository';
 import {  Articles, Prisma } from '@prisma/client';
 import { randomUUID } from 'crypto';
+import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-error';
 
 
 export class InMemoryArticles implements ArticlesRepository {
@@ -27,8 +28,12 @@ export class InMemoryArticles implements ArticlesRepository {
     }
     
     async delete(id: string) {
+        const article = this.items.find(articles => articles.id === id)
         this.items = this.items.filter(articles => articles.id !== id)
-        return this.items
+        if(article) {
+          return article  
+        }
+        throw new ResourceNotFoundError()
     }
 
     async findById(id: string){

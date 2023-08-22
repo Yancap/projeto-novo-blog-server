@@ -28,31 +28,12 @@ describe('Delete Author Service', () => {
             email: "johnDoe@email.com",
             password: "123456"
         })
-        const isDelete = await sut.handler({admin_id: admin.id, author_id: author.id})
+        const isDelete = await sut.handler({author_id: author.id})
 
         expect(isDelete).toEqual(true)
     })
 
-    it('should not be able for a author to delete other author', async () => {
-
-        const admin = await managementRepository.register({
-            id: "admin-01",
-            name: "Yan Gabriel",
-            email: "yan@email.com",
-            password: "123456",
-            hierarchy: "author"
-        })
-
-        const author  = await managementRepository.register({
-            name: "Jonh Doe",
-            email: "johnDoe@email.com",
-            password: "123456"
-        })
-
-        
-        await expect(() => sut.handler({admin_id: admin.id, author_id: author.id}))
-        .rejects.toBeInstanceOf(OnlyAdminError)
-    })
+    
 
     
 })

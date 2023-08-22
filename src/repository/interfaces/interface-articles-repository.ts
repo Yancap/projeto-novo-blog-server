@@ -7,7 +7,7 @@ export interface findByArticleIdAndManagerIdProps{
 
 export interface ArticlesRepository {
     create(data: Prisma.ArticlesUncheckedCreateInput): Promise<Articles>
-    delete(id: string): Promise<Articles[] | null>
+    delete(id: string): Promise<Articles>
     update(data: Prisma.ArticlesUncheckedCreateInput): Promise<Articles>
     findById(id: string): Promise<Articles | null>
     findBySlug(slug: string): Promise<Articles | null>

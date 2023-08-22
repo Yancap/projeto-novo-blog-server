@@ -4,7 +4,7 @@ import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-err
 import { ForbiddenOperationError } from '../../utils/errors/forbidden-operation-error';
 
 interface IDeleteArticlesService{
-    slug: string;
+    id: string;
     manager_id: string;
 }
 
@@ -12,10 +12,10 @@ export class DeleteArticlesService {
     constructor(
         private articlesRepository: ArticlesRepository,
     ) { }
-    async handler({slug, manager_id}: IDeleteArticlesService){
+    async handler({id, manager_id}: IDeleteArticlesService){
 
 
-        const article = await this.articlesRepository.findBySlug(slug)
+        const article = await this.articlesRepository.findById(id)
         if (!article) {
             throw new ResourceNotFoundError()
         }
@@ -25,8 +25,8 @@ export class DeleteArticlesService {
             throw new ForbiddenOperationError()
         }
 
-        const otherArticles = await this.articlesRepository.delete(article.id)
-        const isDelete = otherArticles?.find(other => other.id === article.id)
+        const thisArticles = await this.articlesRepository.delete(article.id)
+        const isDelete = thisArticles.id === article.id
         if (isDelete) {
             return false
         }
