@@ -19,9 +19,11 @@ gerando um token único para o ADMIN com assinatura de sua 'hierarchy'
 - [x] Substituir as autenticações de hierarquia dos Services, pela autenticação via token 
 
 - [x] Rota para os artigos
-- [] Otimizar os services de artigos, refatorando para reduzir as Querys
+- [x] Otimizar os services de artigos, refatorando para reduzir as Querys
 
-- [] Rota para o ADMIN excluir outros artigos
 
-- [] O Admin Token deve ser utilizado para as requisições exclusivas do Admin
- para que assim, nenhuma outra pessoa consigar realizar requisições a essa rota
+- [x] Rota para o ADMIN excluir outros artigos
+- [] Rota de criação de artigos
+- [] Criar Testes para cada rota
+
+- [-] O Admin Token deve ser utilizado para as requisições exclusivas do Admin para que assim, nenhuma outra pessoa consigar realizar requisições a essa rota

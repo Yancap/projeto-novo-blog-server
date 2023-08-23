@@ -32,7 +32,7 @@ describe('Delete Comments Service', () => {
             user_id: '',
             article_id: article.id
         })
-        const isDelete = await sut.handler({ id: comments.id, slug: article.slug})
+        const isDelete = await sut.handler({ comment_id: comments.id, article_id: article.id})
         expect(isDelete).toEqual(true)
     })
 

@@ -1,7 +1,6 @@
-import { PrismaManagementRepository } from "../../../repository/prisma/prisma-management"
-import { DeleteArticlesService } from "../../../services/articles/delete-articles-service"
+import { PrismaArticlesRepository } from "../../../repository/prisma/prisma-articles"
+import { AdminDeleteArticlesService } from "../../../services/management/admin/admin-delete-articles-service"
 
-// TODO
 export function makeDeleteArticlesService(){
-    return new DeleteArticlesService() 
+    return new AdminDeleteArticlesService(new PrismaArticlesRepository()) 
 }

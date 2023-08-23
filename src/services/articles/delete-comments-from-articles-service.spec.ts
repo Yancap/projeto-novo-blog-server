@@ -35,7 +35,7 @@ describe('Delete Comments from Articles Service', () => {
 
         const isDelete = await sut.handler({ 
             comment_id: comments.id, 
-            slug: article.slug,
+            article_id: article.id,
             manager_id: "author-01"
         })
 
@@ -59,7 +59,7 @@ describe('Delete Comments from Articles Service', () => {
         await expect(() =>
         sut.handler({ 
             comment_id: comments.id, 
-            slug: article.slug,
+            article_id: article.slug,
             manager_id: "author-01"
         })).rejects.toBeInstanceOf(ForbiddenOperationError)
     })

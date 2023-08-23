@@ -3,8 +3,8 @@ import { CommentsRepository } from '../../repository/interfaces/interface-commen
 import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-error';
 
 interface IDeleteCommentsService{
-    id: string
-    slug: string
+    comment_id: string
+    article_id: string
 
 }
 
@@ -13,21 +13,15 @@ export class DeleteCommentsService {
         private commentsRepository: CommentsRepository,
         private articlesRepository: ArticlesRepository
     ) { }
-    async handler({id, slug}: IDeleteCommentsService){
-        const comment = await this.commentsRepository.findById(id)
-
-        if (!comment) {
-            throw new ResourceNotFoundError()
-        }
-
-        const article = await this.articlesRepository.findBySlug(slug)
+    async handler({comment_id, article_id}: IDeleteCommentsService){
+        const article = await this.articlesRepository.findById(article_id)
         if (!article) {
             throw new ResourceNotFoundError()
         }
 
-        const otherComments = await this.commentsRepository.delete(comment.id)
-        const isDelete = otherComments?.find(other => other.id === comment.id)
-        if (isDelete) {
+        const otherComments = await this.commentsRepository.delete(comment_id)
+        const isDelete = otherComments.id === comment_id
+        if (!isDelete) {
             return false
         }
         return true

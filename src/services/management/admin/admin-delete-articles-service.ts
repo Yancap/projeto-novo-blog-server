@@ -11,10 +11,9 @@ export class AdminDeleteArticlesService {
         private articlesRepository: ArticlesRepository
     ) { }
     async handler({ article_id }: IAdminDeleteArticlesService){
-        
-        const articles = await this.articlesRepository.delete(article_id)
-        const isArticlesExist = articles?.find(article => article.id === article_id)
-        if (isArticlesExist) {
+        const articles = await this.articlesRepository.deleteByAdmin({article_id})
+        const isArticlesExist = articles.id === article_id
+        if (!isArticlesExist) {
             return false
         }
         return true

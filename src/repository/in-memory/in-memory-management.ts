@@ -3,14 +3,7 @@ import { ManagementRepository } from "../interfaces/interface-management-reposit
 
 
 export class InMemoryManagement implements ManagementRepository {
-    public items: Management[] = [{
-        id: "user-01",
-        avatar: "none",
-        name:"Yan Gabriel",
-        email: "yan@email.com",
-        password: "1234567",
-        hierarchy: "admin",
-    }]
+    public items: Management[] = []
 
     async register(data: Prisma.ManagementCreateInput) {
         const author = {

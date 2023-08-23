@@ -9,7 +9,7 @@ import { DeleteArticlesService } from './delete-articles-service';
 let articlesRepository: ArticlesRepository
 let sut: DeleteArticlesService
 
-describe('Create Articles Service', () => {
+describe('Delete Articles Service', () => {
 
     beforeEach(()=>{
         articlesRepository = new InMemoryArticles()
@@ -29,7 +29,7 @@ describe('Create Articles Service', () => {
             manager_id: "author-01"
         })
 
-        const isDelete = await sut.handler({slug: article.slug, manager_id: "author-01"})
+        const isDelete = await sut.handler({article_id: article.id, manager_id: "author-01"})
         expect(isDelete).toEqual(true)
     })
     it('should not be able to delete a Articles from other Authors', async () => {
@@ -41,7 +41,7 @@ describe('Create Articles Service', () => {
             manager_id: "admin-01"
         })
         await expect(() => 
-             sut.handler({slug: article.slug, manager_id: "other-author-01"})
+             sut.handler({article_id: article.id, manager_id: "other-author-01"})
         ).rejects.toBeInstanceOf(ForbiddenOperationError)
     })
 })

@@ -40,9 +40,10 @@ describe('Create Articles Service', () => {
         const article = await sut.handler({
             title: "Mundo Mobile",
             subtitle: "",
+            image: '',
             text: "Texto sobre o artigo",
             category: "mobile",
-            management_id: management.id
+            manager_id: management.id
         })
 
         expect(article.id).toEqual(expect.any(String))
@@ -54,8 +55,9 @@ describe('Create Articles Service', () => {
             title: "Mundo Mobile",
             subtitle: "",
             text: "Texto sobre o artigo",
+            image: '',
             category: "mobile",
-            management_id: ""
+            manager_id: ""
         }))
         .rejects.toBeInstanceOf(ForbiddenOperationError)
     })
@@ -72,7 +74,8 @@ describe('Create Articles Service', () => {
             subtitle: "",
             text: "Texto sobre o artigo",
             category: "mobile",
-            management_id: management.id
+            image: '',
+            manager_id: management.id
         })
 
         expect(article.id).toEqual(expect.any(String))

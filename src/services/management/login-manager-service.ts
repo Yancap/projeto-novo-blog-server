@@ -19,7 +19,7 @@ export class LoginManagerService {
         }
         
         const isPasswordCorrect = await compare(password, manager.password)
-        if (isPasswordCorrect) {
+        if (!isPasswordCorrect) {
             throw new InvalidCredentialsError()
         }
         

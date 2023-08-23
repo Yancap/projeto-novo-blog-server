@@ -5,7 +5,7 @@ import { ForbiddenOperationError } from '../../utils/errors/forbidden-operation-
 
 interface IDeleteCommentsFromArticlesService{
     comment_id: string
-    slug: string
+    article_id: string
     manager_id: string
 }
 
@@ -14,25 +14,16 @@ export class DeleteCommentsFromArticlesService {
         private articlesRepository: ArticlesRepository,
         private commentsRepository: CommentsRepository
     ) { }
-    async handler({ slug, comment_id, manager_id}: IDeleteCommentsFromArticlesService){
-        const comment = await this.commentsRepository.findById(comment_id)
-        if (!comment) {
-            throw new ResourceNotFoundError()
-        }
-
-        const article = await this.articlesRepository.findBySlug(slug)
+    async handler({ article_id, comment_id, manager_id}: IDeleteCommentsFromArticlesService){
+        
+        const article = await this.articlesRepository.findByArticleIdAndManagerId({article_id, manager_id})
         if (!article) {
-            throw new ResourceNotFoundError()
-        }
-
-        const isAuthorOfArticle = article.manager_id === manager_id
-        if (!isAuthorOfArticle) {
             throw new ForbiddenOperationError()
         }
 
-        const otherComments = await this.commentsRepository.delete(comment.id)
-        const isDelete = otherComments?.find(other => other.id === comment.id)
-        if (isDelete) {
+        const otherComments = await this.commentsRepository.delete(comment_id)
+        const isDelete = otherComments.id === comment_id
+        if (!isDelete) {
             return false
         }
         return true

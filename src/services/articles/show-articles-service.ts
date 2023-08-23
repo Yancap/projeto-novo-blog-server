@@ -3,22 +3,16 @@ import { CommentsRepository } from '../../repository/interfaces/interface-commen
 import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-error';
 import { ForbiddenOperationError } from '../../utils/errors/forbidden-operation-error';
 
-interface IDeleteArticlesService{
+interface IShowArticlesService{
     article_id: string;
-    manager_id: string;
 }
 
-export class DeleteArticlesService {
+export class ShowArticlesService {
     constructor(
         private articlesRepository: ArticlesRepository,
     ) { }
-    async handler({article_id, manager_id}: IDeleteArticlesService){
-
-        const thisArticles = await this.articlesRepository.delete({article_id, manager_id})
-        const isDelete = thisArticles.id === article_id
-        if (!isDelete) {
-            return false
-        }
-        return true
+    async handler(){
+        const articles = await this.articlesRepository.showAll()
+        return articles
     }
 }

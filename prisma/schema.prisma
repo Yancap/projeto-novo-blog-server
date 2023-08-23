@@ -38,6 +38,7 @@ model Articles {
   slug          String    @unique @default("")
   title         String
   subtitle      String 
+  image         String
   text          String
   created_at    DateTime  @default(now())   
   state         String    @default("active")

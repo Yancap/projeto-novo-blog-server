@@ -1,8 +1,7 @@
 import { ManagementRepository } from '../../repository/interfaces/interface-management-repository';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { InMemoryManagement } from '../../repository/in-memory/in-memory-management';
-import { compare, hash } from 'bcryptjs';
-import { EmailAlreadyExistsError } from '../../utils/errors/email-already-exists-error';
+import { hash } from 'bcryptjs';
 import { LoginManagerService } from './login-manager-service';
 import { InvalidCredentialsError } from '../../utils/errors/invalid-credentials-error';
 
@@ -24,7 +23,7 @@ describe('Login Management Service', () => {
     })
 
     it('should be able to login with email and password', async () => {
-        const {manager}  = await sut.handler({
+        const { manager }  = await sut.handler({
             email: "yan@email.com",
             password: "123456"
         })

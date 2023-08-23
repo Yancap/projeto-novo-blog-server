@@ -32,7 +32,6 @@ export class UpdateArticleService {
         const article = await this.ArticlesRepository
         .findByArticleIdAndManagerId({article_id: id, manager_id: management_id});
         if (!article) {
-            //Caso o artigo não for encontrado ou o usuário não for o criado desse artigo
             throw new ForbiddenOperationError()
         }
 
