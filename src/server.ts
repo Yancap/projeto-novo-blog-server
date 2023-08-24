@@ -2,7 +2,7 @@ import { app } from './app';
 import { env } from './env';
 
 app.listen({
-    host: '0.0.0.0',
+    host: 'localhost',
     port: env.PORT,
 }).then(() => {
     console.log("HTTP server running on PORT", env.PORT);

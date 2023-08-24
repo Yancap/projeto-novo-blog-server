@@ -14,6 +14,7 @@ describe('Show All Articles Service', () => {
         articlesRepository.create({
             title: "Mundo Mobile",
             subtitle: "",
+            image: "",
             text: "Texto sobre o artigo",
             category_id: "mobile-01",
             manager_id: "author-01"

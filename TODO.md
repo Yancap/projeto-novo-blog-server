@@ -23,7 +23,9 @@ gerando um token único para o ADMIN com assinatura de sua 'hierarchy'
 
 
 - [x] Rota para o ADMIN excluir outros artigos
-- [] Rota de criação de artigos
-- [] Criar Testes para cada rota
+- [x] Rota de criação de artigos
+- [] Criar um ambiente e um banco de dados para testes com o prisma, para testar
+as rotas de criação de artigos.
+- [] Criar as rotas restantes de artigos
 
 - [-] O Admin Token deve ser utilizado para as requisições exclusivas do Admin para que assim, nenhuma outra pessoa consigar realizar requisições a essa rota

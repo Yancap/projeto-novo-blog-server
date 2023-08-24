@@ -5,15 +5,15 @@ import { makeLoginManagementService } from "../../../factory/management/make-log
 
 
 export async function login (request: FastifyRequest, reply: FastifyReply) {
+    //console.log("chegou");
     
     const loginBodySchema = z.object({
         email: z.string().email(),
         password: z.string().min(6)
     })
-
     const { email, password } = loginBodySchema.parse(request.body)
     const loginManagementService = makeLoginManagementService()
-
+    
     try{
         const { manager } = await loginManagementService.handler({ email, password })
         const token = await reply.jwtSign({
@@ -23,11 +23,13 @@ export async function login (request: FastifyRequest, reply: FastifyReply) {
                 sub: manager.id
             }
         })
-
         return reply.status(200).send({
-            token
-        })
-
+            name: manager.name,
+            avatar: manager.avatar,
+            token,
+            hierarchy: manager.hierarchy
+            
+        })  
     } catch(err) {
         if (err instanceof InvalidCredentialsError) {
             return reply.status(400).send({ message: err.message })
