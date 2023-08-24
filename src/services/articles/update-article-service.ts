@@ -11,7 +11,8 @@ interface IUpdateArticleService{
     created_at?: string;
     state?: string;
     category?: string;
-    management_id: string;
+    image?:string
+    manager_id: string;
 }
 
 export class UpdateArticleService {
@@ -19,7 +20,7 @@ export class UpdateArticleService {
         private ArticlesRepository: ArticlesRepository,
         private CategoriesRepository: CategoriesRepository
     ) { }
-    async handler({id, title, subtitle, text, management_id, category, state}: IUpdateArticleService){
+    async handler({id, title, subtitle, image, text, manager_id, category, state}: IUpdateArticleService){
 
         let articleCategory: Categories | null = {} as Categories
         if (category) {
@@ -30,19 +31,20 @@ export class UpdateArticleService {
         }
 
         const article = await this.ArticlesRepository
-        .findByArticleIdAndManagerId({article_id: id, manager_id: management_id});
+        .findByArticleIdAndManagerId({article_id: id, manager_id: manager_id});
         if (!article) {
             throw new ForbiddenOperationError()
         }
 
         const updateArticle = this.ArticlesRepository.update({
             id: id,
+            image: image ?? article.image,
             title: title ?? article.title, 
             subtitle: subtitle ?? article.subtitle, 
             text: text ?? article.text, 
             state: state ?? article.state,
             category_id: articleCategory.id ?? article.category_id,
-            manager_id: management_id
+            manager_id: manager_id
         })
         
         return updateArticle

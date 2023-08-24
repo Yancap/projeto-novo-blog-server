@@ -36,7 +36,7 @@ export class CreateArticleService {
         if (!manager) {
             throw new ForbiddenOperationError()
         }
-
+        
         const article = this.articlesRepository.create({
             title: data.title, 
             subtitle: data.subtitle, 

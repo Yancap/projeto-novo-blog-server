@@ -47,12 +47,12 @@ describe('Update Articles Service', () => {
         const article = await sut.handler({
             id: "article-01",
             subtitle: "Subtitulo",
-            management_id: management.id
+            manager_id: management.id
         })
 
         expect(article.subtitle).toEqual("Subtitulo")
     })
-
+    
     it('should not be able to an author update other articles', async () => {
 
         await categoriesRepository.create({category: "mobile"})
@@ -75,7 +75,7 @@ describe('Update Articles Service', () => {
         sut.handler({
             id: "article-01",
             subtitle: "Subtitulo",
-            management_id: management.id
+            manager_id: management.id
         }))
         .rejects.toBeInstanceOf(ForbiddenOperationError)
     })

@@ -48,6 +48,27 @@ describe('Create Articles Service', () => {
 
         expect(article.id).toEqual(expect.any(String))
     })
+    it('should be able to draft a Articles', async () => {
+
+        await categoriesRepository.create({category: "mobile"})
+        const management = await managementRepository.register({
+            name: "Yan Gabriel",
+            email: "yan@gmail.com",
+            password: "123"
+        })
+
+        const article = await sut.handler({
+            title: "Mundo Mobile",
+            subtitle: "",
+            image: '',
+            text: "Texto sobre o artigo",
+            category: "mobile",
+            manager_id: management.id,
+            state: "draft"
+        })
+
+        expect(article.id).toEqual(expect.any(String))
+    })
     it('should not be able to create a Articles without Manager', async () => {
         await categoriesRepository.create({category: "mobile"})
         expect(async () => 
@@ -80,5 +101,5 @@ describe('Create Articles Service', () => {
 
         expect(article.id).toEqual(expect.any(String))
     })
-
+    
 })

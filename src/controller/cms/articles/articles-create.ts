@@ -19,7 +19,6 @@ export async function articlesCreate (request: FastifyRequest, reply: FastifyRep
             created_at: z.optional(z.string()),
             state: z.optional(z.string()),
             category: z.string(),
-            manager_id: z.string(),
         }),
         tags: z.array(
             z.object({ name: z.string()})
@@ -28,9 +27,10 @@ export async function articlesCreate (request: FastifyRequest, reply: FastifyRep
             z.object({ name: z.string(), link: z.string() })
         )
     })
+    const {sub} = await request.jwtVerify()
 
     const {article, tags, credits} = registerBodySchema.parse(request.body)
-
+    
     const createArticlesService = makeCreateArticlesService()
     const createCreditsService = makeCreateCreditsService()
     const createTagsService = makeCreateTagsService()
@@ -38,7 +38,7 @@ export async function articlesCreate (request: FastifyRequest, reply: FastifyRep
 
     //services de criação de tags e credits
     try {
-        const articleCreated = await createArticlesService.handler(article)
+        const articleCreated = await createArticlesService.handler({...article, manager_id: sub})
 
         credits.forEach( async credit => await createCreditsService.handler({
             article_id: articleCreated.id,
