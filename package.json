@@ -8,7 +8,7 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsup src --out-dir build",
     "test:services": "vitest run ./src/services",
-    "test:controller": "vitest run ./src/controller",
+    "test:controller": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
   },

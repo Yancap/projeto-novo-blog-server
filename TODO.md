@@ -24,7 +24,7 @@ gerando um token único para o ADMIN com assinatura de sua 'hierarchy'
 
 - [x] Rota para o ADMIN excluir outros artigos
 - [x] Rota de criação de artigos
-- [] Criar um ambiente e um banco de dados para testes com o prisma, para testar
+- [//] Criar um ambiente e um banco de dados para testes com o prisma, para testar
 as rotas de criação de artigos.
 - [] Criar as rotas restantes de artigos
 

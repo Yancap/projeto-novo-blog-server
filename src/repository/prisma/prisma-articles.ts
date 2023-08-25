@@ -8,7 +8,7 @@ import { ForbiddenOperationError } from "../../utils/errors/forbidden-operation-
 
 export class PrismaArticlesRepository implements ArticlesRepository {
     async create(data: Prisma.ArticlesUncheckedCreateInput){
-        const slug = data.title.toLowerCase().replaceAll(/\s+/g, '-') + 
+        const slug = data.title.toLowerCase().replace(/\s+/g, '-') + 
         '-' + (randomUUID()).substring(0,6)
         
         const articles = await prisma.articles.create({ 
@@ -22,9 +22,14 @@ export class PrismaArticlesRepository implements ArticlesRepository {
     async showAll(){
         return await prisma.articles.findMany()
     }
-    async delete({article_id, manager_id}: articleIdAndManagerIdProps){
+    async delete({article_id}: Omit<articleIdAndManagerIdProps, "manager_id">){
         try{
-            const articles = await prisma.articles.delete({ where: { id: article_id, manager_id } })
+            await prisma.articlesTags.deleteMany({ where: { id: article_id } })
+            await prisma.credits.deleteMany({ where: { id: article_id } })
+            await prisma.comments.deleteMany({ where: { id: article_id } })
+            await prisma.favoriteArticles.deleteMany({ where: { id: article_id } })
+
+            const articles = await prisma.articles.delete({ where: { id: article_id } })
             return articles
         }
         catch (error){
@@ -52,7 +57,7 @@ export class PrismaArticlesRepository implements ArticlesRepository {
     async update(data: Prisma.ArticlesUncheckedCreateInput){
         let slug: string | null = null
         if (data.title && typeof data.title === 'string') {
-            slug = data.title.toLowerCase().replaceAll(/\s+/g, '-') + 
+            slug = data.title.toLowerCase().replace(/\s+/g, '-') + 
             '-' + (randomUUID()).substring(0,6) 
         }
         if (data.id && data.manager_id) {

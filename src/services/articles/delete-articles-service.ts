@@ -13,7 +13,10 @@ export class DeleteArticlesService {
         private articlesRepository: ArticlesRepository,
     ) { }
     async handler({article_id, manager_id}: IDeleteArticlesService){
-
+        const article = await this.articlesRepository.findById(article_id)
+        if(!article || article?.manager_id !== manager_id){
+            throw new ForbiddenOperationError()
+        }
         const thisArticles = await this.articlesRepository.delete({article_id, manager_id})
         const isDelete = thisArticles.id === article_id
         if (!isDelete) {

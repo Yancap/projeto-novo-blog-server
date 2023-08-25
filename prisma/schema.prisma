@@ -63,8 +63,8 @@ model Credits {
   link      String  
 
 
-  article Articles @relation(fields: [article_id], references: [id])
-  article_id    String 
+  article Articles? @relation(fields: [article_id], references: [id])
+  article_id    String?
   
   @@map("credits")
 }
@@ -90,8 +90,8 @@ model Comments {
   user Users @relation(fields: [user_id], references: [id])
   user_id    String 
 
-  article Articles @relation(fields: [article_id], references: [id])
-  article_id    String 
+  article Articles? @relation(fields: [article_id], references: [id])
+  article_id    String?
   
   @@map("comments")
 }
@@ -102,8 +102,8 @@ model FavoriteArticles {
   user Users @relation(fields: [user_id], references: [id])
   user_id    String 
 
-  article Articles @relation(fields: [article_id], references: [id])
-  article_id    String 
+  article Articles? @relation(fields: [article_id], references: [id])
+  article_id    String? 
 
   @@map("favorite_articles")
 }
@@ -123,8 +123,8 @@ model ArticlesTags {
   tag Tags @relation(fields: [tag_id], references: [id])
   tag_id    String 
 
-  article Articles @relation(fields: [article_id], references: [id])
-  article_id    String 
+  article Articles? @relation(fields: [article_id], references: [id])
+  article_id    String? 
 
   @@map("article_tags")
 }

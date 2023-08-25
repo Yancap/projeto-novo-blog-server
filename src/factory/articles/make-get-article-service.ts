@@ -2,8 +2,8 @@ import { PrismaArticlesRepository } from "../../repository/prisma/prisma-article
 import { GetArticleService } from "../../services/articles/get-article-service"
 
 export function makeGetArticleService(){
-    const createArticlesService = new GetArticleService(
+    const getArticlesService = new GetArticleService(
         new PrismaArticlesRepository()
     )
-    return createArticlesService
+    return getArticlesService
 }
