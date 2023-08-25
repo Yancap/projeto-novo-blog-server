@@ -27,10 +27,7 @@ export class PrismaArticlesRepository implements ArticlesRepository {
     }
     async delete({article_id}: Omit<articleIdAndManagerIdProps, "manager_id">){
         try{
-            await prisma.articlesTags.deleteMany({ where: { id: article_id } })
-            await prisma.credits.deleteMany({ where: { id: article_id } })
-            await prisma.comments.deleteMany({ where: { id: article_id } })
-            await prisma.favoriteArticles.deleteMany({ where: { id: article_id } })
+           
 
             const articles = await prisma.articles.delete({ where: { id: article_id } })
             return articles
@@ -86,6 +83,7 @@ export class PrismaArticlesRepository implements ArticlesRepository {
         }) 
         return article
     }
+    
     async findBySlug(slug: string){
         const article = await prisma.articles.findUnique({
             where: { slug }

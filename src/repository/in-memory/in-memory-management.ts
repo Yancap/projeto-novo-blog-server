@@ -33,7 +33,13 @@ export class InMemoryManagement implements ManagementRepository {
         }
         return author
     }
-
+    async findAuthors() {
+        const authors = this.items.filter(author => author.hierarchy === "authors")
+        if(!authors) {
+            return null
+        }
+        return authors
+    }
     async deleteById(id: string) {
         const manager = this.items.find(author => author.id === id)
         this.items = this.items.filter(author => author.id !== id)

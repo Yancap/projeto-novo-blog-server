@@ -15,7 +15,7 @@ export async function adminRegister (request: FastifyRequest, reply: FastifyRepl
     const {name, email, password, hierarchy} = registerBodySchema.parse(request.body)
     try{
         const manager = await registerManagerService.handler({name, email, password, hierarchy})
-        return reply.status(200).send({name: manager.name})
+        return reply.status(200).send({name: manager.name, email: manager.email})
     } catch (error){
         if (error instanceof EmailAlreadyExistsError) {
             return reply.status(400).send({ message: error.message })

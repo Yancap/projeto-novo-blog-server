@@ -43,8 +43,8 @@ model Articles {
   created_at    DateTime  @default(now())   
   state         String    @default("active")
 
-  manager Management @relation(fields: [manager_id], references: [id])
-  manager_id    String 
+  manager Management? @relation(fields: [manager_id], references: [id], onDelete: Cascade)
+  manager_id    String? 
 
   category Categories @relation(fields: [category_id], references: [id])
   category_id    String 

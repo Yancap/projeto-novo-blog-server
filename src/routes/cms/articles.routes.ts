@@ -10,18 +10,18 @@ import { articlesUpdate } from "../../controller/cms/articles/articles-update"
 import { articlesDelete } from "../../controller/cms/articles/articles-delete"
 import { articlesGet } from "../../controller/cms/articles/articles-get"
 import { articlesShowByManagerId } from "../../controller/cms/articles/articles-show-by-manager-id"
+import { articlesActive } from "../../controller/cms/articles/articles-active"
 
 export async function articlesRoutes(app: FastifyInstance) {
     // Article routes
-    /*
-        Criar, Editar, Excluir, Rascunhar, Desativar e Ver
-    */
-    app.get('/', {onRequest: [verifyJWT]}, articlesShowByManagerId)
-    app.post('/get', articlesGet)
+    
+    app.get('/', {onRequest: [verifyJWT]}, articlesShowByManagerId) // Certo
+    app.post('/get', articlesGet) // Certo
     app.post('/', {onRequest: [verifyJWT]}, articlesCreate) // Certo
     app.put('', {onRequest: [verifyJWT]}, articlesUpdate) // Certo
     app.patch('/draft', {onRequest: [verifyJWT]}, articlesDrafts) // Certo
     app.patch('/deactive', {onRequest: [verifyJWT]}, articlesDeactive) // Certo
-    app.delete('', {onRequest: [verifyJWT]}, articlesDelete)
+    app.patch('/active', {onRequest: [verifyJWT]}, articlesActive) // Certo
+    app.delete('', {onRequest: [verifyJWT]}, articlesDelete) // Certo
     
 }
