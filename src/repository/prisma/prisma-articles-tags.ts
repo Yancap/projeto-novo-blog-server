@@ -7,6 +7,13 @@ export class PrismaArticlesTagsRepository implements ArticlesTagsRepository {
         const articlesTags = await prisma.articlesTags.create({ data })
         return articlesTags
     } 
+    async findById(id: string) {
+        const articles_tags = await prisma.articlesTags.findUnique({
+            where: { id }
+        })
+
+        return articles_tags
+    }
     async selectByTagsId(tag_id: string) {
         const articles_tags = await prisma.articlesTags.findMany({
             where: { tag_id }

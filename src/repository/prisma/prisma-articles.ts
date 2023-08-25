@@ -22,6 +22,9 @@ export class PrismaArticlesRepository implements ArticlesRepository {
     async showAll(){
         return await prisma.articles.findMany()
     }
+    async showAllByManagerId(manager_id: string){
+        return await prisma.articles.findMany({ where: { manager_id } })
+    }
     async delete({article_id}: Omit<articleIdAndManagerIdProps, "manager_id">){
         try{
             await prisma.articlesTags.deleteMany({ where: { id: article_id } })

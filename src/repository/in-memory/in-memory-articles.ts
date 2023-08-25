@@ -17,6 +17,7 @@ export class InMemoryArticles implements ArticlesRepository {
             title: data.title,
             slug: slug,
             subtitle: data.subtitle,
+            image: data.image,
             text: data.text,
             created_at: new Date(),
             category_id: data.category_id,
@@ -29,6 +30,9 @@ export class InMemoryArticles implements ArticlesRepository {
     }
     async showAll(){
         return this.items
+    }
+    async showAllByManagerId(manager_id: string){
+        return this.items.filter(article => article.manager_id === manager_id)
     }
     async delete({article_id, manager_id}: articleIdAndManagerIdProps) {
 
@@ -88,6 +92,7 @@ export class InMemoryArticles implements ArticlesRepository {
             id: data.id ?? 'article-01',
             slug: slug,
             title: data.title,
+            image: data.image,
             subtitle: data.subtitle,
             text: data.text,
             created_at: new Date(),

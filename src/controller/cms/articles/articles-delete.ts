@@ -8,6 +8,7 @@ import { makeCreateArticlesTagsSService } from "../../../factory/articles-tags/m
 import { makeCreateCreditsService } from "../../../factory/credits/make-create-credits-service"
 import { makeUpdateArticlesService } from "../../../factory/articles/make-update-articles-service"
 import { makeDeleteArticleService } from "../../../factory/articles/make-delete-articles-service"
+import { JWTVerifyReturn } from "./jwt"
 
 
 export async function articlesDelete (request: FastifyRequest, reply: FastifyReply) {
@@ -16,7 +17,7 @@ export async function articlesDelete (request: FastifyRequest, reply: FastifyRep
     const registerBodySchema = z.object({
         id: z.string()
     })
-    const {sub} = await request.jwtVerify()
+    const {sub}: JWTVerifyReturn = await request.jwtVerify()
     const {id} = registerBodySchema.parse(request.body)
     console.log(id);
     

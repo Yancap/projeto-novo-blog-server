@@ -21,7 +21,15 @@ export class CreateCreditsService {
         if (!article) {
             throw new ResourceNotFoundError()
         }
-
+        const creditsExist = await this.creditsRepository.findCreditsByArticleId(article_id)
+        
+        if (creditsExist) {
+            const thisCredits = creditsExist
+            .find( credits => credits.name === name && credits.link === link)
+            if (thisCredits) {
+                return thisCredits
+            }
+        }
         const credits = await this.creditsRepository.create({
             id, name, link, article_id
         })

@@ -27,10 +27,11 @@ export class CreateArticlesTagsService {
             throw new ResourceNotFoundError()
         }
 
-        const articles_tags = await this.articlesTagsRepository.create({
-            id, article_id, tag_id
-        })
-        
+        if (id) {
+            const articles_tagsExists = await this.articlesTagsRepository.findById(id)
+            if(articles_tagsExists) return articles_tagsExists
+        }
+        const articles_tags = await this.articlesTagsRepository.create({article_id, tag_id})
         return articles_tags
     }
 }

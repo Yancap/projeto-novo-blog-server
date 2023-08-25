@@ -63,7 +63,7 @@ model Credits {
   link      String  
 
 
-  article Articles? @relation(fields: [article_id], references: [id])
+  article Articles? @relation(fields: [article_id], references: [id], onDelete: Cascade)
   article_id    String?
   
   @@map("credits")
@@ -87,10 +87,10 @@ model Comments {
   text      String
   created_at    DateTime  @default(now()) 
 
-  user Users @relation(fields: [user_id], references: [id])
+  user Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id    String 
 
-  article Articles? @relation(fields: [article_id], references: [id])
+  article Articles? @relation(fields: [article_id], references: [id], onDelete: Cascade)
   article_id    String?
   
   @@map("comments")
@@ -99,10 +99,10 @@ model Comments {
 model FavoriteArticles {
   id        String  @id @default(uuid())
 
-  user Users @relation(fields: [user_id], references: [id])
+  user Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id    String 
 
-  article Articles? @relation(fields: [article_id], references: [id])
+  article Articles? @relation(fields: [article_id], references: [id], onDelete: Cascade)
   article_id    String? 
 
   @@map("favorite_articles")
@@ -120,10 +120,10 @@ model Tags {
 model ArticlesTags {
   id        String  @id @default(uuid())
 
-  tag Tags @relation(fields: [tag_id], references: [id])
+  tag Tags @relation(fields: [tag_id], references: [id], onDelete: Cascade)
   tag_id    String 
 
-  article Articles? @relation(fields: [article_id], references: [id])
+  article Articles? @relation(fields: [article_id], references: [id], onDelete: Cascade)
   article_id    String? 
 
   @@map("article_tags")

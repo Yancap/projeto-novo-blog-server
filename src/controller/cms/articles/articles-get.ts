@@ -22,7 +22,7 @@ export async function articlesGet (request: FastifyRequest, reply: FastifyReply)
     const getArticlesService = makeGetArticleService()
     try {
         const article = await getArticlesService.handler({ article_id: id })
-        return reply.status(200).send({ message: "success", article })    
+        return reply.status(200).send({ article })    
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {
             return reply.status(404).send({message: error.message})

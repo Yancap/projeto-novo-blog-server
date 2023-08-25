@@ -6,10 +6,9 @@ import { makeCreateArticlesService } from "../../../factory/articles/make-create
 import { makeCreateTagsService } from "../../../factory/tags/make-create-tag-service"
 import { makeCreateArticlesTagsSService } from "../../../factory/articles-tags/make-create-articles-tags-service"
 import { makeCreateCreditsService } from "../../../factory/credits/make-create-credits-service"
+import { JWTVerifyReturn } from "./jwt"
 
-interface JWTVerifyReturn{
-    sub: string
-}
+
 
 export async function articlesCreate (request: FastifyRequest, reply: FastifyReply) {
     //Adicionar as Tags, sua relação e os créditos

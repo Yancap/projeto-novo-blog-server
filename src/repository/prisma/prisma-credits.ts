@@ -8,9 +8,9 @@ export class PrismaCreditsRepository implements CreditsRepository {
         const credits = await prisma.credits.create({ data })
         return credits
     } 
-    async findCreditsByName(name: string) {
-        const credits = await prisma.credits.findFirst({
-            where: { name },
+    async findCreditsByArticleId(article_id: string) {
+        const credits = await prisma.credits.findMany({
+            where: { article_id },
         })
         return credits
     }

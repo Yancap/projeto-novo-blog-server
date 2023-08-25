@@ -5,6 +5,7 @@ import { makeCreateTagsService } from "../../../factory/tags/make-create-tag-ser
 import { makeCreateArticlesTagsSService } from "../../../factory/articles-tags/make-create-articles-tags-service"
 import { makeCreateCreditsService } from "../../../factory/credits/make-create-credits-service"
 import { makeUpdateArticlesService } from "../../../factory/articles/make-update-articles-service"
+import { JWTVerifyReturn } from "./jwt"
 
 
 export async function articlesUpdate (request: FastifyRequest, reply: FastifyReply) {
@@ -24,7 +25,7 @@ export async function articlesUpdate (request: FastifyRequest, reply: FastifyRep
         )),
         credits: z.array(z.object({ name: z.string(), link: z.string() }))
     })
-    const {sub} = await request.jwtVerify()
+    const {sub}: JWTVerifyReturn = await request.jwtVerify()
     
     const {article, tags, credits} = registerBodySchema.parse(request.body)
 
@@ -51,7 +52,7 @@ export async function articlesUpdate (request: FastifyRequest, reply: FastifyRep
             article_id:  articleUpdated.id
         }))
          
-        return reply.status(200).send({message: "success", article: articleUpdated})    
+        return reply.status(200).send({article: articleUpdated})    
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {
             return reply.status(404).send({message: error.message})

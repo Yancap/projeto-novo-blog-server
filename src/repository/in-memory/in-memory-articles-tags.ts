@@ -14,6 +14,16 @@ export class InMemoryArticleTags implements ArticlesTagsRepository {
         this.items.push(articles_tags)
         return articles_tags
     }
+    async findById(id: string) {
+        const articles_tags = this.items.find(articles_tags => 
+            articles_tags.id === id 
+        )
+
+        if(!articles_tags) {
+            return null
+        }
+        return articles_tags
+    }
     async selectByTagsId(tag_id: string) {
         const articles_tags = this.items.filter(articles_tags => 
             articles_tags.tag_id === tag_id
