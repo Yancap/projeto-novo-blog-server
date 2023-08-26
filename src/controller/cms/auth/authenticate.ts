@@ -25,6 +25,7 @@ export async function login (request: FastifyRequest, reply: FastifyReply) {
         })
         return reply.status(200).send({
             name: manager.name,
+            email: manager.email,
             avatar: manager.avatar,
             token,
             hierarchy: manager.hierarchy
