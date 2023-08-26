@@ -13,14 +13,11 @@ export async function articlesShowByManagerId (request: FastifyRequest, reply: F
     const getCategoryById = makeGetCategoryByIdService()
     try {
         const articlesManager = await showArticlesByManagerIdService.handler({ manager_id: sub })
-        const articles = await articlesManager.map(async article => {
+        const articles: any[] = []
+        for(let article of articlesManager){
             const category = await getCategoryById.handler({category_id: article.category_id})
-            
-            return await {
-                ...article,
-                category: category?.category
-            }
-        })
+            articles.push({...article, category: category?.category})
+        }
 
         
         return reply.status(200).send({ articles })    

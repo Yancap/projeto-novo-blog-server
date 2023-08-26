@@ -10,7 +10,7 @@ export class PrismaManagementRepository implements ManagementRepository {
         return manager
     }
     async findAuthors(){
-        const manager = await prisma.management.findMany({ where:{ hierarchy: "authors" } })
+        const manager = await prisma.management.findMany({ where:{ hierarchy: "author" } })
         return manager
     }
     async findByEmail(email: string){
