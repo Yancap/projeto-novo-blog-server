@@ -20,4 +20,7 @@ export class PrismaCategoriesRepository implements CategoriesRepository {
         }) 
         return category
     }
+    async getAllCategories() {
+        return await prisma.categories.findMany()
+     }
 }

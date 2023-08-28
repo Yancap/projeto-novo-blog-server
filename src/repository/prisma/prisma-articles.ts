@@ -20,7 +20,13 @@ export class PrismaArticlesRepository implements ArticlesRepository {
         return articles
     }
     async showAll(){
-        return await prisma.articles.findMany()
+        const articles = await prisma.articles.findMany({
+            include: {
+                manager: { select: { name: true } },
+                category: { select: { category: true } }
+            }
+        })
+        return articles
     }
     async showAllByManagerId(manager_id: string){
         return await prisma.articles.findMany({ where: { manager_id } })

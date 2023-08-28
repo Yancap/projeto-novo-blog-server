@@ -1,13 +1,19 @@
-import { ArticlesRepository, articleIdAndManagerIdProps } from '../interfaces/interface-articles-repository';
+import { ArticlesRepository, ShowAllArticles, articleIdAndManagerIdProps } from '../interfaces/interface-articles-repository';
 import {  Articles, Prisma } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-error';
 import { ForbiddenOperationError } from '../../utils/errors/forbidden-operation-error';
+import { CategoriesRepository } from '../interfaces/interface-categories-repository';
+import { ManagementRepository } from '../interfaces/interface-management-repository';
 
 
 export class InMemoryArticles implements ArticlesRepository {
     public items: Articles[] = []
-
+    
+    constructor (
+        private inMemoryCategories: CategoriesRepository,
+        private inMemoryManagement: ManagementRepository
+    ) {}
     async create(data: Prisma.ArticlesUncheckedCreateInput) {
         const slug = data.title.toLowerCase().replace(' ', '-') + 
         '-' + (randomUUID()).substring(0,6)
@@ -29,7 +35,27 @@ export class InMemoryArticles implements ArticlesRepository {
         return article
     }
     async showAll(){
-        return this.items
+        const categories = await this.inMemoryCategories.getAllCategories()
+        const authors = await this.inMemoryManagement.findAuthors()
+        if (categories && authors) {
+            const articles: ShowAllArticles[] = this.items.map(article => {
+                let articles: any = {}
+                for(let category of categories) {
+                    if (category.id === article.category_id) {
+                        articles = {...article, category: { category: category.category}}
+                    }
+                }
+                for(let author of authors) {
+                    if (author.id === article.manager_id) {
+                        articles = {...articles, manager: { name: author.name}}
+                    }
+                }
+                return articles
+            })
+            return articles
+        }
+        
+        return null
     }
     async showAllByManagerId(manager_id: string){
         return this.items.filter(article => article.manager_id === manager_id)

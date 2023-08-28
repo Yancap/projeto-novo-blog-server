@@ -13,6 +13,15 @@ export class AdminGetAllArticlesService {
         if (!articles) {
             return null
         }
-        return articles
+        return articles.map(article => ({
+            id: article.id,
+            title: article.title,
+            subtitle: article.subtitle,
+            text: article.text,
+            category: article.category.category,
+            author: article.manager.name,
+            created_at: article.created_at,
+            state: article.state,
+        }))
     }
 }
