@@ -21,7 +21,7 @@ export interface ArticlesRepository {
     update(data: Prisma.ArticlesUncheckedCreateInput): Promise<Articles>
     showAll(): Promise<ShowAllArticles[] | null>
     showAllByManagerId(manager_id: string): Promise<Articles[]>
-    findById(id: string): Promise<Articles | null>
+    findById(id: string): Promise<ShowAllArticles | null>
     findBySlug(slug: string): Promise<Articles | null>
     findByArticleIdAndManagerId({article_id, manager_id}: articleIdAndManagerIdProps): Promise<Articles | null>
 }

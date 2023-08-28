@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { z } from "zod"
-import { makeDeleteArticlesService } from "../../../factory/management/admin/make-delete-articles-services"
 import { ResourceNotFoundError } from "../../../utils/errors/resource-not-found-error"
 import { makeCreateArticlesService } from "../../../factory/articles/make-create-articles-service"
 import { makeCreateTagsService } from "../../../factory/tags/make-create-tag-service"

@@ -5,17 +5,31 @@ import { InMemoryComments } from '../../repository/in-memory/in-memory-comments'
 import { InMemoryArticles } from '../../repository/in-memory/in-memory-articles';
 import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-error';
 import { DeleteCommentsService } from './delete-comments-service';
+import { UsersRepository } from '../../repository/interfaces/interface-users-repository';
+import { InMemoryUsers } from '../../repository/in-memory/in-memory-users';
+import { CategoriesRepository } from '../../repository/interfaces/interface-categories-repository';
+import { ManagementRepository } from '../../repository/interfaces/interface-management-repository';
+import { InMemoryManagement } from '../../repository/in-memory/in-memory-management';
+import { InMemoryCategories } from '../../repository/in-memory/in-memory-categories';
 
 let commentsRepository: CommentsRepository
 let articlesRepository: ArticlesRepository
+let usersRepository: UsersRepository
+let categoriesRepository: CategoriesRepository
+let managementRepository: ManagementRepository
 
 let sut: DeleteCommentsService
 
 describe('Delete Comments Service', () => {
 
     beforeEach(()=>{
-        commentsRepository = new InMemoryComments()
-        articlesRepository = new InMemoryArticles()
+        managementRepository = new InMemoryManagement()
+        categoriesRepository = new InMemoryCategories()
+
+        usersRepository = new InMemoryUsers()
+        articlesRepository = new InMemoryArticles(categoriesRepository, managementRepository)
+        commentsRepository = new InMemoryComments(articlesRepository, usersRepository)
+        
         sut = new DeleteCommentsService(commentsRepository, articlesRepository)
     })
 
@@ -24,6 +38,7 @@ describe('Delete Comments Service', () => {
             title: "Mundo Mobile",
             subtitle: "",
             text: "Texto sobre o artigo",
+            image: "",
             category_id: "mobile-01",
             manager_id: "admin-01"
         })

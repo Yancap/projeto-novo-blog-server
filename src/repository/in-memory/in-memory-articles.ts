@@ -86,11 +86,26 @@ export class InMemoryArticles implements ArticlesRepository {
         
     }
     async findById(id: string){
-        const article = this.items.find(articles => articles.id === id)
-        if (!article) {
-            return null
+        const categories = await this.inMemoryCategories.getAllCategories()
+        const authors = await this.inMemoryManagement.findAuthors()
+        const article = this.items.find(article => article.id === id)
+
+        if (categories && authors && article) {
+            let articles: ShowAllArticles = {} as ShowAllArticles
+            for(let category of categories) {
+                if (category.id === article.category_id) {
+                    articles = {...article, category: { category: category.category}} as ShowAllArticles
+                }
+            }
+            for(let author of authors) {
+                if (author.id === article.manager_id) {
+                    articles = {...articles, manager: { name: author.name}}
+                }
+            }
+            return articles
         }
-        return article
+        
+        return null
     }
 
     async findBySlug(slug: string){

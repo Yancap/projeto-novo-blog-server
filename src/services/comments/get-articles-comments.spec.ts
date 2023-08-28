@@ -1,16 +1,15 @@
 import { ArticlesRepository } from './../../repository/interfaces/interface-articles-repository';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CreateCommentsService } from './create-comments-service';
 import { CommentsRepository } from '../../repository/interfaces/interface-comments-repository';
 import { InMemoryComments } from '../../repository/in-memory/in-memory-comments';
 import { InMemoryArticles } from '../../repository/in-memory/in-memory-articles';
-import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-error';
 import { UsersRepository } from '../../repository/interfaces/interface-users-repository';
 import { CategoriesRepository } from '../../repository/interfaces/interface-categories-repository';
 import { ManagementRepository } from '../../repository/interfaces/interface-management-repository';
 import { InMemoryManagement } from '../../repository/in-memory/in-memory-management';
 import { InMemoryCategories } from '../../repository/in-memory/in-memory-categories';
 import { InMemoryUsers } from '../../repository/in-memory/in-memory-users';
+import { GetArticlesCommentsService } from './get-articles-comments';
 
 let commentsRepository: CommentsRepository
 let articlesRepository: ArticlesRepository
@@ -18,7 +17,7 @@ let usersRepository: UsersRepository
 let categoriesRepository: CategoriesRepository
 let managementRepository: ManagementRepository
 
-let sut: CreateCommentsService
+let sut: GetArticlesCommentsService
 
 describe('Create Comments Service', () => {
 
@@ -30,10 +29,15 @@ describe('Create Comments Service', () => {
         articlesRepository = new InMemoryArticles(categoriesRepository, managementRepository)
         commentsRepository = new InMemoryComments(articlesRepository, usersRepository)
 
-        sut = new CreateCommentsService(commentsRepository, articlesRepository)
+        sut = new GetArticlesCommentsService(commentsRepository)
     })
 
-    it('should be able to create a Comment', async () => {
+    it.only('should be able to get Articles Comments', async () => {
+        const user = await usersRepository.register({
+            name: "user", 
+            email: "user@gmail.com",
+            avatar: "",
+        })
         const article = await articlesRepository.create({
             title: "Mundo Mobile",
             subtitle: "",
@@ -42,21 +46,15 @@ describe('Create Comments Service', () => {
             image: '',
             manager_id: "admin-01"
         })
-        const comments  = await sut.handler({
-            text: "gostei do artigo",
-            user_id: '',
-            slug: article.slug
+
+        await commentsRepository.create({
+            text: "asd",
+            user_id: user.id,
+            article_id: article.id
         })
-        expect(comments.id).toEqual(expect.any(String))
-    })
-    it('should be able to create a Comment in Inexistent Article', async () => {
-        await expect(() => 
-        sut.handler({
-            text: "gostei do artigo",
-            user_id: '',
-            slug: 'not-exist'
-        }))
-        .rejects.toBeInstanceOf(ResourceNotFoundError)
+        const comments  = await sut.handler({article_id: article.id})
+        expect(comments?.article.id).toEqual(expect.any(String))
+        expect(comments?.comments.length).toEqual(1)
     })
 
 })

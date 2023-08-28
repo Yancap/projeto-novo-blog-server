@@ -27,6 +27,10 @@ gerando um token único para o ADMIN com assinatura de sua 'hierarchy'
 - [//] Criar um ambiente e um banco de dados para testes com o prisma, para testar
 as rotas de criação de artigos.
 - [x] Criar as rotas restantes de artigos
+- [] Criar o repositorio do prisma para os users, comments e 
+criar a rota para pegar os comentarios do artigo
+- [] Verificar se os dados retornados por cada controller é os
+dados do miragejs
 - [] Criar os testes para as rotas de artigos e os erros personalizados
 
 - [-] O Admin Token deve ser utilizado para as requisições exclusivas do Admin para que assim, nenhuma outra pessoa consigar realizar requisições a essa rota
