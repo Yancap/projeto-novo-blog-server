@@ -9,7 +9,7 @@ import { ManagementRepository } from '../../repository/interfaces/interface-mana
 import { InMemoryManagement } from '../../repository/in-memory/in-memory-management';
 import { InMemoryCategories } from '../../repository/in-memory/in-memory-categories';
 import { InMemoryUsers } from '../../repository/in-memory/in-memory-users';
-import { GetArticlesCommentsService } from './get-articles-comments';
+import { GetArticlesCommentsService } from './get-articles-comments-service';
 
 let commentsRepository: CommentsRepository
 let articlesRepository: ArticlesRepository

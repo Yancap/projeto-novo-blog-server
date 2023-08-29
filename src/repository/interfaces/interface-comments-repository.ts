@@ -8,13 +8,17 @@ export interface CommentsWithUserName {
     user_name: string;
 }
 
-export interface ArticlesCommentsWithUser {
-    comments: CommentsWithUserName[],
+export interface ArticlesCommentsWithUser extends Comments{
     article: {
         id: string;
         slug: string;
         title: string;
-        category: string;
+        category: {
+            category: string;
+        };
+    } | null,
+    user: {
+        name: string;
     }
 }
 
@@ -22,5 +26,6 @@ export interface CommentsRepository {
     create(data: Prisma.CommentsUncheckedCreateInput): Promise<Comments>
     delete(id: string): Promise<Comments>
     findById(id: string): Promise<Comments | null>
-    findByArticleId(article_id: string): Promise<ArticlesCommentsWithUser | null>;
+    findByArticleId(article_id: string): Promise<ArticlesCommentsWithUser[] | null>;
+
 }

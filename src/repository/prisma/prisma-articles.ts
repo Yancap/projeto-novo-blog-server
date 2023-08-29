@@ -85,14 +85,19 @@ export class PrismaArticlesRepository implements ArticlesRepository {
 
     async findById(id: string){
         const article = await prisma.articles.findUnique({
-            where: { id }
+            where: { id },
+            include: {
+                manager: { select: { name: true } },
+                category: { select: { category: true } }
+            }
         }) 
         return article
     }
     
     async findBySlug(slug: string){
         const article = await prisma.articles.findUnique({
-            where: { slug }
+            where: { slug },
+            
         }) 
         return article
     }

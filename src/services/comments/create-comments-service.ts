@@ -7,7 +7,7 @@ import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-err
 
 interface ICreateCommentsService{
     text: string;
-    slug: string;
+    article_id: string;
     user_id: string;
 
 }
@@ -17,12 +17,12 @@ export class CreateCommentsService {
         private commentsRepository: CommentsRepository,
         private articlesRepository: ArticlesRepository
     ) { }
-    async handler({text, user_id, slug}: ICreateCommentsService){
-        const article = await this.articlesRepository.findBySlug(slug)
+    async handler({text, user_id, article_id}: ICreateCommentsService){
+        const article = await this.articlesRepository.findById(article_id)
         if (!article) {
             throw new ResourceNotFoundError()
         }
-        const comment = await this.commentsRepository.create({text, user_id, article_id: article.id})
+        const comment = await this.commentsRepository.create({text, user_id, article_id})
         return comment
     }
 }

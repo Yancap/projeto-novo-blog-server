@@ -2,10 +2,11 @@ import '@fastify/jwt'
 
 declare module '@fastify/jwt' {
     interface FastifyJWT {
-        payload: { hierarchy: string }
+        payload: { hierarchy?: string }
         user: {
             sub: string
-            hierarchy: string
+            hierarchy?: string
+
         }
     }
 }

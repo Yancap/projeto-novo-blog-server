@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { z } from "zod"
-import { makeDeleteArticlesService } from "../../../factory/management/admin/make-delete-articles-services"
 import { ResourceNotFoundError } from "../../../utils/errors/resource-not-found-error"
 import { makeCreateArticlesService } from "../../../factory/articles/make-create-articles-service"
 import { makeCreateTagsService } from "../../../factory/tags/make-create-tag-service"
@@ -23,10 +22,10 @@ export async function articlesDrafts (request: FastifyRequest, reply: FastifyRep
             state: z.string(),
             category: z.string(),
         }),
-        tags: z.optional(z.array(
+        tags: z.nullable(z.array(
             z.object({ name: z.string()})
         )),
-        credits: z.optional(z.array(
+        credits: z.nullable(z.array(
             z.object({ name: z.string(), link: z.string() })
         ))
     })
@@ -70,38 +69,38 @@ export async function articlesDrafts (request: FastifyRequest, reply: FastifyRep
     }
 
     const createArticlesService = makeCreateArticlesService()
+    console.log(article);
+    
     try {
-        if(article.title && article.subtitle && article.text && article.image){
-            const articleCreated = await createArticlesService.handler({
-                ...article,
-                title: article.text,
-                subtitle: article.subtitle,
-                text: article.text,
-                image: article.image,
-                manager_id: sub
-            })
-            if(credits){
-                credits.forEach( async credit => await createCreditsService.handler({
-                    article_id: articleCreated.id,
-                    name: credit.name,
-                    link: credit.link
-                }))
-            }
-            
-            if(tags){
-                const tagsCreated = tags.map( async tag => await createTagsService.handler({ 
-                    name: tag.name 
-                }))
-                
-                tagsCreated.map( async tag => await createArticlesTagsService.handler({ 
-                    tag_id: (await tag).id,
-                    article_id:  articleCreated.id
-                }))
-            }
-            
-            return reply.status(200).send({message: "success", article: articleCreated}) 
+        const articleCreated = await createArticlesService.handler({
+            ...article,
+            title: article.title ?? "",
+            subtitle: article.subtitle ?? "",
+            text: article.text ?? "",
+            image: article.image ?? "",
+            manager_id: sub
+        })
+        if(credits){
+            credits.forEach( async credit => await createCreditsService.handler({
+                article_id: articleCreated.id,
+                name: credit.name,
+                link: credit.link
+            }))
         }
-        return reply.status(404).send({message: "No Params"})
+        
+        if(tags){
+            const tagsCreated = tags.map( async tag => await createTagsService.handler({ 
+                name: tag.name 
+            }))
+            
+            tagsCreated.map( async tag => await createArticlesTagsService.handler({ 
+                tag_id: (await tag).id,
+                article_id:  articleCreated.id
+            }))
+        }
+        
+        return reply.status(200).send({ article: articleCreated }) 
+        
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {
             return reply.status(404).send({message: error.message})
