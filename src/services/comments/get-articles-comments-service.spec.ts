@@ -1,4 +1,4 @@
-import { ArticlesRepository } from './../../repository/interfaces/interface-articles-repository';
+import { ArticlesRepository } from '../../repository/interfaces/interface-articles-repository';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { CommentsRepository } from '../../repository/interfaces/interface-comments-repository';
 import { InMemoryComments } from '../../repository/in-memory/in-memory-comments';

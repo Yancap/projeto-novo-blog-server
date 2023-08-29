@@ -10,16 +10,11 @@ interface IDeleteCommentsService{
 
 export class DeleteCommentsService {
     constructor(
-        private commentsRepository: CommentsRepository,
-        private articlesRepository: ArticlesRepository
+        private commentsRepository: CommentsRepository
     ) { }
     async handler({comment_id, article_id}: IDeleteCommentsService){
-        const article = await this.articlesRepository.findById(article_id)
-        if (!article) {
-            throw new ResourceNotFoundError()
-        }
 
-        const otherComments = await this.commentsRepository.delete(comment_id)
+        const otherComments = await this.commentsRepository.delete({id: comment_id, article_id})
         const isDelete = otherComments.id === comment_id
         if (!isDelete) {
             return false

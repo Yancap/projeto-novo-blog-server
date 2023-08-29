@@ -4,7 +4,7 @@ import { randomUUID } from "crypto"
 import { ResourceNotFoundError } from "../../utils/errors/resource-not-found-error"
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
 import { ForbiddenOperationError } from "../../utils/errors/forbidden-operation-error"
-import { CommentsRepository } from "../interfaces/interface-comments-repository"
+import { CommentsRepository, DeleteComments } from "../interfaces/interface-comments-repository"
 
 export class PrismaCommentsRepository implements CommentsRepository {
     async create(data: Prisma.CommentsUncheckedCreateInput){
@@ -13,9 +13,9 @@ export class PrismaCommentsRepository implements CommentsRepository {
         })
         return comments
     }
-    async delete(id: string){
+    async delete({id, article_id}: DeleteComments){
         try{
-            const comments = await prisma.comments.delete({ where: { id } })
+            const comments = await prisma.comments.delete({ where: { id, article_id } })
             return comments
         }
         catch (error){
@@ -49,10 +49,9 @@ export class PrismaCommentsRepository implements CommentsRepository {
                 },
                 user: { select: { name: true }},
                 
-            }
-            }) 
+            }}) 
             return comment  
-        } catch {
+        } catch(error) {
             return null
         }
         

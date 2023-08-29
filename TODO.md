@@ -27,8 +27,9 @@ gerando um token único para o ADMIN com assinatura de sua 'hierarchy'
 - [//] Criar um ambiente e um banco de dados para testes com o prisma, para testar
 as rotas de criação de artigos.
 - [x] Criar as rotas restantes de artigos
-- [] Criar o repositorio do prisma para os users, comments e 
+- [x] Criar o repositorio do prisma para os users, comments e 
 criar a rota para pegar os comentarios do artigo
+- [] Padronizar as respostas de error dos controller para { error: "tipoDoError", message: "mesagem"}
 - [] Verificar se os dados retornados por cada controller é os
 dados do miragejs
 - [] Criar os testes para as rotas de artigos e os erros personalizados

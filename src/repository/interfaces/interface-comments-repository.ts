@@ -22,9 +22,14 @@ export interface ArticlesCommentsWithUser extends Comments{
     }
 }
 
+export interface DeleteComments{
+    id: string
+    article_id: string
+}
+
 export interface CommentsRepository {
     create(data: Prisma.CommentsUncheckedCreateInput): Promise<Comments>
-    delete(id: string): Promise<Comments>
+    delete({id, article_id}: DeleteComments): Promise<Comments>
     findById(id: string): Promise<Comments | null>
     findByArticleId(article_id: string): Promise<ArticlesCommentsWithUser[] | null>;
 

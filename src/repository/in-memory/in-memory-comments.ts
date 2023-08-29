@@ -1,7 +1,7 @@
 import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-error';
 import { ArticlesRepository } from '../interfaces/interface-articles-repository';
 import { UsersRepository } from '../interfaces/interface-users-repository';
-import { CommentsRepository, CommentsWithUserName } from './../interfaces/interface-comments-repository';
+import { CommentsRepository, CommentsWithUserName, DeleteComments } from './../interfaces/interface-comments-repository';
 import {  Prisma, Comments } from '@prisma/client';
 
 
@@ -22,7 +22,7 @@ export class InMemoryComments implements CommentsRepository {
         this.items.push(comments)
         return comments
     }
-    async delete(id: string){
+    async delete({id, article_id}: DeleteComments){
         const comment = await this.findById(id)
         if (!comment) {
             throw new ResourceNotFoundError()
