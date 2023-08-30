@@ -8,14 +8,21 @@ export async function articlesGet (request: FastifyRequest, reply: FastifyReply)
     //Adicionar as Tags, sua relação e os créditos
     
     const registerBodySchema = z.object({
-        id: z.string()
+        id: z.optional(z.string()),
+        slug: z.optional(z.string()),
     })
 
-    const { id } = registerBodySchema.parse(request.body)
+    const { id, slug } = registerBodySchema.parse(request.body)
     const getArticlesService = makeGetArticleService()
     try {
-        const article = await getArticlesService.handler({ article_id: id })
-        return reply.status(200).send({ article })    
+        if (id) {
+            const article = await getArticlesService.handler({ article_id: id })
+            return reply.status(200).send({ article })    
+        } else if (slug) {
+            const article = await getArticlesService.handler({ slug: slug })
+            return reply.status(200).send({ article }) 
+        }
+        return reply.status(404).send({message: "ID or Slug parameters are missing"})
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {
             return reply.status(404).send({message: error.message})

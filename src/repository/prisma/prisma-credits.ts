@@ -11,6 +11,7 @@ export class PrismaCreditsRepository implements CreditsRepository {
     async findCreditsByArticleId(article_id: string) {
         const credits = await prisma.credits.findMany({
             where: { article_id },
+            select: { name: true, link: true }
         })
         return credits
     }

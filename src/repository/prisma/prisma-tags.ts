@@ -18,7 +18,8 @@ export class PrismaTagsRepository implements TagsRepository {
     async findById(id: string) {
         const tags = await prisma.tags.findUnique({
             where: { id },
+            select: { tag: true },
         })
-        return tags
+        return { name: tags?.tag}
     }
 }
