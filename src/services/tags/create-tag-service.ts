@@ -13,7 +13,7 @@ export class CreateTagService {
         const tagName = name.toLowerCase()
         let tag = await this.tagsRepository.findByName(tagName)
         if (tag) {
-            return tag
+            return null
         }
 
         tag = await this.tagsRepository.create({

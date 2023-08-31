@@ -53,11 +53,15 @@ export async function articlesDrafts (request: FastifyRequest, reply: FastifyRep
                 const tagsCreated = tags.map( async tag => await createTagsService.handler({ 
                     name: tag.name 
                 }))
-                
-                tagsCreated.map( async tag => await createArticlesTagsService.handler({ 
-                    tag_id: (await tag).id,
-                    article_id:  articleUpdated.id
-                }))
+                tagsCreated.map( async tag => {
+                    const tg = await tag
+                    if(tg) {
+                        await createArticlesTagsService.handler({ 
+                            tag_id: tg.id,
+                            article_id:  articleUpdated.id
+                         })
+                    }
+                })
             }   
             return reply.status(200).send({ article: articleUpdated })    
         } catch (error) {
@@ -69,7 +73,6 @@ export async function articlesDrafts (request: FastifyRequest, reply: FastifyRep
     }
 
     const createArticlesService = makeCreateArticlesService()
-    console.log(article);
     
     try {
         const articleCreated = await createArticlesService.handler({
@@ -93,10 +96,15 @@ export async function articlesDrafts (request: FastifyRequest, reply: FastifyRep
                 name: tag.name 
             }))
             
-            tagsCreated.map( async tag => await createArticlesTagsService.handler({ 
-                tag_id: (await tag).id,
-                article_id:  articleCreated.id
-            }))
+            tagsCreated.map( async tag => {
+                const tg = await tag
+                if(tg) {
+                    await createArticlesTagsService.handler({ 
+                        tag_id: tg.id,
+                        article_id:  articleCreated.id
+                     })
+                }
+            })
         }
         
         return reply.status(200).send({ article: articleCreated }) 

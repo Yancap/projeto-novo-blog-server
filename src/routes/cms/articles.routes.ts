@@ -18,10 +18,10 @@ export async function articlesRoutes(app: FastifyInstance) {
     app.get('/', {onRequest: [verifyJWT]}, articlesShowByManagerId) // Certo
     app.post('/get', articlesGet) // Certo
     app.post('/', {onRequest: [verifyJWT]}, articlesCreate) // Certo
-    app.put('', {onRequest: [verifyJWT]}, articlesUpdate) // Certo
+    app.put('/', {onRequest: [verifyJWT]}, articlesUpdate) // Certo
     app.patch('/', {onRequest: [verifyJWT]}, articlesDrafts) // att a rota
     app.patch('/deactive', {onRequest: [verifyJWT]}, articlesDeactive) // Certo
     app.patch('/active', {onRequest: [verifyJWT]}, articlesActive) // Certo
-    app.delete('', {onRequest: [verifyJWT]}, articlesDelete) // Certo
+    app.delete('/', {onRequest: [verifyJWT]}, articlesDelete) // Cert
     
 }

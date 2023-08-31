@@ -5,7 +5,9 @@ import fastifyJwt from "@fastify/jwt";
 import { env } from "./env";
 import cors from "@fastify/cors";
 
-export const app = fastify();
+export const app = fastify({
+    bodyLimit: 8048576 
+});
 
 app.register(fastifyJwt, {
     secret: env.JWT_SECRET

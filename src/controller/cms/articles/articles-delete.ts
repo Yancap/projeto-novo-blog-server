@@ -1,12 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { z } from "zod"
-import { makeDeleteArticlesService } from "../../../factory/management/admin/make-delete-articles-services"
 import { ResourceNotFoundError } from "../../../utils/errors/resource-not-found-error"
-import { makeCreateArticlesService } from "../../../factory/articles/make-create-articles-service"
-import { makeCreateTagsService } from "../../../factory/tags/make-create-tag-service"
-import { makeCreateArticlesTagsSService } from "../../../factory/articles-tags/make-create-articles-tags-service"
-import { makeCreateCreditsService } from "../../../factory/credits/make-create-credits-service"
-import { makeUpdateArticlesService } from "../../../factory/articles/make-update-articles-service"
 import { makeDeleteArticleService } from "../../../factory/articles/make-delete-articles-service"
 import { JWTVerifyReturn } from "./jwt"
 
@@ -19,7 +13,6 @@ export async function articlesDelete (request: FastifyRequest, reply: FastifyRep
     })
     const {sub}: JWTVerifyReturn = await request.jwtVerify()
     const {id} = registerBodySchema.parse(request.body)
-    console.log(id);
     
     const deleteArticlesService = makeDeleteArticleService()
     try {
