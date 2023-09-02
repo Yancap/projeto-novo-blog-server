@@ -6,13 +6,13 @@ import { ResourceNotFoundError } from "../../../utils/errors/resource-not-found-
 
 export async function adminDeleteArticles (request: FastifyRequest, reply: FastifyReply) {
     const registerBodySchema = z.object({
-        id: z.string()
+        article_id: z.string()
     })
-    const {id} = registerBodySchema.parse(request.body)
+    const {article_id} = registerBodySchema.parse(request.body)
     
     const deleteAdminArticlesService = makeAdminDeleteArticlesService()
     try {
-        await deleteAdminArticlesService.handler({ article_id: id })
+        await deleteAdminArticlesService.handler({ article_id })
         return reply.status(200).send({message: "success" })    
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {

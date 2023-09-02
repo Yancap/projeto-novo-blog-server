@@ -51,10 +51,15 @@ export async function articlesCreate (request: FastifyRequest, reply: FastifyRep
             name: tag.name 
         }))
         
-        tagsCreated.map( async tag => await createArticlesTagsService.handler({ 
-            tag_id: (await tag).id,
-            article_id:  articleCreated.id
-        }))
+        tagsCreated.map( async tag => {
+            const tagAsync = await tag
+            if(tagAsync) {
+                await createArticlesTagsService.handler({ 
+                    tag_id: tagAsync.id,
+                    article_id:  articleCreated.id
+                })
+            }
+        })
 
         return reply.status(200).send({article: articleCreated}) 
         
