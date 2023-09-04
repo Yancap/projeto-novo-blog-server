@@ -25,7 +25,7 @@ export class CreateArticleService {
     ) { }
     async handler(data: ICreateArticleService){
 
-        let articleCategory = await this.categoriesRepository.findCategory(data.category.toLowerCase())
+        let articleCategory = await this.categoriesRepository.findCategory(data.category       )
         if (!articleCategory) {
             articleCategory = await this.categoriesRepository.create({
                 category: data.category.toLowerCase()
