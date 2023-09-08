@@ -19,6 +19,7 @@ export interface ArticlesCommentsWithUser extends Comments{
     } | null,
     user: {
         name: string;
+        email: string
     }
 }
 

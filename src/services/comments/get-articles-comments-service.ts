@@ -34,6 +34,7 @@ export class GetArticlesCommentsService {
                         text: comment.text,
                         created_at: comment.created_at,
                         user_name: comment.user.name,
+                        user_email: comment.user.email
                     }
                 })
                 return {

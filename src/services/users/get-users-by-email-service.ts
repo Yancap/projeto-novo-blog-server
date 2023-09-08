@@ -2,22 +2,18 @@ import { hash } from "bcryptjs"
 import { EmailAlreadyExistsError } from "../../utils/errors/email-already-exists-error";
 import { UsersRepository } from "../../repository/interfaces/interface-users-repository";
 
-interface IRegisterUsersService{
-    name: string;
+interface IGetUsersByEmailService{
     email: string;
-    avatar: string;
 }
 
-export class RegisterUsersService {
+export class GetUsersByEmailService {
     constructor(private usersRepository: UsersRepository) { }
-    async handler({name, email, avatar}: IRegisterUsersService){
-
+    async handler({ email }: IGetUsersByEmailService){
         const userWithSomeEmail = await this.usersRepository.findByEmail(email)
         if(userWithSomeEmail){
            return userWithSomeEmail
         }
-        const user = this.usersRepository.register({name, email, avatar})
-        return user
+        return null
         
     }
 }

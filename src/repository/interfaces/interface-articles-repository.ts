@@ -7,13 +7,24 @@ export interface articleIdAndManagerIdProps{
 
 export interface ShowAllArticles extends Articles {
     manager: {
-        name: string
-    },
+        name: string;
+        avatar?: string;
+    } | null,
     category: {
         category: string
     }
 }
-
+export interface FindArticlesBySlug extends ShowAllArticles {
+    credits: {
+        name: string;
+        link: string;
+    }[],
+    articleTags: {
+        tag: {
+            tag: string;
+        };
+    }[];
+}
 export interface ArticlesRepository {
     create(data: Prisma.ArticlesUncheckedCreateInput): Promise<Articles>
     delete({article_id, manager_id}: articleIdAndManagerIdProps): Promise<Articles>
@@ -22,6 +33,6 @@ export interface ArticlesRepository {
     showAll(): Promise<ShowAllArticles[] | null>
     showAllByManagerId(manager_id: string): Promise<Articles[]>
     findById(id: string): Promise<ShowAllArticles | null>
-    findBySlug(slug: string): Promise<Articles | null>
+    findBySlug(slug: string): Promise<FindArticlesBySlug | null>
     findByArticleIdAndManagerId({article_id, manager_id}: articleIdAndManagerIdProps): Promise<Articles | null>
 }

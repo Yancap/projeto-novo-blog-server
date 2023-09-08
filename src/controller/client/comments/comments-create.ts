@@ -7,15 +7,15 @@ import { JWTVerifyReturn } from "../../cms/articles/jwt"
 
 export async function commentsCreate (request: FastifyRequest, reply: FastifyReply) {
     const registerBodySchema = z.object({
-        article_id: z.string(),
+        slug: z.string(),
         text: z.string()
     })
-    const { article_id, text } = registerBodySchema.parse(request.body)
+    const { slug, text } = registerBodySchema.parse(request.body)
     const createCommentsService = makeCreateCommentsService()
     const {sub}: JWTVerifyReturn = await request.jwtVerify()
 
     try {
-        const comments = await createCommentsService.handler({article_id, user_id: sub, text})
+        const comments = await createCommentsService.handler({slug, user_id: sub, text})
         return reply.status(200).send({comments})    
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {

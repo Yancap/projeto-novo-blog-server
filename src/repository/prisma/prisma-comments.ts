@@ -47,7 +47,7 @@ export class PrismaCommentsRepository implements CommentsRepository {
                       category: { select: { category: true } } 
                     }
                 },
-                user: { select: { name: true }},
+                user: { select: { name: true, email: true }},
                 
             }}) 
             return comment  
