@@ -29,9 +29,10 @@ as rotas de criação de artigos.
 - [x] Criar as rotas restantes de artigos
 - [x] Criar o repositorio do prisma para os users, comments e 
 criar a rota para pegar os comentarios do artigo
-- [] Padronizar as respostas de error dos controller para { error: "tipoDoError", message: "mesagem"}
-- [] Verificar se os dados retornados por cada controller é os
+- [x] Verificar se os dados retornados por cada controller é os
 dados do miragejs
+- [] Padronizar as respostas de error dos controller para { error: "tipoDoError", message: "mesagem"}
+
 - [] Criar os testes para as rotas de artigos e os erros personalizados
 
 - [-] O Admin Token deve ser utilizado para as requisições exclusivas do Admin para que assim, nenhuma outra pessoa consigar realizar requisições a essa rota

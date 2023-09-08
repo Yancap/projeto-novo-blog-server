@@ -28,6 +28,17 @@ export class PrismaArticlesRepository implements ArticlesRepository {
         })
         return articles
     }
+    async showAllForClients(){
+        const articles = await prisma.articles.findMany({
+            include: {
+                manager: { select: { name: true, avatar: true } },
+                category: { select: { category: true } },
+                credits: { select: { name: true, link: true }},
+                articleTags: { select: { tag: { select: { tag: true } } } }
+            }
+        })
+        return articles
+    }
     async showAllByManagerId(manager_id: string){
         return await prisma.articles.findMany({ where: { manager_id } })
     }
@@ -106,7 +117,18 @@ export class PrismaArticlesRepository implements ArticlesRepository {
         }) 
         return article
     }
-
+    async findByCategory(category: string){
+        const articles = await prisma.articles.findMany({
+            where: { category: { category } },
+            include: {
+                manager: { select: { name: true, avatar: true } },
+                category: { select: { category: true } },
+                credits: { select: { name: true, link: true }},
+                articleTags: { select: { tag: { select: { tag: true } } } }
+            }
+        }) 
+        return articles
+    }
     async findByArticleIdAndManagerId({article_id, manager_id}: articleIdAndManagerIdProps){
         const article = await prisma.articles.findUnique({
             where: { id: article_id, manager_id}
