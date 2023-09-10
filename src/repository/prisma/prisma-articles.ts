@@ -30,6 +30,9 @@ export class PrismaArticlesRepository implements ArticlesRepository {
     }
     async showAllForClients(){
         const articles = await prisma.articles.findMany({
+            where: {
+                state: "active"
+            },
             include: {
                 manager: { select: { name: true, avatar: true } },
                 category: { select: { category: true } },
