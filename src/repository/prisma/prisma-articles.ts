@@ -8,7 +8,9 @@ import { ForbiddenOperationError } from "../../utils/errors/forbidden-operation-
 
 export class PrismaArticlesRepository implements ArticlesRepository {
     async create(data: Prisma.ArticlesUncheckedCreateInput){
-        const slug = data.title.toLowerCase().replace(/\s+/g, '-') + 
+        const slug = data.title.toLowerCase()
+        .replace(/[^\w\s]/g, '')
+        .replace(/\s+/g, '-') + 
         '-' + (randomUUID()).substring(0,6)
         
         const articles = await prisma.articles.create({ 
@@ -77,8 +79,10 @@ export class PrismaArticlesRepository implements ArticlesRepository {
     async update(data: Prisma.ArticlesUncheckedCreateInput){
         let slug: string | null = null
         if (data.title && typeof data.title === 'string') {
-            slug = data.title.toLowerCase().replace(/\s+/g, '-') + 
-            '-' + (randomUUID()).substring(0,6) 
+            const slug = data.title.toLowerCase()
+            .replace(/[^\w\s]/g, '')
+            .replace(/\s+/g, '-') + 
+            '-' + (randomUUID()).substring(0,6)
         }
         if (data.id && data.manager_id) {
             const articles = await prisma.articles.update({ 
