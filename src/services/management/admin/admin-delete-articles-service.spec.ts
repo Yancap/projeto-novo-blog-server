@@ -5,16 +5,20 @@ import { InMemoryManagement } from '../../../repository/in-memory/in-memory-mana
 import { AdminDeleteArticlesService } from './admin-delete-articles-service';
 import { InMemoryArticles } from '../../../repository/in-memory/in-memory-articles';
 import { OnlyAdminError } from '../../../utils/errors/only-admin-error';
+import { InMemoryCategories } from '../../../repository/in-memory/in-memory-categories';
+import { CategoriesRepository } from '../../../repository/interfaces/interface-categories-repository';
 
 let managementRepository: ManagementRepository
 let articlesRepository: ArticlesRepository
+let categoriesRepository: CategoriesRepository
 let sut: AdminDeleteArticlesService
 
 describe('Admin Delete Articles Service', () => {
 
     beforeEach(()=>{
         managementRepository = new InMemoryManagement()
-        articlesRepository = new InMemoryArticles()
+        categoriesRepository = new InMemoryCategories()
+        articlesRepository = new InMemoryArticles({categoriesRepository, managementRepository})
         sut = new AdminDeleteArticlesService(articlesRepository)
     })
 
@@ -23,6 +27,7 @@ describe('Admin Delete Articles Service', () => {
 
         const article = await articlesRepository.create({
             title: "Mundo Mobile",
+            image: "",
             subtitle: "",
             text: "Texto sobre o artigo",
             category_id: "category-01",

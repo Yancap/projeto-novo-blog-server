@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { DeleteAuthorsService } from './delete-authors-service';
 import { ManagementRepository } from '../../../repository/interfaces/interface-management-repository';
 import { InMemoryManagement } from '../../../repository/in-memory/in-memory-management';
-import { OnlyAdminError } from '../../../utils/errors/only-admin-error';
 
 let managementRepository: ManagementRepository
 let sut: DeleteAuthorsService

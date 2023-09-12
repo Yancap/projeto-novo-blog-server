@@ -31,8 +31,14 @@ as rotas de criação de artigos.
 criar a rota para pegar os comentarios do artigo
 - [x] Verificar se os dados retornados por cada controller é os
 dados do miragejs
-- [] Padronizar as respostas de error dos controller para { error: "tipoDoError", message: "mesagem"}
 
-- [] Criar os testes para as rotas de artigos e os erros personalizados
+### refatorar o repository memory e logo en seguida recriar os testes unitários de cada parte, seguindo a ordem do banco de dados
+## Padronizar as respostas de error dos controller para { error: "tipoDoError", message: "mesagem"}
+
+- [x] Management InMemory Repository --- [] Testes Unitários --- [] Errors
+- [] Categories InMemory Repository --- [] Testes Unitários --- [] Errors
+
+// Continuar a refatoração do Articles, adicionando a funcionalidade SelectArticlesTags do ArticleTags repository e fazer o ArticleTags Repository receber o Tags Repository como construtor
+
 
 - [-] O Admin Token deve ser utilizado para as requisições exclusivas do Admin para que assim, nenhuma outra pessoa consigar realizar requisições a essa rota

@@ -1,19 +1,36 @@
-import { ArticlesRepository, ShowAllArticles, articleIdAndManagerIdProps } from '../interfaces/interface-articles-repository';
-import {  Articles, Prisma } from '@prisma/client';
+import { ArticlesRepository, FindArticlesBySlug, ShowAllArticles, articleIdAndManagerIdProps } from '../interfaces/interface-articles-repository';
+import { Articles, Prisma, Management } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-error';
 import { ForbiddenOperationError } from '../../utils/errors/forbidden-operation-error';
 import { CategoriesRepository } from '../interfaces/interface-categories-repository';
 import { ManagementRepository } from '../interfaces/interface-management-repository';
+import { CreditsRepository } from '../interfaces/interface-credits-repository';
+import { ArticlesTagsRepository } from '../interfaces/interface-articles-tags-repository';
 
+interface ConstructorRepository {
+    categoriesRepository: CategoriesRepository;
+    managementRepository: ManagementRepository;
+    creditsRepository: CreditsRepository;
+    articlesTagsRepository: ArticlesTagsRepository;
+
+}
 
 export class InMemoryArticles implements ArticlesRepository {
     public items: Articles[] = []
-    
+    private inMemoryCategories: CategoriesRepository;
+    private inMemoryManagement: ManagementRepository;
+    private inMemoryCredits: CreditsRepository;
+    private InMemoryArticleTags: ArticlesTagsRepository;
     constructor (
-        private inMemoryCategories: CategoriesRepository,
-        private inMemoryManagement: ManagementRepository
-    ) {}
+        {categoriesRepository, managementRepository, creditsRepository, articlesTagsRepository}: ConstructorRepository
+    ) {
+        this.inMemoryCategories = categoriesRepository;
+        this.inMemoryManagement = managementRepository;
+        this.InMemoryArticleTags = articlesTagsRepository;
+        this.inMemoryCredits = creditsRepository;
+    
+    }
     async create(data: Prisma.ArticlesUncheckedCreateInput) {
         const slug = data.title.toLowerCase().replace(' ', '-') + 
         '-' + (randomUUID()).substring(0,6)
@@ -108,12 +125,34 @@ export class InMemoryArticles implements ArticlesRepository {
         return null
     }
 
-    async findBySlug(slug: string){
+    async findBySlug(slug: string): Promise<FindArticlesBySlug | null>{
         const article = this.items.find(articles => articles.slug === slug)
         if (!article) {
             return null
         }
-        return article
+        const manager = await this.inMemoryManagement.findById(article.manager_id as string)
+        const category = await this.inMemoryCategories.findById(article.category_id)
+        const articlesTags = await this.InMemoryArticleTags.
+        const category = await this.inMemoryCategories.findById(article.category_id)
+        if(!manager || !category) {
+            return null
+        }
+        return {
+            ...article,
+            category: {
+                category: category.category
+            },
+            articleTags: [
+                { tag: { tag: "" }}
+            ],
+            credits: [
+                {link: "", name: ""}
+            ],
+            manager: {
+                name: manager.name,
+                avatar: manager.avatar
+            }
+        }
     }
 
     async findByArticleIdAndManagerId({article_id, manager_id}: articleIdAndManagerIdProps){
