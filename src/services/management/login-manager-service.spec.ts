@@ -1,21 +1,20 @@
-import { ManagementRepository } from '../../repository/interfaces/interface-management-repository';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { InMemoryManagement } from '../../repository/in-memory/in-memory-management';
 import { hash } from 'bcryptjs';
 import { LoginManagerService } from './login-manager-service';
 import { InvalidCredentialsError } from '../../utils/errors/invalid-credentials-error';
+import { DatabaseMemory, InMemoryDatabase } from '../../repository/in-memory/in-memory-database';
 
-let managementRepository: ManagementRepository
+let database: DatabaseMemory;
 let sut: LoginManagerService
 
 describe('Login Management Service', () => {
 
     beforeEach(async ()=>{
-        managementRepository = new InMemoryManagement()
-        sut = new LoginManagerService(managementRepository)
+        database = new InMemoryDatabase()
+        sut = new LoginManagerService(database.management)
 
         const password_hash = await hash("123456", 6)
-        managementRepository.register({
+        database.management.register({
             name: "Yan Gabriel", 
             email: "yan@email.com", 
             password: password_hash

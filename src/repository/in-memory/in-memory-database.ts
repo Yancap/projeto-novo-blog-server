@@ -11,7 +11,16 @@ import { InMemoryCredits } from "./in-memory-credits";
 import { InMemoryManagement } from "./in-memory-management";
 import { InMemoryTags } from "./in-memory-tags";
 
-class InMemoryDatabase {
+export interface DatabaseMemory {
+    categories: CategoriesRepository;
+    management: ManagementRepository;
+    articles: ArticlesRepository;
+    tags: TagsRepository;
+    credits: CreditsRepository;
+    articlesTags: ArticlesTagsRepository;
+}
+
+export class InMemoryDatabase {
     public categories: CategoriesRepository;
     public management: ManagementRepository;
     public articles: ArticlesRepository;

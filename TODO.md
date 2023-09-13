@@ -35,8 +35,9 @@ dados do miragejs
 ### refatorar o repository memory e logo en seguida recriar os testes unitários de cada parte, seguindo a ordem do banco de dados
 ## Padronizar as respostas de error dos controller para { error: "tipoDoError", message: "mesagem"}
 
-- [x] Management InMemory Repository --- [] Testes Unitários --- [] Errors
-- [x] Categories InMemory Repository --- [] Testes Unitários --- [] Errors
+- [x] Management InMemory Repository --- [x] Testes Unitários --- [] Errors
+- [x] Admin Testes Unitários --- [] Errors
+- [x] Categories InMemory Repository --- [x] Testes Unitários --- [] Errors
 - [x] Articles InMemory Repository --- [] Testes Unitários --- [] Errors
 - [x] ArticlesTags InMemory Repository --- [] Testes Unitários --- [] Errors
 - [x] Tags InMemory Repository --- [] Testes Unitários --- [] Errors
@@ -45,6 +46,6 @@ dados do miragejs
 - [] Comments InMemory Repository --- [] Testes Unitários --- [] Errors
 - [] Users InMemory Repository --- [] Testes Unitários --- [] Errors
 
-- [] Usar o in memory database para os testes unitários
+# TESTES UNITÁRIOS DO ARTICLES #
 
 - [-] O Admin Token deve ser utilizado para as requisições exclusivas do Admin para que assim, nenhuma outra pessoa consigar realizar requisições a essa rota

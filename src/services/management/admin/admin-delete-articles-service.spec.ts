@@ -7,25 +7,24 @@ import { InMemoryArticles } from '../../../repository/in-memory/in-memory-articl
 import { OnlyAdminError } from '../../../utils/errors/only-admin-error';
 import { InMemoryCategories } from '../../../repository/in-memory/in-memory-categories';
 import { CategoriesRepository } from '../../../repository/interfaces/interface-categories-repository';
+import { DatabaseMemory, InMemoryDatabase } from '../../../repository/in-memory/in-memory-database';
 
-let managementRepository: ManagementRepository
-let articlesRepository: ArticlesRepository
-let categoriesRepository: CategoriesRepository
+let database: DatabaseMemory
 let sut: AdminDeleteArticlesService
 
 describe('Admin Delete Articles Service', () => {
 
     beforeEach(()=>{
-        managementRepository = new InMemoryManagement()
-        categoriesRepository = new InMemoryCategories()
-        articlesRepository = new InMemoryArticles({categoriesRepository, managementRepository})
-        sut = new AdminDeleteArticlesService(articlesRepository)
+        database = new InMemoryDatabase()
+        sut = new AdminDeleteArticlesService(database.articles)
     })
 
     it('should be able to delete a Article', async () => {
-        
-
-        const article = await articlesRepository.create({
+        await database.categories.create({
+            category: "front-end",
+            id: "category-01"
+        })
+        const article = await database.articles.create({
             title: "Mundo Mobile",
             image: "",
             subtitle: "",
@@ -34,9 +33,8 @@ describe('Admin Delete Articles Service', () => {
             manager_id: "manager-01"
         })
         const isDelete = await sut.handler({article_id: article.id})
-
         expect(isDelete).toEqual(true)
     })
-
+    
     
 })
