@@ -36,9 +36,15 @@ dados do miragejs
 ## Padronizar as respostas de error dos controller para { error: "tipoDoError", message: "mesagem"}
 
 - [x] Management InMemory Repository --- [] Testes Unitários --- [] Errors
-- [] Categories InMemory Repository --- [] Testes Unitários --- [] Errors
+- [x] Categories InMemory Repository --- [] Testes Unitários --- [] Errors
+- [x] Articles InMemory Repository --- [] Testes Unitários --- [] Errors
+- [x] ArticlesTags InMemory Repository --- [] Testes Unitários --- [] Errors
+- [x] Tags InMemory Repository --- [] Testes Unitários --- [] Errors
+- [x] Credits InMemory Repository --- [] Testes Unitários --- [] Errors
 
-// Continuar a refatoração do Articles, adicionando a funcionalidade SelectArticlesTags do ArticleTags repository e fazer o ArticleTags Repository receber o Tags Repository como construtor
+- [] Comments InMemory Repository --- [] Testes Unitários --- [] Errors
+- [] Users InMemory Repository --- [] Testes Unitários --- [] Errors
 
+- [] Usar o in memory database para os testes unitários
 
 - [-] O Admin Token deve ser utilizado para as requisições exclusivas do Admin para que assim, nenhuma outra pessoa consigar realizar requisições a essa rota

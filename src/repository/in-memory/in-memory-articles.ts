@@ -18,23 +18,25 @@ interface ConstructorRepository {
 
 export class InMemoryArticles implements ArticlesRepository {
     public items: Articles[] = []
-    private inMemoryCategories: CategoriesRepository;
-    private inMemoryManagement: ManagementRepository;
-    private inMemoryCredits: CreditsRepository;
-    private InMemoryArticleTags: ArticlesTagsRepository;
+    private categories: CategoriesRepository;
+    private management: ManagementRepository;
+    private credits: CreditsRepository;
+    private articlesTags: ArticlesTagsRepository;
     constructor (
         {categoriesRepository, managementRepository, creditsRepository, articlesTagsRepository}: ConstructorRepository
     ) {
-        this.inMemoryCategories = categoriesRepository;
-        this.inMemoryManagement = managementRepository;
-        this.InMemoryArticleTags = articlesTagsRepository;
-        this.inMemoryCredits = creditsRepository;
+        this.categories = categoriesRepository;
+        this.management = managementRepository;
+        this.articlesTags = articlesTagsRepository;
+        this.credits = creditsRepository;
     
     }
     async create(data: Prisma.ArticlesUncheckedCreateInput) {
         const slug = data.title.toLowerCase().replace(' ', '-') + 
         '-' + (randomUUID()).substring(0,6)
-        
+
+        if(!data.manager_id) throw new Error()
+
         const article: Articles = {
             id: data.id ?? 'article-01',
             title: data.title,
@@ -52,8 +54,8 @@ export class InMemoryArticles implements ArticlesRepository {
         return article
     }
     async showAll(){
-        const categories = await this.inMemoryCategories.getAllCategories()
-        const authors = await this.inMemoryManagement.findAuthors()
+        const categories = await this.categories.getAllCategories()
+        const authors = await this.management.findAuthors()
         if (categories && authors) {
             const articles: ShowAllArticles[] = this.items.map(article => {
                 let articles: any = {}
@@ -103,8 +105,8 @@ export class InMemoryArticles implements ArticlesRepository {
         
     }
     async findById(id: string){
-        const categories = await this.inMemoryCategories.getAllCategories()
-        const authors = await this.inMemoryManagement.findAuthors()
+        const categories = await this.categories.getAllCategories()
+        const authors = await this.management.findAuthors()
         const article = this.items.find(article => article.id === id)
 
         if (categories && authors && article) {
@@ -125,15 +127,15 @@ export class InMemoryArticles implements ArticlesRepository {
         return null
     }
 
-    async findBySlug(slug: string): Promise<FindArticlesBySlug | null>{
+    async findBySlug(slug: string){
         const article = this.items.find(articles => articles.slug === slug)
         if (!article) {
             return null
         }
-        const manager = await this.inMemoryManagement.findById(article.manager_id as string)
-        const category = await this.inMemoryCategories.findById(article.category_id)
-        const articlesTags = await this.InMemoryArticleTags.
-        const category = await this.inMemoryCategories.findById(article.category_id)
+        const manager = await this.management.findById(article.manager_id as string)
+        const category = await this.categories.findById(article.category_id)
+        const articleTags = await this.articlesTags.selectTagsByArticleId(article.id)
+        const credits = await this.credits.findCreditsByArticleId(article.category_id)
         if(!manager || !category) {
             return null
         }
@@ -142,19 +144,70 @@ export class InMemoryArticles implements ArticlesRepository {
             category: {
                 category: category.category
             },
-            articleTags: [
-                { tag: { tag: "" }}
-            ],
-            credits: [
-                {link: "", name: ""}
-            ],
+            articleTags: articleTags || [],
+            credits: credits || [],
             manager: {
                 name: manager.name,
                 avatar: manager.avatar
             }
         }
     }
+    async showAllForClients(){
+        const articleDB = this.items
+        if (!articleDB) {
+            return []
+        }
+        const articles = []
+        for (let article of articleDB) {
+            const manager = await this.management.findById(article.manager_id as string)
+            const category = await this.categories.findById(article.category_id)
+            const articleTags = await this.articlesTags.selectTagsByArticleId(article.id)
+            const credits = await this.credits.findCreditsByArticleId(article.category_id)
+            if(!manager || !category) break
+            articles.push({
+                ...article,
+                category: {
+                    category: category.category
+                },
+                articleTags: articleTags || [],
+                credits: credits || [],
+                manager: {
+                    name: manager.name,
+                    avatar: manager.avatar
+                }
+            })
+        }
+        return articles
+    }
+    async findByCategory(category: string){
+        const articleCategory = await this.categories.findCategory(category)
+        if (!articleCategory) return []
 
+        const articleDB = this.items.filter(article => article.category_id === articleCategory.id)
+        if (!articleDB) {
+            return []
+        }
+        const articles = []
+        for (let article of articleDB) {
+            const manager = await this.management.findById(article.manager_id as string)
+            const articleTags = await this.articlesTags.selectTagsByArticleId(article.id)
+            const credits = await this.credits.findCreditsByArticleId(article.category_id)
+            if(!manager || !category) break
+            articles.push({
+                ...article,
+                category: {
+                    category: articleCategory.category
+                },
+                articleTags: articleTags || [],
+                credits: credits || [],
+                manager: {
+                    name: manager.name,
+                    avatar: manager.avatar
+                }
+            })
+        }
+        return articles
+    }
     async findByArticleIdAndManagerId({article_id, manager_id}: articleIdAndManagerIdProps){
         const article = this.items.find(articles => articles.id === article_id && articles.manager_id === manager_id)
         if (!article) {
@@ -168,6 +221,9 @@ export class InMemoryArticles implements ArticlesRepository {
         '-' + (randomUUID()).substring(0,6)
 
         this.items = this.items.filter(articles => articles.id !== data.id)
+
+        if(!data.manager_id) throw new Error()
+
         const article: Articles = {
             id: data.id ?? 'article-01',
             slug: slug,

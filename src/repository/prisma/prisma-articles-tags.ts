@@ -21,12 +21,15 @@ export class PrismaArticlesTagsRepository implements ArticlesTagsRepository {
 
         return articles_tags
     }
-    async selectByArticleId(article_id: string) {
+    async selectTagsByArticleId(article_id: string) {
         const articles_tags = await prisma.articlesTags.findMany({
-            where: { article_id }
+            where: { article_id },
+            select: { tag: { select: { tag: true } } } 
         })
 
         return articles_tags
     }
-    
+    async selectArticlesTags() {
+        //Todo
+    }
 }

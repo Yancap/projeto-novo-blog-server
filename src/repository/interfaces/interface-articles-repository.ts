@@ -31,7 +31,7 @@ export interface ArticlesRepository {
     deleteByAdmin({article_id}: Omit<articleIdAndManagerIdProps, "manager_id">): Promise<Articles>
     update(data: Prisma.ArticlesUncheckedCreateInput): Promise<Articles>
     showAll(): Promise<ShowAllArticles[] | null>
-    showAllForClients(): Promise<FindArticlesBySlug[] | null>
+    showAllForClients(): Promise<FindArticlesBySlug[] | []>
     showAllByManagerId(manager_id: string): Promise<Articles[]>
     findById(id: string): Promise<ShowAllArticles | null>
     findBySlug(slug: string): Promise<FindArticlesBySlug | null>

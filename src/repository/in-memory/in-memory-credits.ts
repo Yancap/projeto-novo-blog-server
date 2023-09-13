@@ -10,7 +10,7 @@ export class InMemoryCredits implements CreditsRepository {
             id: data.id ?? 'tag-01',
             name: data.name,
             link: data.link,
-            article_id: data.article_id
+            article_id: data.article_id || null
         }
         this.items.push(credits)
         return credits
@@ -20,7 +20,7 @@ export class InMemoryCredits implements CreditsRepository {
         if(!credits) {
             return null
         }
-        return credits
+        return credits.map(credit => ({name: credit.name, link: credit.link}))
     }
     
 
