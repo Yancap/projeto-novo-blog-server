@@ -34,7 +34,7 @@ export class InMemoryManagement implements ManagementRepository {
         return author
     }
     async findAuthors() {
-        const authors = this.items.filter(author => author.hierarchy === "authors")
+        const authors = this.items.filter(author => author.hierarchy === "author")
         if(!authors) {
             return null
         }

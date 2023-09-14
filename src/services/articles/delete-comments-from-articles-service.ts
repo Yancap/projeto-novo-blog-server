@@ -20,8 +20,8 @@ export class DeleteCommentsFromArticlesService {
         if (!article) {
             throw new ForbiddenOperationError()
         }
-
-        const otherComments = await this.commentsRepository.delete(comment_id)
+        
+        const otherComments = await this.commentsRepository.delete({id: comment_id, article_id: article.id})
         const isDelete = otherComments.id === comment_id
         if (!isDelete) {
             return false

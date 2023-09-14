@@ -2,16 +2,17 @@ import { InMemoryArticles } from '../../repository/in-memory/in-memory-articles'
 import { ArticlesRepository } from '../../repository/interfaces/interface-articles-repository';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { ShowArticlesByManagerIdService } from './show-articles-by-manager-id-service';
+import { DatabaseMemory, InMemoryDatabase } from '../../repository/in-memory/in-memory-database';
 
 
-let articlesRepository: ArticlesRepository
+let database: DatabaseMemory;
 let sut: ShowArticlesByManagerIdService
 
 describe('Show Articles By Manager Id Service', () => {
 
     beforeEach(()=>{
-        articlesRepository = new InMemoryArticles()
-        articlesRepository.create({
+        database = new InMemoryDatabase()
+        database.articles.create({
             title: "Mundo Mobile",
             subtitle: "",
             image: "",
@@ -20,7 +21,7 @@ describe('Show Articles By Manager Id Service', () => {
             manager_id: "author-01"
         })
         sut = new ShowArticlesByManagerIdService(
-            articlesRepository
+            database.articles
         )
     })
 

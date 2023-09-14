@@ -38,7 +38,7 @@ dados do miragejs
 - [x] Management InMemory Repository --- [x] Testes Unitários --- [] Errors
 - [x] Admin Testes Unitários --- [] Errors
 - [x] Categories InMemory Repository --- [x] Testes Unitários --- [] Errors
-- [x] Articles InMemory Repository --- [] Testes Unitários --- [] Errors
+- [x] Articles InMemory Repository --- [x] Testes Unitários --- [] Errors
 - [x] ArticlesTags InMemory Repository --- [] Testes Unitários --- [] Errors
 - [x] Tags InMemory Repository --- [] Testes Unitários --- [] Errors
 - [x] Credits InMemory Repository --- [] Testes Unitários --- [] Errors

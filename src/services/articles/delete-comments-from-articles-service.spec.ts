@@ -1,33 +1,29 @@
-import { ArticlesRepository } from './../../repository/interfaces/interface-articles-repository';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CommentsRepository } from '../../repository/interfaces/interface-comments-repository';
-import { InMemoryComments } from '../../repository/in-memory/in-memory-comments';
-import { InMemoryArticles } from '../../repository/in-memory/in-memory-articles';
 import { DeleteCommentsFromArticlesService } from './delete-comments-from-articles-service';
 import { ForbiddenOperationError } from '../../utils/errors/forbidden-operation-error';
+import { DatabaseMemory, InMemoryDatabase } from '../../repository/in-memory/in-memory-database';
+import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-error';
 
-let commentsRepository: CommentsRepository
-let articlesRepository: ArticlesRepository
-
+let database: DatabaseMemory;
 let sut: DeleteCommentsFromArticlesService
 
 describe('Delete Comments from Articles Service', () => {
 
     beforeEach(()=>{
-        commentsRepository = new InMemoryComments()
-        articlesRepository = new InMemoryArticles()
-        sut = new DeleteCommentsFromArticlesService( articlesRepository,commentsRepository )
+        database = new InMemoryDatabase()
+        sut = new DeleteCommentsFromArticlesService( database.articles, database.comments )
     })
 
     it('should be able to delete a Comment from Article', async () => {
-        const article = await articlesRepository.create({
+        const article = await database.articles.create({
             title: "Mundo Mobile",
             subtitle: "",
+            image: "",
             text: "Texto sobre o artigo",
             category_id: "mobile-01",
             manager_id: "author-01"
         })
-        const comments = await commentsRepository.create({
+        const comments = await database.comments.create({
             text: "gostei do artigo",
             user_id: '',
             article_id: article.id
@@ -43,14 +39,15 @@ describe('Delete Comments from Articles Service', () => {
     })
 
     it('should not be able to delete a Comment from other authors articles', async () => {
-        const article = await articlesRepository.create({
+        const article = await database.articles.create({
             title: "Mundo Mobile",
             subtitle: "",
+            image: "",
             text: "Texto sobre o artigo",
             category_id: "mobile-01",
             manager_id: "admin-01"
         })
-        const comments = await commentsRepository.create({
+        const comments = await database.comments.create({
             text: "gostei do artigo",
             user_id: '',
             article_id: article.id
@@ -63,4 +60,6 @@ describe('Delete Comments from Articles Service', () => {
             manager_id: "author-01"
         })).rejects.toBeInstanceOf(ForbiddenOperationError)
     })
+  
+    
 })

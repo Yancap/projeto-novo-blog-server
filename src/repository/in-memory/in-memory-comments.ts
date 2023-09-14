@@ -1,16 +1,25 @@
+import { ForbiddenOperationError } from '../../utils/errors/forbidden-operation-error';
 import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-error';
 import { ArticlesRepository } from '../interfaces/interface-articles-repository';
 import { UsersRepository } from '../interfaces/interface-users-repository';
-import { CommentsRepository, CommentsWithUserName, DeleteComments } from './../interfaces/interface-comments-repository';
+import { ArticlesCommentsWithUser, CommentsRepository, CommentsWithUserName, DeleteComments, UserDeleteComments } from './../interfaces/interface-comments-repository';
 import {  Prisma, Comments } from '@prisma/client';
 
+interface ConstructorRepository {
+    articlesRepository: ArticlesRepository
+    usersRepository: UsersRepository
 
+}
 export class InMemoryComments implements CommentsRepository {
     public items: Comments[] = []
+    private articles: ArticlesRepository
+    private users: UsersRepository
     constructor (
-        private inMemoryArticles: ArticlesRepository,
-        private inMemoryUsers: UsersRepository
-    ) {}
+        {articlesRepository, usersRepository}: ConstructorRepository
+    ) {
+        this.articles = articlesRepository
+        this.users = usersRepository
+    }
     async create(data: Prisma.CommentsUncheckedCreateInput) {
         const comments: Comments = {
             id: data.id ?? 'comments-01',
@@ -23,7 +32,8 @@ export class InMemoryComments implements CommentsRepository {
         return comments
     }
     async delete({id, article_id}: DeleteComments){
-        const comment = await this.findById(id)
+        
+        const comment = this.items.find(item => item.id === id && item.article_id === article_id)
         if (!comment) {
             throw new ResourceNotFoundError()
         }
@@ -40,33 +50,48 @@ export class InMemoryComments implements CommentsRepository {
     }
 
     async findByArticleId( article_id:string ){
-        const article = await this.inMemoryArticles.findById(article_id)
-        const data: CommentsWithUserName[] = []
+        const article = await this.articles.findById(article_id)
+        const data: ArticlesCommentsWithUser[] = []
 
         if(article){
             const comments = await this.items.filter(comments => comments.article_id === article_id)
             for(let comment of comments) {
-                const user = await this.inMemoryUsers.findById(comment.user_id)
-                if(!user) return null
+                const user = await this.users.findById(comment.user_id)
+                if(!user) break
                 data.push({
-                    id: comment.id,
+                    user: {
+                        name: user.name,
+                        email: user.email
+                    },
+                    article: {
+                        id: article.id,
+                        slug: article.slug,
+                        title: article.title,
+                        category: {
+                            category: article.category.category
+                        }
+                    },
                     text: comment.text,
+                    article_id: comment.article_id,
                     created_at: comment.created_at,
-                    user_name: user?.name 
+                    id: comment.id,
+                    user_id: comment.user_id
                 })
             }
-            return {
-                comments: data,
-                article: {
-                    id: article.id,
-                    slug: article.slug,
-                    title: article.title,
-                    category: article.category.category
-                }
-            }
+            return data
         }
         return null
-        
-        
+    }
+    async deleteByUser({ id, user_id }: UserDeleteComments){
+        const user = this.users.findById(user_id)
+        if(!user) {
+            throw new ForbiddenOperationError()
+        }
+        const comment = this.items.find(item => item.id === id)
+        if (!comment) {
+            throw new ResourceNotFoundError()  
+        }
+        this.items.filter(item => item.id === id)
+        return comment
     }
 }

@@ -49,8 +49,6 @@ export class PrismaArticlesRepository implements ArticlesRepository {
     }
     async delete({article_id}: Omit<articleIdAndManagerIdProps, "manager_id">){
         try{
-           
-
             const articles = await prisma.articles.delete({ where: { id: article_id } })
             return articles
         }

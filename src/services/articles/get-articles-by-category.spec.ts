@@ -1,23 +1,27 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { GetArticleService } from './get-article-service';
 import { DatabaseMemory, InMemoryDatabase } from '../../repository/in-memory/in-memory-database';
+import { GetArticlesByCategoryService } from './get-articles-by-category';
 
 
 let database: DatabaseMemory;
-let sut: GetArticleService
+let sut: GetArticlesByCategoryService
 
-describe('Get a Article Service', () => {
+describe('Get a Article By Category Service', () => {
 
     beforeEach(()=>{
         database = new InMemoryDatabase()
         
-        sut = new GetArticleService(
+        sut = new GetArticlesByCategoryService(
             database.articles
         )
     })
 
     it('should be able to get an Articles', async () => {
-        const articleCreated = await database.articles.create({
+        const category = await database.categories.create({
+            category: "mobile",
+            id: "mobile-01"
+        })
+        await database.articles.create({
             title: "Mundo Mobile",
             subtitle: "",
             image: "",
@@ -25,7 +29,7 @@ describe('Get a Article Service', () => {
             category_id: "mobile-01",
             manager_id: "author-01"
         })
-        const article = await sut.handler({article_id: articleCreated.id})
+        const article = await sut.handler({category: category.category})
         expect(article).toEqual(expect.any(Object))
     })
     

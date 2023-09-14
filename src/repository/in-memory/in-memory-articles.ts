@@ -108,8 +108,8 @@ export class InMemoryArticles implements ArticlesRepository {
         const categories = await this.categories.getAllCategories()
         const authors = await this.management.findAuthors()
         const article = this.items.find(article => article.id === id)
-
-        if (categories && authors && article) {
+        
+        if (authors && article) {
             let articles: ShowAllArticles = {} as ShowAllArticles
             for(let category of categories) {
                 if (category.id === article.category_id) {
@@ -118,9 +118,10 @@ export class InMemoryArticles implements ArticlesRepository {
             }
             for(let author of authors) {
                 if (author.id === article.manager_id) {
-                    articles = {...articles, manager: { name: author.name}}
+                    articles = {...article, category: articles.category, manager: { name: author.name } }
                 }
             }
+
             return articles
         }
         
