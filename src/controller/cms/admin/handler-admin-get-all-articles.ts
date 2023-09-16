@@ -13,6 +13,6 @@ export async function adminGetAllArticles (request: FastifyRequest, reply: Fasti
         if (error instanceof ResourceNotFoundError) {
             return reply.status(404).send({message: error.message})
         }
-        return reply.status(500).send({error})
+        return reply.status(500).send({message: error})
     }
 }

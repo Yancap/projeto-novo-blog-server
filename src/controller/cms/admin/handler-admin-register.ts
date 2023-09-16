@@ -20,6 +20,7 @@ export async function adminRegister (request: FastifyRequest, reply: FastifyRepl
         if (error instanceof EmailAlreadyExistsError) {
             return reply.status(400).send({ message: error.message })
         }
+        return reply.status(400).send({ message: error })
     }
     
     
