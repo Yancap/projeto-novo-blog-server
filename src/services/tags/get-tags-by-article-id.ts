@@ -11,11 +11,11 @@ export class GetTagsByArticleId {
         private articlesTagsRepository: ArticlesTagsRepository,
     ) { }
     async handler({article_id}: IGetTagsByArticleId){
-        const tagsId = await this.articlesTagsRepository.selectByArticleId(article_id)
+        const tagsId = await this.articlesTagsRepository.selectTagsByArticleId(article_id)
         if(tagsId) {
             const tags = []
             for(let tagId of tagsId){
-                const tag = await this.tagsRepository.findById(tagId.tag_id)
+                const tag = await this.tagsRepository.findById(tagId.tag.id)
                 tags.push(tag)
             }
             return tags

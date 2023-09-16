@@ -19,6 +19,7 @@ export class CreateCommentsService {
     ) { }
     async handler({text, user_id, slug}: ICreateCommentsService){
         const article = await this.articlesRepository.findBySlug(slug)
+        
         if (!article) {
             throw new ResourceNotFoundError()
         }

@@ -2,6 +2,7 @@ import { Tags, Prisma} from "@prisma/client";
 
 interface TagName {
     name: string | undefined
+    id: string
 }
 
 export interface TagsRepository {

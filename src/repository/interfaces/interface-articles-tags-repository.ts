@@ -3,6 +3,7 @@ import { ArticlesTags, Prisma} from "@prisma/client";
 interface SelectTags {
     tag: {
         tag: string
+        id: string;
     }
 }
 
@@ -11,5 +12,5 @@ export interface ArticlesTagsRepository {
     findById(id: string): Promise<ArticlesTags | null>
     selectTagsByArticleId(article_id: string): Promise<SelectTags[] | null>
     selectByTagsId(tag_id: string): Promise<ArticlesTags[] | null>
-    //selectArticlesTags(): void; //Todo
+    //selectTagsByArticleId(article_id: string): Promise<{tag: {tag: string;}}[] | null>; //Todo
 }

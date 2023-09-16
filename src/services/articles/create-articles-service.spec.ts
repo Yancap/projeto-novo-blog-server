@@ -3,7 +3,6 @@ import { CreateArticleService } from './create-articles-service';
 import { ForbiddenOperationError } from '../../utils/errors/forbidden-operation-error';
 import { DatabaseMemory, InMemoryDatabase } from '../../repository/in-memory/in-memory-database';
 
-
 let database: DatabaseMemory;
 let sut: CreateArticleService
 

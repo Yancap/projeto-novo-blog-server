@@ -54,7 +54,7 @@ export class InMemoryArticleTags implements ArticlesTagsRepository {
         for(let articleTag of articles_tags){
             const tag = await this.tags.findById(articleTag.tag_id)
             if (tag && tag.name) {
-                tags.push({tag: {tag: tag.name}})
+                tags.push({tag: {tag: tag.name, id: tag.id}})
             }
         }
         

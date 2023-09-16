@@ -1,38 +1,38 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { EmailAlreadyExistsError } from '../../utils/errors/email-already-exists-error';
-import { UsersRepository } from '../../repository/interfaces/interface-users-repository';
-import { InMemoryUsers } from '../../repository/in-memory/in-memory-users';
 import { RegisterUsersService } from './register-users-service';
+import { DatabaseMemory, InMemoryDatabase } from '../../repository/in-memory/in-memory-database';
 
-let usersRepository: UsersRepository
+let database: DatabaseMemory;
 let sut: RegisterUsersService
 
-describe('Register Management Service', () => {
+describe('Register Users Service', () => {
 
     beforeEach(()=>{
-        usersRepository = new InMemoryUsers()
-        sut = new RegisterUsersService(usersRepository)
+        database = new InMemoryDatabase()
+        sut = new RegisterUsersService(database.users)
     })
 
     it('should be able to register a User', async () => {
-        const manager  = await sut.handler({
+        const user  = await sut.handler({
             name: "Yan Gabriel",
             email: "yan@email.com",
             avatar: "image.png"
         })
-        expect(manager.id).toEqual(expect.any(String))
+        expect(user.id).toEqual(expect.any(String))
     })
 
-    it('should not be able to register a Manager with two email', async () => {
-        await sut.handler({
+    it('should not be able to register a User with two email', async () => {
+        const firstUser = await sut.handler({
             name: "Yan Gabriel",
             email: "yan@email.com",
             avatar: "image.png"
         })
-        await expect(() => sut.handler({
+        const secondUser = await sut.handler({
             name: "Yan Gabriel",
             email: "yan@email.com",
             avatar: "image.png"
-        })).rejects.toBeInstanceOf(EmailAlreadyExistsError)
+        })
+        expect(firstUser).toBe(secondUser)
     })
 })

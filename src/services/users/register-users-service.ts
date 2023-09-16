@@ -16,7 +16,7 @@ export class RegisterUsersService {
         if(userWithSomeEmail){
            return userWithSomeEmail
         }
-        const user = this.usersRepository.register({name, email, avatar})
+        const user = await this.usersRepository.register({name, email, avatar})
         return user
         
     }

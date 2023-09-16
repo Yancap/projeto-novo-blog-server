@@ -83,13 +83,14 @@ export class InMemoryComments implements CommentsRepository {
         return null
     }
     async deleteByUser({ id, user_id }: UserDeleteComments){
-        const user = this.users.findById(user_id)
+        const user = await this.users.findById(user_id)
+        
         if(!user) {
             throw new ForbiddenOperationError()
         }
-        const comment = this.items.find(item => item.id === id)
+        const comment = this.items.find(item => item.id === id && item.user_id === user.id)
         if (!comment) {
-            throw new ResourceNotFoundError()  
+            throw new ForbiddenOperationError()  
         }
         this.items.filter(item => item.id === id)
         return comment

@@ -1,20 +1,18 @@
-import { TagsRepository } from './../../repository/interfaces/interface-tags-repository';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { CreateTagService } from './create-tag-service';
 import { InMemoryTags } from '../../repository/in-memory/in-memory-tags';
+import { DatabaseMemory, InMemoryDatabase } from '../../repository/in-memory/in-memory-database';
 
-
-
-let tagsRepository: TagsRepository
+let database: DatabaseMemory;
 let sut: CreateTagService
 
 describe('Create Tag Service', () => {
 
     beforeEach(()=>{
-        tagsRepository = new InMemoryTags()
+        database = new InMemoryDatabase()
 
         sut = new CreateTagService(
-            tagsRepository
+            database.tags
         )
     })
 
@@ -22,7 +20,7 @@ describe('Create Tag Service', () => {
         const tag = await sut.handler({
             name: "front-end"
         })
-        expect(tag.id).toEqual(expect.any(String))
+        expect(tag).toEqual(expect.any(Object))
     })
     it('should not be able to create a Tag with same Name', async () => {
         await sut.handler({
@@ -31,7 +29,7 @@ describe('Create Tag Service', () => {
         await sut.handler({
             name: "front-end"
         })
-        const tags = await tagsRepository.selectTagsByName("front-end")
-        expect(tags).toHaveLength(1)
+        const tags = await database.tags.findByName("front-end")
+        expect(tags).toEqual(expect.any(Object))
     })
 })

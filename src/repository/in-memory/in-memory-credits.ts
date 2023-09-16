@@ -17,7 +17,7 @@ export class InMemoryCredits implements CreditsRepository {
     }
     async findCreditsByArticleId(article_id: string) {
         const credits = this.items.filter(credit => credit.article_id === article_id)
-        if(!credits) {
+        if(!credits || credits.length === 0) {
             return null
         }
         return credits.map(credit => ({name: credit.name, link: credit.link}))

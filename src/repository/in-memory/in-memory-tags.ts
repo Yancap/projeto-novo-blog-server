@@ -25,7 +25,7 @@ export class InMemoryTags implements TagsRepository {
         if(!tag) {
             return null
         }
-        return { name: tag.tag}
+        return { name: tag.tag, id: tag.id }
     }
     async selectTagsByName(name: string) {
         const tags = this.items.filter(tag => tag.tag === name)

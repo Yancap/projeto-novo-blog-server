@@ -10,10 +10,7 @@ export class GetUsersByEmailService {
     constructor(private usersRepository: UsersRepository) { }
     async handler({ email }: IGetUsersByEmailService){
         const userWithSomeEmail = await this.usersRepository.findByEmail(email)
-        if(userWithSomeEmail){
-           return userWithSomeEmail
-        }
-        return null
+        return userWithSomeEmail
         
     }
 }

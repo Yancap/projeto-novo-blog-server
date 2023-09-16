@@ -129,6 +129,7 @@ export class InMemoryArticles implements ArticlesRepository {
     }
 
     async findBySlug(slug: string){
+        
         const article = this.items.find(articles => articles.slug === slug)
         if (!article) {
             return null

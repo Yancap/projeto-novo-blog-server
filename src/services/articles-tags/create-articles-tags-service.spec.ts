@@ -1,44 +1,36 @@
-import { ArticlesTagsRepository } from './../../repository/interfaces/interface-articles-tags-repository';
-import { ArticlesRepository } from './../../repository/interfaces/interface-articles-repository';
-import { TagsRepository } from '../../repository/interfaces/interface-tags-repository';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { InMemoryTags } from '../../repository/in-memory/in-memory-tags';
 import { CreateArticlesTagsService } from './create-articles-tags-services';
-import { InMemoryArticles } from '../../repository/in-memory/in-memory-articles';
-import { InMemoryArticleTags } from '../../repository/in-memory/in-memory-articles-tags';
 import { ArticlesTags } from '@prisma/client';
 import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-error';
+import { DatabaseMemory, InMemoryDatabase } from '../../repository/in-memory/in-memory-database';
 
 
-let articlesTagsRepository: ArticlesTagsRepository
-let tagsRepository: TagsRepository
-let articlesRepository: ArticlesRepository
+let database: DatabaseMemory;
 let sut: CreateArticlesTagsService
 
-describe.skip('Create Articles Tags Service', () => {
+describe('Create Articles Tags Service', () => {
 
     beforeEach(()=>{
-        tagsRepository = new InMemoryTags()
-        articlesRepository = new InMemoryArticles()
-        articlesTagsRepository = new InMemoryArticleTags()
+        database = new InMemoryDatabase()
 
         sut = new CreateArticlesTagsService(
-            articlesTagsRepository,
-            articlesRepository,
-            tagsRepository
+            database.articlesTags,
+            database.articles,
+            database.tags
         )
     })
 
     it('should be able to create a relation between Article and Tags', async () => {
-        const article = await articlesRepository.create({
+        const article = await database.articles.create({
             title: "Mundo Mobile",
             subtitle: "",
+            image: "",
             text: "Texto sobre o artigo",
             category_id: "mobile",
             manager_id: "admin-01"
         })
 
-        const tags = await tagsRepository.create({
+        const tags = await database.tags.create({
             id: "tag-01",
             tag: "mobile"
         })
@@ -51,19 +43,20 @@ describe.skip('Create Articles Tags Service', () => {
         expect(articles_tags.id).toEqual(expect.any(String))
     })
     it('should be able to create a relation between an Article and many Tags', async () => {
-        const article = await articlesRepository.create({
+        const article = await database.articles.create({
             title: "Mundo Mobile",
             subtitle: "",
+            image: "",
             text: "Texto sobre o artigo",
             category_id: "mobile",
             manager_id: "admin-01"
         })
 
-        const tag_1 = await tagsRepository.create({
+        const tag_1 = await database.tags.create({
             id: "tag-01",
             tag: "mobile"
         })
-        const tag_2 = await tagsRepository.create({
+        const tag_2 = await database.tags.create({
             id: "tag-02",
             tag: "design"
         })
@@ -84,7 +77,7 @@ describe.skip('Create Articles Tags Service', () => {
     })
     it('should not be able to create a relation without an existent Article', async () => {
         
-        const tags = await tagsRepository.create({
+        const tags = await database.tags.create({
             id: "tag-01",
             tag: "mobile"
         })
@@ -97,9 +90,10 @@ describe.skip('Create Articles Tags Service', () => {
     })
     it('should not be able to create a relation without an existent Tag', async () => {
         
-        const article = await articlesRepository.create({
+        const article = await database.articles.create({
             title: "Mundo Mobile",
             subtitle: "",
+            image: "",
             text: "Texto sobre o artigo",
             category_id: "mobile",
             manager_id: "admin-01"

@@ -1,33 +1,26 @@
-import { ArticlesRepository } from './../../repository/interfaces/interface-articles-repository';
-import { CreditsRepository } from './../../repository/interfaces/interface-credits-repository';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { CreateCreditsService } from './create-credits-service';
-import { InMemoryCredits } from '../../repository/in-memory/in-memory-credits';
-import { InMemoryArticles } from '../../repository/in-memory/in-memory-articles';
 import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-error';
+import { DatabaseMemory, InMemoryDatabase } from '../../repository/in-memory/in-memory-database';
 
-
-
-let creditsRepository: CreditsRepository
-let articlesRepository: ArticlesRepository
-
+let database: DatabaseMemory;
 let sut: CreateCreditsService
 
 describe('Create Credits Service', () => {
 
     beforeEach(()=>{
-        creditsRepository = new InMemoryCredits()
-        articlesRepository = new InMemoryArticles()
+        database = new InMemoryDatabase()
         sut = new CreateCreditsService(
-            creditsRepository,
-            articlesRepository
+            database.credits,
+            database.articles
         )
     })
 
     it('should be able to create a Credits', async () => {
-        const article = await articlesRepository.create({
+        const article = await database.articles.create({
             title: "Mundo Mobile",
             subtitle: "",
+            image: "",
             text: "Texto sobre o artigo",
             category_id: "mobile-01",
             manager_id: "admin-01"
@@ -37,7 +30,7 @@ describe('Create Credits Service', () => {
             link: "https://www.google.com",
             article_id: article.id
         })
-        expect(credits.id).toEqual(expect.any(String))
+        expect(credits.name).toEqual(expect.any(String))
     })
 
     it('should not be able to create a Credits without an Existent Article', async () => {

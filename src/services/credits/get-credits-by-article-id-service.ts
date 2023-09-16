@@ -1,4 +1,3 @@
-import { ArticlesRepository } from '../../repository/interfaces/interface-articles-repository';
 import { CreditsRepository } from '../../repository/interfaces/interface-credits-repository';
 import { ResourceNotFoundError } from '../../utils/errors/resource-not-found-error';
 
