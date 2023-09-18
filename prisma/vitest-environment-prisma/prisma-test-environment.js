@@ -1,6 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const { randomUUID } = require("crypto");
 const {execSync} = require("node:child_process")
+const fs = require('fs-extra');
+const path = require("path");
 require('dotenv/config')
 
 
@@ -25,13 +27,12 @@ module.exports = {
 
         return {
             async teardown() {
+                const pathDbTest = path.join(__dirname, "../test")
                 try {
-                    execSync('npx prisma migrate deploy')
+                   await fs.remove(pathDbTest, err => console.log(err)) 
                 } catch (error) {
                     
                 }
-                
-                await prisma.$disconnect()
             }
         }
     }
