@@ -1,6 +1,10 @@
+const { PrismaClient } = require("@prisma/client");
 const { randomUUID } = require("crypto");
-require('dotenv/config')
 const {execSync} = require("node:child_process")
+require('dotenv/config')
+
+
+const prisma = new PrismaClient()
 
 function generateDatabaseURL(uid){
     if (!process.env.DATABASE_TEST_URL) throw new Error("Please provide a DATABASE_TEST_URL environment variable ")
@@ -14,13 +18,20 @@ module.exports = {
     async setup(){
         const uid = randomUUID().substring(0,6);
         const databaseURL = generateDatabaseURL(uid)
+        const schema = `test-${uid}`
         process.env.DATABASE_TEST_URL = databaseURL
 
         execSync('npx prisma migrate deploy')
 
         return {
             async teardown() {
-                execSync('npx prisma migrate reset')
+                try {
+                    execSync('npx prisma migrate deploy')
+                } catch (error) {
+                    
+                }
+                
+                await prisma.$disconnect()
             }
         }
     }
