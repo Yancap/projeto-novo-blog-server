@@ -16,4 +16,8 @@
 
 # Formatar mensagens do ZOD #
 
+## Adicionar route params e GET em algumas rotas que recebem requisições via body e POST
+
+// Script: "posttest:controller-admin": "prisma migrate reset --skip-seed --force",
+
 - [-] O Admin Token deve ser utilizado para as requisições exclusivas do Admin para que assim, nenhuma outra pessoa consigar realizar requisições a essa rota

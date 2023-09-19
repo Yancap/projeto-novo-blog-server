@@ -38,12 +38,12 @@ describe('Admin Handler delete articles', () => {
 
     afterAll(async () => {
         //Caso o posttest não funcione
-        execSync("prisma migrate reset --skip-seed --force")
+        //execSync("prisma migrate reset --skip-seed --force")
         await app.close() 
     })
     
     it('should not be able to delete an articles that not exist', async () => {
-        await supertest(app.server).delete('/cms/admin')
+        await supertest(app.server).delete('/cms/admin/delete-articles')
         .set('Authorization', 'Bearer ' + token)
         .send({
             article_id: "not-exist"

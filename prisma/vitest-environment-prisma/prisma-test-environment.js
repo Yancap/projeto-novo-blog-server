@@ -24,12 +24,10 @@ module.exports = {
         execSync('npx prisma migrate deploy')
         return {
             async teardown() {
-                const pathDbTest = path.join(__dirname, "../test")
-                try {
-                   fs.remove(pathDbTest, err => console.log(err)) 
-                } catch (error) {
-                    
-                }
+                await prisma.$disconnect()
+                const pathDbTest = path.join(__dirname, `../test/test-${uid}.db`)
+                fs.remove(pathDbTest, err => console.log(err)) 
+                
             }
         }
     }

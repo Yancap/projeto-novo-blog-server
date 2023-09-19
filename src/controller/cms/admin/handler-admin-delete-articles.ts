@@ -8,7 +8,6 @@ export async function adminDeleteArticles (request: FastifyRequest, reply: Fasti
     const registerBodySchema = z.object({
         article_id: z.string()
     })
-    console.log(request.body);
 
     try {
         const {article_id} = registerBodySchema.parse(request.body)
