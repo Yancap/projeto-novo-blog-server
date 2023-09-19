@@ -20,16 +20,13 @@ module.exports = {
     async setup(){
         const uid = randomUUID().substring(0,6);
         const databaseURL = generateDatabaseURL(uid)
-        const schema = `test-${uid}`
         process.env.DATABASE_TEST_URL = databaseURL
-
         execSync('npx prisma migrate deploy')
-
         return {
             async teardown() {
                 const pathDbTest = path.join(__dirname, "../test")
                 try {
-                   await fs.remove(pathDbTest, err => console.log(err)) 
+                   fs.remove(pathDbTest, err => console.log(err)) 
                 } catch (error) {
                     
                 }

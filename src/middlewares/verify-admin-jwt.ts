@@ -4,9 +4,9 @@ export async function verifyAdminJWT(request: FastifyRequest, reply: FastifyRepl
     try {
         await request.jwtVerify()
         if(request.user.hierarchy !== "admin"){
-            throw new Error()
+            return reply.status(401).send( { message: "Unathorized" } )
         }
     } catch (err) {
-        return reply.status(401).send( {message: "Unathorized"} )
+        return reply.status(401).send( { message: "Unathorized" } )
     }
 }

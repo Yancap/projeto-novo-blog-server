@@ -14,6 +14,6 @@
 - [x] Comments InMemory Repository ---      [x] Testes Unitários --- [] Errors
 - [x] Users InMemory Repository ---         [x] Testes Unitários --- [] Errors
 
-# TESTES UNITÁRIOS DO ARTICLES #
+# Formatar mensagens do ZOD #
 
 - [-] O Admin Token deve ser utilizado para as requisições exclusivas do Admin para que assim, nenhuma outra pessoa consigar realizar requisições a essa rota

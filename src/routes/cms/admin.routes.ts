@@ -8,6 +8,6 @@ export async function adminRoutes(app: FastifyInstance) {
     app.get('/get-all-articles', {onRequest: [verifyAdminJWT]}, adminController.getAllArticles) // Certo
     app.post('/register', {onRequest: [verifyAdminJWT]}, adminController.registerManager) // certo
     app.delete('/delete-authors', {onRequest: [verifyAdminJWT]}, adminController.deleteAuthors) // certo
-    app.delete('/delete-articles', {onRequest: [verifyAdminJWT]}, adminController.getAllArticles) // certo
+    app.delete('/delete-articles', {onRequest: [verifyAdminJWT]}, adminController.deleteArticles) // certo
 
 }
