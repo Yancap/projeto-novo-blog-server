@@ -26,8 +26,7 @@ module.exports = {
             async teardown() {
                 await prisma.$disconnect()
                 const pathDbTest = path.join(__dirname, `../test/test-${uid}.db`)
-                fs.remove(pathDbTest, err => console.log(err)) 
-                
+                fs.unlink(pathDbTest, (err) => console.log(err))
             }
         }
     }

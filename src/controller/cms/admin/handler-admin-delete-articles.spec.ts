@@ -1,10 +1,8 @@
-import { execSync } from 'child_process';
 import supertest from 'supertest';
 import { afterAll, beforeAll, beforeEach, describe, expect, it, test } from 'vitest';
 import { app } from '../../../app';
 import { prisma } from '../../../lib/prisma';
 
-let article_id: string
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJoaWVyYXJjaHkiOiJhZG1pbiIsInN1YiI6IjI4YzgwNTQ3LTM4ZTgtNDY0OS04OWIwLTZlMjJlMTRkYzk1YiIsImlhdCI6MTY5MjkwNTI2Nn0.B_NqQJJRA66SobZm5sw6h_-tcAqBjhPJLemt_BZORTw"
 describe('Admin Handler delete articles', () => {
 
@@ -13,32 +11,31 @@ describe('Admin Handler delete articles', () => {
         await prisma.$transaction([
             prisma.management.create({
                 data: {
-                    email: "manager@",
-                    name: "manager",
+                    email: "fulano@email",
+                    name: "fulano",
                     password: "123",
-                    id: "manager-01"
+                    id: "fulano-02"
                 }
             }),
             prisma.categories.create({ data: {
                 category: "front-end",
-                id: "front-end-1"
+                id: "front-end-2"
             }}),
             prisma.articles.create({data: {
-                id: "article_id",
+                id: "article_id-02",
                 title: "teste",
                 subtitle: "teste",
                 image: 'png',
                 text: "text",
-                manager_id: "manager-01",
-                category_id: "front-end-1"
+                manager_id: "fulano-02",
+                category_id: "front-end-2"
             }})
         ], {isolationLevel: "Serializable"})
         await app.ready() 
     })
 
     afterAll(async () => {
-        //Caso o posttest não funcione
-        //execSync("prisma migrate reset --skip-seed --force")
+        await prisma.$disconnect()
         await app.close() 
     })
     
@@ -71,7 +68,7 @@ describe('Admin Handler delete articles', () => {
         await supertest(app.server).delete('/cms/admin/delete-articles')
         .set('Authorization', 'Bearer ' + token)
         .send({
-            article_id: "article_id"
+            article_id: "article_id-02"
         }).expect(200)
     })
 })

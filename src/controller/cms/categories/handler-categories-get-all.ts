@@ -11,9 +11,6 @@ export async function categoriesGetAll (request: FastifyRequest, reply: FastifyR
         const categories = await getAllCategorieservice.handler()
         return reply.status(200).send({categories})    
     } catch (error) {
-        if (error instanceof ResourceNotFoundError) {
-            return reply.status(404).send({message: error.message})
-        }
         return reply.status(500).send({error})
     }
 }

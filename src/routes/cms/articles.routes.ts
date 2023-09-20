@@ -11,17 +11,18 @@ import { articlesDelete } from "../../controller/cms/articles/articles-delete"
 import { articlesGet } from "../../controller/cms/articles/articles-get"
 import { articlesShowByManagerId } from "../../controller/cms/articles/articles-show-by-manager-id"
 import { articlesActive } from "../../controller/cms/articles/articles-active"
+import { ArticlesController } from "../../controller/cms/articles/articles-controller"
 
 export async function articlesRoutes(app: FastifyInstance) {
-    // Article routes
-    
-    app.get('/', {onRequest: [verifyJWT]}, articlesShowByManagerId) // Certo
-    app.post('/get', articlesGet) // Certo
-    app.post('/', {onRequest: [verifyJWT]}, articlesCreate) // Certo
-    app.put('/', {onRequest: [verifyJWT]}, articlesUpdate) // Certo
-    app.patch('/', {onRequest: [verifyJWT]}, articlesDrafts) // att a rota
-    app.patch('/deactive', {onRequest: [verifyJWT]}, articlesDeactive) // Certo
-    app.patch('/active', {onRequest: [verifyJWT]}, articlesActive) // Certo
-    app.delete('/', {onRequest: [verifyJWT]}, articlesDelete) // Cert
+    const articlesController = new ArticlesController()
+
+    app.get('/', {onRequest: [verifyJWT]}, articlesController.show) // Certo
+    app.post('/get', articlesController.get) // Certo
+    app.post('/', {onRequest: [verifyJWT]}, articlesController.create) // Certo
+    app.put('/', {onRequest: [verifyJWT]}, articlesController.update) // Certo
+    app.patch('/', {onRequest: [verifyJWT]}, articlesController.drafts) // att a rota
+    app.patch('/deactive', {onRequest: [verifyJWT]}, articlesController.deactive) // Certo
+    app.patch('/active', {onRequest: [verifyJWT]}, articlesController.active) // Certo
+    app.delete('/', {onRequest: [verifyJWT]}, articlesController.delete) // Cert
     
 }

@@ -1,13 +1,11 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { z } from "zod"
+import { z, ZodError } from "zod"
 import { ResourceNotFoundError } from "../../../utils/errors/resource-not-found-error"
 import { makeCreateArticlesService } from "../../../factory/articles/make-create-articles-service"
 import { makeCreateTagsService } from "../../../factory/tags/make-create-tag-service"
 import { makeCreateArticlesTagsSService } from "../../../factory/articles-tags/make-create-articles-tags-service"
 import { makeCreateCreditsService } from "../../../factory/credits/make-create-credits-service"
 import { JWTVerifyReturn } from "./jwt"
-
-
 
 export async function articlesCreate (request: FastifyRequest, reply: FastifyReply) {
     //Adicionar as Tags, sua relação e os créditos
@@ -30,7 +28,7 @@ export async function articlesCreate (request: FastifyRequest, reply: FastifyRep
     })
     const {sub}: JWTVerifyReturn = await request.jwtVerify()
 
-    const {article, tags, credits} = registerBodySchema.parse(request.body)
+   
     
     const createArticlesService = makeCreateArticlesService()
     const createCreditsService = makeCreateCreditsService()
@@ -39,6 +37,7 @@ export async function articlesCreate (request: FastifyRequest, reply: FastifyRep
 
     //services de criação de tags e credits
     try {
+        const {article, tags, credits} = registerBodySchema.parse(request.body)
         const articleCreated = await createArticlesService.handler({...article, manager_id: sub})
 
         credits.forEach( async credit => await createCreditsService.handler({
@@ -66,6 +65,9 @@ export async function articlesCreate (request: FastifyRequest, reply: FastifyRep
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {
             return reply.status(404).send({message: error.message})
+        }
+        if ( error instanceof ZodError) {
+            return reply.status(400).send({message: "Missing mandatory parameters"})
         }
         return reply.status(500).send({error})
     }
