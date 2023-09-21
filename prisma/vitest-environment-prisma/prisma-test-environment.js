@@ -17,19 +17,13 @@ module.exports = {
     transformMode: "web",
     name: 'prisma',
     async setup(){
-        const prisma = new PrismaClient()
         const uid = randomUUID().substring(0,6);
         const databaseURL = generateDatabaseURL(uid)
         process.env.DATABASE_TEST_URL = databaseURL
         execSync('npx prisma migrate deploy')
         return {
-
             async teardown() {
-                await prisma.$disconnect()
-                const pathDbTest = path.join(__dirname, `../test/test-${uid}.db`)
-                console.log(pathDbTest);
-                fs.unlink(pathDbTest, (err) => console.log(err))
-                fs.remove(pathDbTest, (err) => console.log(err))
+                
             },
 
         }

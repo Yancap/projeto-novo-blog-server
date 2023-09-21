@@ -7,20 +7,15 @@
     "start": "node build/server.js",
     "dev": "tsx watch src/server.ts",
     "build": "tsup src --out-dir build",
-    
     "test:services": "vitest run./src/services",
-    
     "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
     "test:install-prisma-environment": "npm link vitest-environment-prisma",
     "pretest": "run-s test:create-prisma-environment test:install-prisma-environment",
-
     "test:controller": "vitest run ./src/controller/cms/articles",
-    
-
+    "pretest:controller": "node ./prisma/clean.js",
     "pretest:controller-end-to-end": "prisma migrate deploy",
     "test:controller-end-to-end": "vitest run ./src/controller/cms/admin/",
     "posttest:controller-end-to-end": "prisma migrate reset --skip-seed --force",
-
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
   },
@@ -42,6 +37,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.13",
+    "@types/fs-extra": "^11.0.2",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^20.4.9",
     "@types/supertest": "^2.0.12",

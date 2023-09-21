@@ -12,9 +12,10 @@ export async function articlesActive (request: FastifyRequest, reply: FastifyRep
         id: z.string()
     })
     const {sub}: JWTVerifyReturn = await request.jwtVerify()
-    const {id} = registerBodySchema.parse(request.body)
+    
     const updateArticlesService = makeUpdateArticlesService()
     try {
+        const {id} = registerBodySchema.parse(request.params)
         const articleUpdated = await updateArticlesService.handler({ id: id, state: "active", manager_id: sub })
         return reply.status(200).send({article: articleUpdated})    
     } catch (error) {

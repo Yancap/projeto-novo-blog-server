@@ -9,21 +9,25 @@ export async function adminRegister (request: FastifyRequest, reply: FastifyRepl
         name: z.string(),
         email: z.string().email(),
         password: z.string(),
-        hierarchy: z.optional(z.string())
+        hierarchy: z.optional(z.string()),
+        id: z.optional(z.string())
     })
     const registerManagerService = makeRegisterManagerService()
     
     try{
-        const {name, email, password, hierarchy} = registerBodySchema.parse(request.body)
-        const manager = await registerManagerService.handler({name, email, password, hierarchy})
+        const {name, email, password, hierarchy, id} = registerBodySchema.parse(request.body)
+        const manager = await registerManagerService.handler({name, email, password, hierarchy, id})
         return reply.status(200).send({name: manager.name, email: manager.email})
     } catch (error){
+        
+        console.log(error);
         if (error instanceof EmailAlreadyExistsError) {
             return reply.status(400).send({ message: error.message })
         }
         if (error instanceof ZodError) {
             return reply.status(400).send({ message: "Required mandatory parameters" })
         }
+        
         return reply.status(500).send({ message: error })
     }
     

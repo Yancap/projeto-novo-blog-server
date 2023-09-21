@@ -22,7 +22,7 @@ export async function articlesRoutes(app: FastifyInstance) {
     app.put('/', {onRequest: [verifyJWT]}, articlesController.update) // Certo
     app.patch('/', {onRequest: [verifyJWT]}, articlesController.drafts) // att a rota
     app.patch('/deactive', {onRequest: [verifyJWT]}, articlesController.deactive) // Certo
-    app.patch('/active', {onRequest: [verifyJWT]}, articlesController.active) // Certo
+    app.patch('/active/:id', {onRequest: [verifyJWT]}, articlesController.active) // Certo
     app.delete('/', {onRequest: [verifyJWT]}, articlesController.delete) // Cert
     
 }
