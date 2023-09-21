@@ -6,28 +6,32 @@ const path = require("path");
 require('dotenv/config')
 
 
-const prisma = new PrismaClient()
-
 function generateDatabaseURL(uid){
     if (!process.env.DATABASE_TEST_URL) throw new Error("Please provide a DATABASE_TEST_URL environment variable ")
     const url = process.env.DATABASE_TEST_URL.toString("").replace("test.db", `test-${uid}.db`)
     return url
 }
 
+
 module.exports = {
     transformMode: "web",
     name: 'prisma',
     async setup(){
+        const prisma = new PrismaClient()
         const uid = randomUUID().substring(0,6);
         const databaseURL = generateDatabaseURL(uid)
         process.env.DATABASE_TEST_URL = databaseURL
         execSync('npx prisma migrate deploy')
         return {
+
             async teardown() {
                 await prisma.$disconnect()
                 const pathDbTest = path.join(__dirname, `../test/test-${uid}.db`)
+                console.log(pathDbTest);
                 fs.unlink(pathDbTest, (err) => console.log(err))
-            }
+                fs.remove(pathDbTest, (err) => console.log(err))
+            },
+
         }
     }
 }

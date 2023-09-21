@@ -14,8 +14,9 @@
     "test:install-prisma-environment": "npm link vitest-environment-prisma",
     "pretest": "run-s test:create-prisma-environment test:install-prisma-environment",
 
-    "test:controller": "vitest run ./src/controller/cms/",
+    "test:controller": "vitest run ./src/controller/cms/articles",
     
+
     "pretest:controller-end-to-end": "prisma migrate deploy",
     "test:controller-end-to-end": "vitest run ./src/controller/cms/admin/",
     "posttest:controller-end-to-end": "prisma migrate reset --skip-seed --force",

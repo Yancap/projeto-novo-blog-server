@@ -26,9 +26,8 @@ export async function articlesCreate (request: FastifyRequest, reply: FastifyRep
             z.object({ name: z.string(), link: z.string() })
         )
     })
+    
     const {sub}: JWTVerifyReturn = await request.jwtVerify()
-
-   
     
     const createArticlesService = makeCreateArticlesService()
     const createCreditsService = makeCreateCreditsService()
