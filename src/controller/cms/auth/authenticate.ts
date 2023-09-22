@@ -32,10 +32,16 @@ export async function login (request: FastifyRequest, reply: FastifyReply) {
         })  
     } catch(err) {
         if (err instanceof InvalidCredentialsError) {
-            return reply.status(401).send({ message: err.message })
+            return reply.status(401).send({ 
+                error: "InvalidCredentialsError",
+                message: err.message 
+            })
         }
         if (err instanceof ZodError) {
-            return reply.status(400).send({ message: "Required email or password parameters" })
+            return reply.status(400).send({ 
+                error: "ValidationRequestError",
+                message: "Required email or password parameters" 
+            })
         }
     }
     

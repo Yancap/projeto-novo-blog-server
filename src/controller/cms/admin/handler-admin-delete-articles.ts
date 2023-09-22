@@ -18,10 +18,16 @@ export async function adminDeleteArticles (request: FastifyRequest, reply: Fasti
         return reply.status(200).send({message: "success" })    
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {
-            return reply.status(404).send({message: error.message})
+            return reply.status(404).send({
+                error: "ResourceNotFoundError",
+                message: error.message
+            })
         }
         if (error instanceof ZodError) {
-            return reply.status(400).send({message: "Required article id"})
+            return reply.status(400).send({
+                error: "ValidationRequestError",
+                message: "Required article id"
+            })
         }
         return reply.status(500).send({error})
     }

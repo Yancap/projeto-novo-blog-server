@@ -22,9 +22,7 @@ module.exports = {
         process.env.DATABASE_TEST_URL = databaseURL
         execSync('npx prisma migrate deploy')
         return {
-            async teardown() {
-                
-            },
+            async teardown() {},
 
         }
     }

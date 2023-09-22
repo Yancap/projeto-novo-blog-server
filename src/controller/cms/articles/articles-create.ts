@@ -63,10 +63,16 @@ export async function articlesCreate (request: FastifyRequest, reply: FastifyRep
         
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {
-            return reply.status(404).send({message: error.message})
+            return reply.status(404).send({
+                error: "ResourceNotFoundError",
+                message: error.message
+            })
         }
-        if ( error instanceof ZodError) {
-            return reply.status(400).send({message: "Missing mandatory parameters"})
+        if (error instanceof ZodError) {
+            return reply.status(400).send({
+                error: "ValidationRequestError",
+                message: "Missing mandatory router parameters"
+            })
         }
         return reply.status(500).send({error})
     }

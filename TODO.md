@@ -14,9 +14,10 @@
 - [x] Comments InMemory Repository ---      [x] Testes Unitários --- [] Errors
 - [x] Users InMemory Repository ---         [x] Testes Unitários --- [] Errors
 
-# Formatar mensagens do ZOD #
+# Padronizar os errors para {error: tipo do error, message: error.message} #
 
 ## Adicionar route params e GET em algumas rotas que recebem requisições via body e POST
+
 
 // Script: "posttest:controller-admin": "prisma migrate reset --skip-seed --force",
 

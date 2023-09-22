@@ -30,7 +30,10 @@ export async function adminGetAuthors (request: FastifyRequest, reply: FastifyRe
         return reply.status(200).send({authors: authorsWithArticlesLength}) 
     } catch (error) {
         if (error instanceof AuthorDoesntExistError) {
-            return reply.status(404).send({message: error.message})
+            return reply.status(404).send({
+                error: "AuthorDoesntExistError",
+                message: error.message
+            })
         }
         return reply.status(500).send({error})
     }

@@ -22,10 +22,16 @@ export async function adminRegister (request: FastifyRequest, reply: FastifyRepl
         
         console.log(error);
         if (error instanceof EmailAlreadyExistsError) {
-            return reply.status(400).send({ message: error.message })
+            return reply.status(400).send({ 
+                error: "EmailAlreadyExistsError",
+                message: error.message 
+            })
         }
         if (error instanceof ZodError) {
-            return reply.status(400).send({ message: "Required mandatory parameters" })
+            return reply.status(400).send({ 
+                error: "ValidationRequestError",
+                message: "Required mandatory parameters" 
+            })
         }
         
         return reply.status(500).send({ message: error })
