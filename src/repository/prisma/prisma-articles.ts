@@ -8,7 +8,7 @@ import { ForbiddenOperationError } from "../../utils/errors/forbidden-operation-
 
 export class PrismaArticlesRepository implements ArticlesRepository {
     async create(data: Prisma.ArticlesUncheckedCreateInput){
-        const slug = data.title.toLowerCase()
+        const slug = data.slug ?? data.title.toLowerCase()
         .replace(/[^\w\s]/g, '')
         .replace(/\s+/g, '-') + 
         '-' + (randomUUID()).substring(0,6)

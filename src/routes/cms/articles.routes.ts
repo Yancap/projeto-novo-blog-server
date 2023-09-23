@@ -6,12 +6,13 @@ export async function articlesRoutes(app: FastifyInstance) {
     const articlesController = new ArticlesController()
 
     app.get('/', {onRequest: [verifyJWT]}, articlesController.show) // Certo
-    app.post('/get', articlesController.get) // Certo
+    app.get('/get', articlesController.get) // Certo
     app.post('/', {onRequest: [verifyJWT]}, articlesController.create) // Certo
     app.put('/', {onRequest: [verifyJWT]}, articlesController.update) // Certo
     app.patch('/', {onRequest: [verifyJWT]}, articlesController.drafts) // att a rota
-    app.patch('/deactive', {onRequest: [verifyJWT]}, articlesController.deactive) // Certo
+    app.patch('/:id', {onRequest: [verifyJWT]}, articlesController.draftsWithArticleId) // att a rota
+    app.patch('/deactive/:id', {onRequest: [verifyJWT]}, articlesController.deactive) // Certo
     app.patch('/active/:id', {onRequest: [verifyJWT]}, articlesController.active) // Certo
-    app.delete('/', {onRequest: [verifyJWT]}, articlesController.delete) // Cert
+    app.delete('/:id', {onRequest: [verifyJWT]}, articlesController.delete) // Certo
     
 }

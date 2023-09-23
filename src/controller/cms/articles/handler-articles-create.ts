@@ -59,7 +59,7 @@ export async function articlesCreate (request: FastifyRequest, reply: FastifyRep
             }
         })
 
-        return reply.status(200).send({article: articleCreated}) 
+        return reply.status(201).send({article: articleCreated}) 
         
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {

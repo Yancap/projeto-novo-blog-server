@@ -1,12 +1,13 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { articlesActive } from "./articles-active";
-import { articlesCreate } from "./articles-create";
-import { articlesDeactive } from "./articles-deactive";
-import { articlesDelete } from "./articles-delete";
-import { articlesDrafts } from "./articles-drafts";
-import { articlesGet } from "./articles-get";
-import { articlesShowByManagerId } from "./articles-show-by-manager-id";
-import { articlesUpdate } from "./articles-update";
+import { articlesActive } from "./handler-articles-active";
+import { articlesCreate } from "./handler-articles-create";
+import { articlesDeactive } from "./handler-articles-deactive";
+import { articlesDelete } from "./handler-articles-delete";
+import { articlesDraftWithArticleId } from "./handler-articles-draft-with-article-id";
+import { articlesDrafts } from "./handler-articles-drafts";
+import { articlesGet } from "./handler-articles-get";
+import { articlesShowByManagerId } from "./handler-articles-show-by-manager-id";
+import { articlesUpdate } from "./handler-articles-update";
 
 export class ArticlesController {
     public create: (request: FastifyRequest, reply: FastifyReply) => Promise<never>;
@@ -16,6 +17,7 @@ export class ArticlesController {
     public active: (request: FastifyRequest, reply: FastifyReply) => Promise<never>;
     public deactive: (request: FastifyRequest, reply: FastifyReply) => Promise<never>;
     public drafts: (request: FastifyRequest, reply: FastifyReply) => Promise<never>;
+    public draftsWithArticleId: (request: FastifyRequest, reply: FastifyReply) => Promise<never>;
     public show: (request: FastifyRequest, reply: FastifyReply) => Promise<never>;
 
     constructor(){
@@ -26,6 +28,7 @@ export class ArticlesController {
         this.active = articlesActive;
         this.deactive = articlesDeactive;
         this.drafts = articlesDrafts;
+        this.draftsWithArticleId = articlesDraftWithArticleId;
         this.show = articlesShowByManagerId;
     }
 }

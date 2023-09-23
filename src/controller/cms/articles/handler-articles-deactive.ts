@@ -1,8 +1,9 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { z } from "zod"
+import { z, ZodError } from "zod"
 import { ResourceNotFoundError } from "../../../utils/errors/resource-not-found-error"
 import { makeUpdateArticlesService } from "../../../factory/articles/make-update-articles-service"
 import { JWTVerifyReturn } from "./jwt"
+import { ForbiddenOperationError } from "../../../utils/errors/forbidden-operation-error"
 
 
 export async function articlesDeactive (request: FastifyRequest, reply: FastifyReply) {
@@ -12,14 +13,29 @@ export async function articlesDeactive (request: FastifyRequest, reply: FastifyR
         id: z.string()
     })
     const {sub}: JWTVerifyReturn = await request.jwtVerify()
-    const {id} = registerBodySchema.parse(request.body)
     const updateArticlesService = makeUpdateArticlesService()
     try {
+        const {id} = registerBodySchema.parse(request.params)
         const articleUpdated = await updateArticlesService.handler({ id: id, state: "inactive", manager_id: sub })
         return reply.status(200).send({article: articleUpdated})    
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {
-            return reply.status(404).send({message: error.message})
+            return reply.status(404).send({
+                error: "ResourceNotFoundError",
+                message: error.message
+            })
+        }
+        if(error instanceof ZodError) {
+            return reply.status(400).send({
+                error: "ValidationRequestError",
+                message: "Missing mandatory router parameters"
+            })
+        }
+        if(error instanceof ForbiddenOperationError) {
+            return reply.status(404).send({
+                error: "ForbiddenOperationError",
+                message: "invalid or absent parameters"
+            })
         }
         return reply.status(500).send({error})
     }

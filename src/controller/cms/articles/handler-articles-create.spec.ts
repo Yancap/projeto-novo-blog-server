@@ -5,7 +5,7 @@ import { prisma } from '../../../lib/prisma';
 
 
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJoaWVyYXJjaHkiOiJhZG1pbiIsInN1YiI6IjI4YzgwNTQ3LTM4ZTgtNDY0OS04OWIwLTZlMjJlMTRkYzk1YiIsImlhdCI6MTY5MjkwNTI2Nn0.B_NqQJJRA66SobZm5sw6h_-tcAqBjhPJLemt_BZORTw"
-describe('Create Articles Controller', () => {
+describe('Create Articles Handler', () => {
 
     beforeAll(async () => {
         await app.ready() 
@@ -97,7 +97,7 @@ describe('Create Articles Controller', () => {
                 {name: "google", link: "www.google.com"}, 
                 {name: "web", link: "www.web.com"} 
             ],
-        }).expect(200)
+        }).expect(201)
         
     })
 })

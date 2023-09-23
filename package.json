@@ -12,7 +12,7 @@
     "test:install-prisma-environment": "npm link vitest-environment-prisma",
     
     "pretest": "run-s test:create-prisma-environment test:install-prisma-environment",
-    "test:controller": "vitest run ./src/controller/cms/articles",
+    "test:controller": "vitest run ./src/controller/cms/articles/handler-articles-show-by-manager-id.spec.ts",
     "pretest:controller": "node ./prisma/clean.js",
 
     "pretest:controller-end-to-end": "prisma migrate deploy",

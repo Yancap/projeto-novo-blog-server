@@ -5,16 +5,16 @@ import { makeGetArticleService } from "../../../factory/articles/make-get-articl
 
 
 export async function articlesGet (request: FastifyRequest, reply: FastifyReply) {
-    //Adicionar as Tags, sua relação e os créditos
     
-    const registerBodySchema = z.object({
+    const getQuerySchema = z.object({
         id: z.optional(z.string()),
         slug: z.optional(z.string()),
     })
 
-    const { id, slug } = registerBodySchema.parse(request.body)
+    
     const getArticlesService = makeGetArticleService()
     try {
+        const { id, slug } = getQuerySchema.parse(request.query)
         if (id) {
             const article = await getArticlesService.handler({ article_id: id })
             return reply.status(200).send({ article })    
@@ -22,10 +22,16 @@ export async function articlesGet (request: FastifyRequest, reply: FastifyReply)
             const article = await getArticlesService.handler({ slug: slug })
             return reply.status(200).send({ article }) 
         }
-        return reply.status(404).send({message: "ID or Slug parameters are missing"})
+        return reply.status(400).send({
+            error: "ValidationRequestError",
+            message: "ID or Slug parameters are missing"
+        })
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {
-            return reply.status(404).send({message: error.message})
+            return reply.status(404).send({
+                error: "ResourceNotFoundError",
+                message: error.message
+            })
         }
         return reply.status(500).send({error})
     }
