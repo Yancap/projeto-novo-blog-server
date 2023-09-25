@@ -1,21 +1,20 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { ResourceNotFoundError } from "../../../utils/errors/resource-not-found-error"
 import { makeGetArticlesCommentsService } from "../../../factory/comments/make-get-articles-comments-service"
-import { z } from "zod"
+import { z, ZodError } from "zod"
 import { makeDeleteCommentsService } from "../../../factory/comments/make-delete-comments-service"
+import { ForbiddenOperationError } from "../../../utils/errors/forbidden-operation-error"
 
 
 export async function commentsManagerDelete (request: FastifyRequest, reply: FastifyReply) {
-    const registerBodySchema = z.object({
+    const deleteBodySchema = z.object({
         article_id: z.string(),
         comment_id: z.string()
     })
 
-    const { article_id, comment_id } = registerBodySchema.parse(request.body)
-
     const deleteCommentsService = makeDeleteCommentsService()
     try {
-         
+        const { article_id, comment_id } = deleteBodySchema.parse(request.body)
         const comments = await deleteCommentsService.handler({article_id, comment_id})
         
         if (comments) {
@@ -26,7 +25,22 @@ export async function commentsManagerDelete (request: FastifyRequest, reply: Fas
          
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {
-            return reply.status(404).send({message: error.message})
+            return reply.status(404).send({
+                error: "ResourceNotFoundError",
+                message: error.message
+            })
+        }
+        if (error instanceof ZodError) {
+            return reply.status(400).send({
+                error: "ValidationRequestError",
+                message: "Missing mandatory router parameters"
+            })
+        }
+        if (error instanceof ForbiddenOperationError) {
+            return reply.status(404).send({
+                error: "ForbiddenOperationError",
+                message: "Article does not exist"
+            })
         }
         return reply.status(500).send({error})
     }
