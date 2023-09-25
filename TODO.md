@@ -1,21 +1,20 @@
 
 
 ### refatorar o repository memory e logo en seguida recriar os testes unitários de cada parte, seguindo a ordem do banco de dados
-## Padronizar as respostas de error dos controller para { error: "tipoDoError", message: "mesagem"}
 
 CMS
-- [x] Management InMemory Repository ---    [x] Testes Unitários --- [x] Errors
+- [x] Management  Repository ---    [x] Testes Unitários --- [x] Errors
 - [x] Admin Testes Unitários                                     --- [x] Errors
-- [x] Categories InMemory Repository ---    [x] Testes Unitários --- [x] Errors
-- [x] Articles InMemory Repository ---      [x] Testes Unitários --- [x] Errors
-- [x] ArticlesTags InMemory Repository ---  [x] Testes Unitários 
-- [x] Tags InMemory Repository ---          [x] Testes Unitários --- [] Errors
-- [x] Credits InMemory Repository ---       [x] Testes Unitários --- [] Errors
+- [x] Categories  Repository ---    [x] Testes Unitários --- [x] Errors
+- [x] Articles  Repository ---      [x] Testes Unitários --- [x] Errors
+- [x] ArticlesTags  Repository ---  [x] Testes Unitários 
+- [x] Tags  Repository ---          [x] Testes Unitários --- [x] Errors
+- [x] Credits  Repository ---       [x] Testes Unitários --- [x] Errors
 
 CLIENT
-- [x] Comments InMemory Repository ---      [x] Testes Unitários --- [] Errors
-- [x] Users InMemory Repository ---         [x] Testes Unitários --- [] Errors
-- [x] Articles InMemory Repository ---      [x] Testes Unitários --- [x] Errors
+- [x] Comments  Repository ---      [] Testes Unitários --- [] Errors
+- [x] Users  Repository ---         [] Testes Unitários --- [] Errors
+- [x] Articles  Repository ---      [] Testes Unitários --- [] Errors
 
 # Padronizar os errors para {error: tipo do error, message: error.message} #
 
