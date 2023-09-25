@@ -6,7 +6,7 @@
 - [x] Management InMemory Repository ---    [x] Testes Unitários --- [x] Errors
 - [x] Admin Testes Unitários                                     --- [x] Errors
 - [x] Categories InMemory Repository ---    [x] Testes Unitários --- [x] Errors
-- [x] Articles InMemory Repository ---      [x] Testes Unitários --- [] Errors
+- [x] Articles InMemory Repository ---      [x] Testes Unitários --- [x] Errors
 - [x] ArticlesTags InMemory Repository ---  [x] Testes Unitários --- [] Errors
 - [x] Tags InMemory Repository ---          [x] Testes Unitários --- [] Errors
 - [x] Credits InMemory Repository ---       [x] Testes Unitários --- [] Errors

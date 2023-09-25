@@ -13,9 +13,9 @@ describe('Update Articles Handler', () => {
         await prisma.$transaction([
             prisma.management.create({
                 data: {
-                    name: "john doe",
+                    name: "john",
                     password: password_hash,
-                    email: "johndoe@email.com",
+                    email: "john@email.com",
                     id: "author-john-01"
                 }
             }),
@@ -87,13 +87,6 @@ describe('Update Articles Handler', () => {
     })
     
     it('should not be able to update an article without a mandatory params', async () => {
-        await supertest(app.server).post('/cms/admin/register')
-        .set('Authorization', 'Bearer ' + token)
-        .send({
-            name: "jonh doe",
-            email: "john@email.com",
-            password: "1234567",
-        })
 
         let tokenManager: string = ""
         await supertest(app.server).post('/cms/sessions')
@@ -104,16 +97,9 @@ describe('Update Articles Handler', () => {
 
         await supertest(app.server).put('/cms/articles/article-id-01')
         .set('Authorization', 'Bearer ' + tokenManager)
-        .send().expect(401)
+        .send().expect(400)
     })
     it('should not be able to update an article without a article id', async () => {
-        await supertest(app.server).post('/cms/admin/register')
-        .set('Authorization', 'Bearer ' + token)
-        .send({
-            name: "jonh doe",
-            email: "john@email.com",
-            password: "1234567",
-        })
 
         let tokenManager: string = ""
         await supertest(app.server).post('/cms/sessions')
@@ -121,7 +107,7 @@ describe('Update Articles Handler', () => {
         .then( response => {
             tokenManager = response.body.token
         })
-
+        
         await supertest(app.server).put('/cms/articles/')
         .set('Authorization', 'Bearer ' + tokenManager)
         .send({ 
@@ -145,13 +131,6 @@ describe('Update Articles Handler', () => {
         .expect(404)
     })
     it('should not be able to update an article without a existent article id', async () => {
-        await supertest(app.server).post('/cms/admin/register')
-        .set('Authorization', 'Bearer ' + token)
-        .send({
-            name: "jonh doe",
-            email: "john@email.com",
-            password: "1234567",
-        })
 
         let tokenManager: string = ""
         await supertest(app.server).post('/cms/sessions')
@@ -159,7 +138,8 @@ describe('Update Articles Handler', () => {
         .then( response => {
             tokenManager = response.body.token
         })
-
+        
+        
         await supertest(app.server).put('/cms/articles/not-exist-id')
         .set('Authorization', 'Bearer ' + tokenManager)
         .send({ 
@@ -181,16 +161,11 @@ describe('Update Articles Handler', () => {
             ],
         })
         .expect(404)
+        .then(response => {
+            expect(response.body.error).toBe("ForbiddenOperationError")
+        })
     })
     it('should be able to update an articles', async () => {
-        
-        await supertest(app.server).post('/cms/admin/register')
-        .set('Authorization', 'Bearer ' + token)
-        .send({
-            name: "jonh doe",
-            email: "john@email.com",
-            password: "1234567",
-        })
 
         let tokenManager: string = ""
         await supertest(app.server).post('/cms/sessions')
@@ -219,7 +194,9 @@ describe('Update Articles Handler', () => {
                 {name: "web", link: "www.web.com"} 
             ],
         })
-        .expect(201)
-        
+        .expect(200)
+        .then(response => {
+            expect(response.body.article.title).toBe("Exemplo de titulo de artigo front-end")
+        })
     })
 })

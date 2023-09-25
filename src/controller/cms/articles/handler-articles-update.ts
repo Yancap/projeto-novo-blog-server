@@ -6,13 +6,13 @@ import { makeCreateArticlesTagsSService } from "../../../factory/articles-tags/m
 import { makeCreateCreditsService } from "../../../factory/credits/make-create-credits-service"
 import { makeUpdateArticlesService } from "../../../factory/articles/make-update-articles-service"
 import { JWTVerifyReturn } from "./jwt"
+import { ForbiddenOperationError } from "../../../utils/errors/forbidden-operation-error"
 
 
 export async function articlesUpdate (request: FastifyRequest, reply: FastifyReply) {
     //Adicionar as Tags, sua relação e os créditos
     const updateBodySchema = z.object({
         article: z.object({
-            id: z.string(),
             title: z.string(),
             subtitle: z.string(),
             text: z.string(),
@@ -76,6 +76,13 @@ export async function articlesUpdate (request: FastifyRequest, reply: FastifyRep
                 message: "Missing mandatory router parameters"
             })
         }
+        if (error instanceof ForbiddenOperationError) {
+            return reply.status(404).send({
+                error: "ForbiddenOperationError",
+                message: "Article does not exist"
+            })
+        }
+        
         return reply.status(500).send({error})
     }
     
