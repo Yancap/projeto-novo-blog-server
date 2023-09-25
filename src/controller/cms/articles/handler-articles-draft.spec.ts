@@ -6,7 +6,7 @@ import { prisma } from '../../../lib/prisma';
 
 
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJoaWVyYXJjaHkiOiJhZG1pbiIsInN1YiI6IjI4YzgwNTQ3LTM4ZTgtNDY0OS04OWIwLTZlMjJlMTRkYzk1YiIsImlhdCI6MTY5MjkwNTI2Nn0.B_NqQJJRA66SobZm5sw6h_-tcAqBjhPJLemt_BZORTw"
-describe('Create Articles Drafts Handler', () => {
+describe('Create Articles Drafts Handler', async () => {
 
     beforeAll(async () => {
         const password_hash = await hash("1234567", 6)
@@ -24,7 +24,6 @@ describe('Create Articles Drafts Handler', () => {
     })
 
     afterAll(async () => {
-        prisma.$disconnect()
         await app.close() 
     })
 
@@ -72,7 +71,7 @@ describe('Create Articles Drafts Handler', () => {
             ],
         }).expect(401)
     })
-    it('should not be able to create an articles draft withou mandatory params', async () => {
+    it('should not be able to create an articles draft without mandatory params', async () => {
 
         let tokenManager: string = ""
         await supertest(app.server).post('/cms/sessions')

@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { z } from "zod"
+import { ZodError, z } from "zod"
 import { ResourceNotFoundError } from "../../../utils/errors/resource-not-found-error"
 import { makeCreateTagsService } from "../../../factory/tags/make-create-tag-service"
 import { makeCreateArticlesTagsSService } from "../../../factory/articles-tags/make-create-articles-tags-service"
@@ -10,7 +10,7 @@ import { JWTVerifyReturn } from "./jwt"
 
 export async function articlesUpdate (request: FastifyRequest, reply: FastifyReply) {
     //Adicionar as Tags, sua relação e os créditos
-    const registerBodySchema = z.object({
+    const updateBodySchema = z.object({
         article: z.object({
             id: z.string(),
             title: z.string(),
@@ -25,9 +25,11 @@ export async function articlesUpdate (request: FastifyRequest, reply: FastifyRep
         )),
         credits: z.array(z.object({ name: z.string(), link: z.string() }))
     })
+    const idParamsSchema =  z.object({
+        id: z.string()
+    })
+
     const {sub}: JWTVerifyReturn = await request.jwtVerify()
-    
-    const {article, tags, credits} = registerBodySchema.parse(request.body)
 
     const createCreditsService = makeCreateCreditsService()
     const createTagsService = makeCreateTagsService()
@@ -35,7 +37,10 @@ export async function articlesUpdate (request: FastifyRequest, reply: FastifyRep
     const updateArticlesService = makeUpdateArticlesService()
 
     try {
-        const articleUpdated = await updateArticlesService.handler({...article, manager_id: sub})
+        const {article, tags, credits} = updateBodySchema.parse(request.body)
+        const {id} = idParamsSchema.parse(request.params)
+
+        const articleUpdated = await updateArticlesService.handler({...article, id:id, manager_id: sub})
         
         credits.forEach( async credit => await createCreditsService.handler({
             article_id: articleUpdated.id,
@@ -60,7 +65,16 @@ export async function articlesUpdate (request: FastifyRequest, reply: FastifyRep
         return reply.status(200).send({article: articleUpdated})    
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {
-            return reply.status(404).send({message: error.message})
+            return reply.status(404).send({
+                error: "ResourceNotFoundError",
+                message: error.message
+            })
+        }
+        if (error instanceof ZodError) {
+            return reply.status(400).send({
+                error: "ValidationRequestError",
+                message: "Missing mandatory router parameters"
+            })
         }
         return reply.status(500).send({error})
     }

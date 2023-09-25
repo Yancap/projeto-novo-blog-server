@@ -37,7 +37,6 @@ describe('Get Article by Manager Id Handler', () => {
     })
 
     afterAll(async () => {
-        prisma.$disconnect()
         await app.close() 
     })
 

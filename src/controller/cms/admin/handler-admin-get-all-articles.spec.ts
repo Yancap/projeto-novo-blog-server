@@ -35,7 +35,6 @@ describe('Admin Get All Articles Handler', () => {
     })
 
     afterAll(async () => {
-        await prisma.$disconnect()
         //Caso o posttest não funcione
         //execSync("prisma migrate reset --skip-seed --force")
         await app.close() 

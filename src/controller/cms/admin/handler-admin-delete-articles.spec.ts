@@ -35,7 +35,6 @@ describe('Admin Handler delete articles', () => {
     })
 
     afterAll(async () => {
-        await prisma.$disconnect()
         await app.close() 
     })
     

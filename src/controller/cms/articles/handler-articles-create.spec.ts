@@ -12,7 +12,6 @@ describe('Create Articles Handler', () => {
     })
 
     afterAll(async () => {
-        prisma.$disconnect()
         await app.close() 
     })
 

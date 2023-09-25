@@ -36,7 +36,6 @@ describe('Get Article by Slug or Id Handler', () => {
     })
 
     afterAll(async () => {
-        prisma.$disconnect()
         await app.close() 
     })
 

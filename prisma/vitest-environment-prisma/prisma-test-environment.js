@@ -1,8 +1,5 @@
-const { PrismaClient } = require("@prisma/client");
 const { randomUUID } = require("crypto");
 const {execSync} = require("node:child_process")
-const fs = require('fs-extra');
-const path = require("path");
 require('dotenv/config')
 
 
@@ -11,7 +8,6 @@ function generateDatabaseURL(uid){
     const url = process.env.DATABASE_TEST_URL.toString("").replace("test.db", `test-${uid}.db`)
     return url
 }
-
 
 module.exports = {
     transformMode: "web",

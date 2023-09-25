@@ -38,7 +38,6 @@ describe('Dective Articles Handler', () => {
     })
 
     afterAll(async () => {
-        prisma.$disconnect()
         await app.close() 
     })
 
