@@ -5,13 +5,13 @@ import { z } from "zod"
 
 
 export async function articlesGetforClient (request: FastifyRequest, reply: FastifyReply) {
-    const registerBodySchema = z.object({
+    const getParamsSchema = z.object({
         slug: z.string(),
     })
 
-    const { slug } = registerBodySchema.parse(request.body)
     const getArticleForClientService = makeGetArticleForClientService()
     try {
+        const { slug } = getParamsSchema.parse(request.params)
         const articles = await getArticleForClientService.handler(slug)
         return reply.status(200).send({articles})    
     } catch (error) {

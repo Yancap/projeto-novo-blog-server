@@ -37,7 +37,6 @@ export class PrismaCommentsRepository implements CommentsRepository {
               throw new ResourceNotFoundError()  
             }
             throw new ForbiddenOperationError()
-            //throw new Error()
         }
         
     } 

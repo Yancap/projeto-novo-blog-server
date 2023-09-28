@@ -4,7 +4,7 @@
 
 CMS
 - [x] Management  Repository ---    [x] Testes Unitários --- [x] Errors
-- [x] Admin Testes Unitários                                     --- [x] Errors
+- [x] Admin Testes Unitários                             --- [x] Errors
 - [x] Categories  Repository ---    [x] Testes Unitários --- [x] Errors
 - [x] Articles  Repository ---      [x] Testes Unitários --- [x] Errors
 - [x] ArticlesTags  Repository ---  [x] Testes Unitários 

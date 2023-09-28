@@ -5,7 +5,7 @@ import { UsersRepository } from "../../repository/interfaces/interface-users-rep
 interface IRegisterUsersService{
     name: string;
     email: string;
-    avatar: string;
+    avatar?: string;
 }
 
 export class RegisterUsersService {
@@ -16,7 +16,7 @@ export class RegisterUsersService {
         if(userWithSomeEmail){
            return userWithSomeEmail
         }
-        const user = await this.usersRepository.register({name, email, avatar})
+        const user = await this.usersRepository.register({name, email, avatar: avatar ?? ''})
         return user
         
     }

@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { ResourceNotFoundError } from "../../../utils/errors/resource-not-found-error"
-import { z } from "zod"
+import { z, ZodError } from "zod"
 import { makeCreateCommentsService } from "../../../factory/comments/make-create-comments-service"
 import { JWTVerifyReturn } from "../../cms/articles/jwt"
 
@@ -17,10 +17,19 @@ export async function commentsCreate (request: FastifyRequest, reply: FastifyRep
     try {
         const comments = await createCommentsService.handler({slug, user_id: sub, text})
         return reply.status(200).send({comments})    
-    } catch (error) {
-        if (error instanceof ResourceNotFoundError) {
-            return reply.status(404).send({message: error.message})
+    } catch (err) {
+        if (err instanceof ResourceNotFoundError) {
+            return reply.status(404).send({
+                error: "ResourceNotFoundError",
+                message: err.message
+            })
         }
-        return reply.status(500).send({error})
+        if (err instanceof ZodError) {
+            return reply.status(400).send({ 
+                error: "ValidationRequestError",
+                message: "Required email or password parameters" 
+            })
+        }
+        return reply.status(500).send({err})
     }
 }

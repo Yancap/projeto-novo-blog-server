@@ -4,8 +4,8 @@ import { articlesGetbyCategory } from "../../controller/client/articles/articles
 import { articlesGetAllForClient } from "../../controller/client/articles/articles-get-all-for-client"
 
 export async function articlesRoutes(app: FastifyInstance) {
-    app.get('/get-all',  articlesGetAllForClient) // Certo
-    app.post('/get', articlesGetforClient) // Certo
+    app.get('/',  articlesGetAllForClient) // Certo
+    app.get('/:slug', articlesGetforClient) // Certo
     app.post('/get-by-category', articlesGetbyCategory) // Certo
 
 }

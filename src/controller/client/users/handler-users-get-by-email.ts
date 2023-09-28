@@ -9,9 +9,9 @@ export async function userGetByEmail (request: FastifyRequest, reply: FastifyRep
     const getBodySchema = z.object({
         email: z.string(),
     })
-    const {  email } = getBodySchema.parse(request.body)
     const getUsersByEmail = makeGetUsersByEmail()
     try {
+        const { email } = getBodySchema.parse(request.params)
         const user = await getUsersByEmail.handler({ email })
         if(!user) return reply.status(200).send(null)
         const token = await reply.jwtSign({}, {
@@ -25,10 +25,13 @@ export async function userGetByEmail (request: FastifyRequest, reply: FastifyRep
             avatar: user.avatar, 
             token
         }})    
-    } catch (error) {
-        if (error instanceof ResourceNotFoundError) {
-            return reply.status(404).send({message: error.message})
+    } catch (err) {
+        if (err instanceof ResourceNotFoundError) {
+            return reply.status(404).send({
+                error: "ResourceNotFoundError",
+                message: err.message
+            })
         }
-        return reply.status(500).send({error})
+        return reply.status(500).send({err})
     }
 }

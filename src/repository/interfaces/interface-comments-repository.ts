@@ -29,7 +29,7 @@ export interface DeleteComments{
 }
 export interface UserDeleteComments{
     id: string
-    user_id: string
+    user_id?: string
 }
 export interface CommentsRepository {
     create(data: Prisma.CommentsUncheckedCreateInput): Promise<Comments>
