@@ -3,7 +3,7 @@ import { afterAll, assert, beforeAll, beforeEach, describe, expect, it, test } f
 import { app } from '../../../app';
 import { prisma } from '../../../lib/prisma';
 
-describe('Get Article for Client Handler', () => {
+describe('Get All Articles for Client Handler', () => {
 
     beforeAll(async () => {
         await prisma.$transaction([
@@ -39,19 +39,12 @@ describe('Get Article for Client Handler', () => {
         //execSync("prisma migrate reset --skip-seed --force")
         await app.close() 
     })
-    it('should not be able to get a article without slug', async () => {
-        await supertest(app.server).get('/client/articles/by/')
-        .expect(200)
-        .then(resp => {
-            
-            expect(resp.body.articles).toBe(null)
-        })
-    })
+    
     it('should be able to get a article', async () => {
-        await supertest(app.server).get('/client/articles/by/test-slug-1')
+        await supertest(app.server).get('/client/articles/')
         .expect(200)
         .then(resp => {
-            expect(resp.body.articles.slug).toBe('test-slug-1')
+            expect(resp.body.articles[0].slug).toBe('test-slug-1')
         })
     })
     
