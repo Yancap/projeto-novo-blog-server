@@ -12,6 +12,9 @@ export async function articlesActive (request: FastifyRequest, reply: FastifyRep
     const registerBodySchema = z.object({
         id: z.string()
     })
+    console.log("chegou");
+    console.log(request.user.hierarchy);
+    
     const {sub}: JWTVerifyReturn = await request.jwtVerify()
     
     const updateArticlesService = makeUpdateArticlesService()
