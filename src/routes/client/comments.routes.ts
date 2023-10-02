@@ -7,6 +7,6 @@ import { commentsUserDelete } from "../../controller/client/comments/comments-us
 export async function commentsRoutes(app: FastifyInstance) {
     app.post('/', {onRequest: [verifyUserJWT]}, commentsCreate)
     app.delete('/:comment_id', {onRequest: [verifyUserJWT]}, commentsUserDelete)
-    app.post('/get-article-comments',  commentsGetArticlesComments)     
+    app.get('/from-articles',  commentsGetArticlesComments)     
      
 }
