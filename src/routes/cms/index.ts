@@ -6,9 +6,13 @@ import { categoriesRoutes } from "./categories.routes";
 import { commentsRoutes } from "./comments.routes";
 import { creditsRoutes } from "./credits.routes";
 import { tagsRoutes } from "./tags.routes";
+import { managerRoutes } from './manager.routes';
 
 export async function cmsRoutes(app: FastifyInstance){
     app.register(authRoutes)
+    app.register(managerRoutes, {
+        prefix: 'manager',
+    })
     app.register(adminRoutes, {
         prefix: 'admin'
     })
