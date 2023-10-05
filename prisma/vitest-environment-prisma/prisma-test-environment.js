@@ -14,8 +14,7 @@ module.exports = {
     name: 'prisma',
     async setup(){
         const uid = randomUUID().substring(0,6);
-        const databaseURL = generateDatabaseURL(uid)
-        process.env.DATABASE_TEST_URL = databaseURL
+        process.env.DATABASE_URL = `file:./test/test-${uid}.db`
         execSync('npx prisma migrate deploy')
         return {
             async teardown() {},

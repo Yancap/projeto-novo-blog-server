@@ -48,4 +48,16 @@ export class InMemoryManagement implements ManagementRepository {
         
         return manager
     }
+
+    async changeAvatar({id, avatar}: {avatar: string, id: string}) {
+        try {
+            this.items = this.items.map(author => {
+                if(author.id === id) return {...author, avatar: avatar}
+                return author
+            })
+            return true
+        } catch (e) {
+            return false
+        }
+    }
 }
