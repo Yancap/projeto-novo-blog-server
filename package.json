@@ -7,7 +7,7 @@
     "start": "node build/server.js",
     "predev": "npx prisma migrate deploy",
     "dev": "tsx watch src/server.ts",
-    "build": "tsup src --out-dir build",
+    "build": "tsup src --out-dir build --minify",
     "test:services": "vitest run ./src/services",
     "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
     "test:install-prisma-environment": "npm link vitest-environment-prisma",

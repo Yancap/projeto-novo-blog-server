@@ -14,6 +14,7 @@ export async function login (request: FastifyRequest, reply: FastifyReply) {
     
     try{
         const { email, password } = loginBodySchema.parse(request.body)
+        
         const { manager } = await loginManagementService.handler({ email, password })
         const token = await reply.jwtSign({
             hierarchy: manager.hierarchy
@@ -22,6 +23,7 @@ export async function login (request: FastifyRequest, reply: FastifyReply) {
                 sub: manager.id
             }
         })
+        
         return reply.status(200).send({
             name: manager.name,
             email: manager.email,
