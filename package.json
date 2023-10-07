@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "node build/server.js",
-    "predev": "npx prisma migrate deploy",
     "dev": "tsx watch src/server.ts",
     "build": "tsup src --out-dir build --minify",
     "test:services": "vitest run ./src/services",
@@ -13,7 +12,7 @@
     "test:install-prisma-environment": "npm link vitest-environment-prisma",
     
     "pretest": "run-s test:create-prisma-environment test:install-prisma-environment",
-    "test:controller": "vitest run ./src/controller/cms/management ",
+    "test:controller": "vitest run ./src/controller/ ",
     "pretest:controller": "node ./prisma/clean.js",
 
     "test:watch": "vitest",
