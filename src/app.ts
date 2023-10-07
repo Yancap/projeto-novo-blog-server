@@ -14,6 +14,8 @@ app.register(fastifyJwt, {
 })
 app.register(cors, {
     origin: (origin, cb) => {
+        console.log(origin);
+        
         const hostname = new URL(origin as string).hostname
         if(hostname === "localhost"){
           cb(null, true)
@@ -27,7 +29,8 @@ app.register(cors, {
         }
         // Generate an error on other origins, disabling access
         cb(new Error("Not allowed"), false)
-      }
+    },
+    
 })
 app.register(routes)
 
