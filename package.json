@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node build/server.js",
+    "predev": "npx prisma migrate deploy",
     "dev": "tsx watch src/server.ts",
     "build": "tsup src --out-dir build",
     "test:services": "vitest run./src/services",
@@ -12,12 +13,9 @@
     "test:install-prisma-environment": "npm link vitest-environment-prisma",
     
     "pretest": "run-s test:create-prisma-environment test:install-prisma-environment",
-    "test:controller": "vitest run ./src/controller/client/articles ",
+    "test:controller": "vitest run ./src/controller/cms/articles/handler-articles-active.spec.ts",
     "pretest:controller": "node ./prisma/clean.js",
 
-    "pretest:controller-end-to-end": "prisma migrate deploy",
-    "test:controller-end-to-end": "vitest run ./src/controller/cms/admin/",
-    "posttest:controller-end-to-end": "prisma migrate reset --skip-seed --force",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
   },
