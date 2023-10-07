@@ -4,3 +4,4 @@ node_modules
 prisma/test
 build
 public
+.vercel
