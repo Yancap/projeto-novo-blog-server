@@ -4,9 +4,9 @@
   "description": "Página de artigos de tecnologia",
   "main": "index.js",
   "scripts": {
-    "start": "node build/server.js",
+    "start": "node public/server.js",
     "dev": "tsx watch src/server.ts",
-    "build": "tsup src --out-dir build --minify",
+    "build": "tsup src --out-dir public --minify",
     "test:services": "vitest run ./src/services",
     "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
     "test:install-prisma-environment": "npm link vitest-environment-prisma",
