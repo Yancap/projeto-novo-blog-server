@@ -14,23 +14,22 @@ app.register(fastifyJwt, {
 })
 app.register(cors, {
     origin: (origin, cb) => {
-        console.log(origin);
-        
-        const hostname = new URL(origin as string).hostname
-        if(hostname === "localhost"){
-          cb(null, true)
-          return
-        } else if (hostname === "artechcms.netlify.app") {
-            cb(null, true)
-             return
-        } else if (hostname === "artechblog.netlify.app") {
-            cb(null, true)
-             return
+        if(origin) {
+            const hostname = new URL(origin as string).hostname
+            if(hostname === "localhost"){
+              cb(null, true)
+              return
+            } else if (hostname === "artechcms.netlify.app") {
+                cb(null, true)
+                 return
+            } else if (hostname === "artechblog.netlify.app") {
+                cb(null, true)
+                 return
+            }
         }
         // Generate an error on other origins, disabling access
         cb(new Error("Not allowed"), false)
     },
-    
 })
 app.register(routes)
 
