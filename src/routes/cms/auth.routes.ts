@@ -5,6 +5,7 @@ import { verifyJWT } from "../../middlewares/verify-jwt"
 
 export async function authRoutes(app: FastifyInstance) {
     app.post('/sessions', login) // certo
+    app.put('/avatar', () => {}) //TODO
     // Authentication JWT
     //app.get('/profile', {onRequest: [verifyJWT]}, profile)
 

@@ -44,4 +44,15 @@ export class PrismaManagementRepository implements ManagementRepository {
         
         
     }
+    async changeAvatar({ id, avatar }: { id: string; avatar: string; }): Promise<boolean> {
+        try {
+            await prisma.management.update({
+                where: { id },
+                data: { avatar }
+            })
+            return true
+        } catch (e) {
+            return false
+        }
+    }
 }
