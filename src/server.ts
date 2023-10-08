@@ -8,6 +8,6 @@ app.listen({
     host: 'localhost',
     port: port,
 }).then(() => {
-    console.log("HTTP server running on PORT", env.PORT);
+    console.log("HTTP server running on PORT", process.env.PORT);
 })
 

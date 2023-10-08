@@ -4,7 +4,7 @@
   "description": "Página de artigos de tecnologia",
   "main": "index.js",
   "engines": {
-    "node": ">=18.18.0 <19.0.0"
+    "node": ">=18.12.1 <19.0.0"
   },  
   "tsup": {
     "entry": [
