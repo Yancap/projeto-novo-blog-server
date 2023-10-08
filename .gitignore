@@ -4,5 +4,5 @@ node_modules
 prisma/test
 build
 public
-dist
+
 .vercel

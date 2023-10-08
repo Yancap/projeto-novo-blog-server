@@ -6,10 +6,18 @@
   "engines": {
     "node": ">=18.18.0 <19.0.0"
   },  
+  "tsup": {
+    "entry": [
+      "src/server.ts"
+    ],
+    "splitting": false,
+    "sourcemap": false,
+    "clean": true
+  },
   "scripts": {
     "start": "node dist/server.js",
     "dev": "tsx watch src/server.ts",
-    "build": "tsup src --out-dir dist --minify",
+    "build": "tsup --target=esnext --minify",
     "test:services": "vitest run ./src/services",
     "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
     "test:install-prisma-environment": "npm link vitest-environment-prisma",
